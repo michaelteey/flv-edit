@@ -402,9 +402,6 @@ function App() {
             <Box m="5">
               <Heading size="5xl">Work With Us</Heading>
             </Box>
-            <Separator />
-            <Button a="href"> Contact Us Now</Button>
-      
 
             <Button as="a" href="https://linktr.ee/wearevaya_?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGng9ILv-7HtkHZnLD9IC11Upm9PS8Zihby2M2F6Ok5ODoaEsPZuqk0TTlqIIM_aem_U9V1GkkznHJ0TYZMVdgJTg">Book Now</Button>
 
