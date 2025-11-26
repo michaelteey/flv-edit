@@ -245,9 +245,9 @@ function App() {
                 border="solid 0px green"
             >
                 <Flex gap="4" h="100%" align="center"  w="max-content">
-                    <Box w="500px" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
-                    <Box w="500px" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
-                    <Box w="500px" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
+                    <Box w="50vh" rounded="lg" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
+                    <Box w="50vh" rounded="lg" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
+                    <Box w="50vh" rounded="lg" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
                 </Flex>
 
             </Box>
