@@ -30,9 +30,9 @@ import flow from "./assets/flowintostill.jpeg"
 function App() {
   return (
     <Box bg="#f5f0e6" border="0px solid black">
-      <Box height="100vh" border="0px solid yellow" width="100%"  overflowY="scroll" scrollSnapType="y mandatory">
+      <Box height="100dvh" border="0px solid yellow" width="100%"  overflowY="scroll" scrollSnapType="y mandatory">
         <Box
-          height="100vh"
+          height="100dvh"
           border="0px solid green"
           scrollSnapAlign="center"
           position="relative"
@@ -52,7 +52,7 @@ function App() {
         <Separator />
 
         <Box
-          height="100vh"
+          height="100dvh"
           border="0px solid red"
           scrollSnapAlign="center"
           position="relative"
@@ -105,7 +105,7 @@ function App() {
         */}
 
         <Box
-          height="100vh"
+          height="100dvh"
           scrollSnapAlign="center"
           position="relative"
           border="0px solid blue"
@@ -155,7 +155,7 @@ function App() {
 
         {/* next events tabs  */}
         <Box
-          height="100vh"
+          height="100dvh"
           width="100%"
           border="0px solid red"
           scrollSnapAlign="center"
@@ -196,7 +196,7 @@ function App() {
 
         {/* past events */}
         <Box
-          height="100vh"
+          height="100dvh"
           width="100%"
           border="0px solid red"
           scrollSnapAlign="center"
@@ -219,7 +219,7 @@ function App() {
 
         {/* past events - soundbath*/}
         <Box
-          height="100vh"
+          height="100dvh"
           width="100%"
           border="0px solid red"
           scrollSnapAlign="center"
@@ -261,7 +261,7 @@ function App() {
 
         {/* tabs  */}
         <Box
-          height="100vh"
+          height="100dvh"
           width="100%"
           border="0px solid red"
           scrollSnapAlign="center"
@@ -383,7 +383,7 @@ function App() {
 
         <Box
           my="5"
-          height="100vh"
+          height="100dvh"
           border="0px solid red"
           scrollSnapAlign="center"
           position="relative"
