@@ -29,8 +29,8 @@ import flow from "./assets/flowintostill.jpeg"
 
 function App() {
   return (
-    <Box bg="#f5f0e6">
-      <Box height="100vh" overflowY="scroll" scrollSnapType="y mandatory">
+    <Box bg="#f5f0e6" border="0px solid black">
+      <Box height="100vh" border="0px solid yellow" width="100%"  overflowY="scroll" scrollSnapType="y mandatory">
         <Box
           height="100vh"
           border="0px solid green"
@@ -176,17 +176,10 @@ function App() {
                 border="0px solid green"
                 height="50vh"
                 width="50vh"
+                maxWidth="90vw"
                 bgImage={`url(${flow})`}
                 bgSize="cover"
             >
-            <Box
-                top="0"
-                left="0"
-                w="100%"
-                h="100%"
-                bg="black"
-                opacity="0.0"
-            />
       
             </Box>
             
@@ -231,6 +224,7 @@ function App() {
           border="0px solid red"
           scrollSnapAlign="center"
           position="relative"
+          p="4"
         >
           <Flex
             height="100%"
@@ -245,14 +239,15 @@ function App() {
             <Text>25 attendees - mushroom-infused drinks - incredible goodiebag</Text>
 
             <Box overflowX="auto"
+                overflowY="hidden"
                 height="55vh"
-                width="70vh"
+                maxWidth="90vw"
                 border="solid 0px green"
             >
                 <Flex gap="4" h="100%" align="center"  w="max-content">
-                    <Box w="50vh" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
-                    <Box w="50vh" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
-                    <Box w="50vh" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
+                    <Box w="500px" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
+                    <Box w="500px" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
+                    <Box w="500px" h="50vh" bgImage={`url(${flow})`} bgSize="cover" />
                 </Flex>
 
             </Box>
