@@ -8,6 +8,7 @@ export default function MkNavbar() {
       <HStack spacing="6">
         <Link href="/">Home</Link>
         <Link href="/about">About</Link>
+        <Link href="/events">Events</Link>
       </HStack>
     </Flex>
   );
