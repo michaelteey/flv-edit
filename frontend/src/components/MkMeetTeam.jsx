@@ -6,7 +6,7 @@ export function MkMeetTeamOne() {
     return (
         <Box height="100%" border="0px solid red">
 
-            <Flex height="100%" width="100%" border="0px solid blue" direction="column" justify="center" gap="4" p={10}>
+            <Flex height="100%" width="100%" border="0px solid blue" direction="column" justify="center" gap="4">
 
                 <Heading my={5} size="4xl">Meet The Team</Heading>
 
@@ -32,7 +32,7 @@ export function MkMeetTeamTwo() {
     return (
         <Box height="100%" border="0px solid red">
 
-            <Flex height="100%" width="100%" border="0px solid blue" direction="column" justify="center" gap="4" p={10}>
+            <Flex height="100%" width="100%" border="0px solid blue" direction="column" justify="center" gap="4">
 
                 <Heading my={5} size="4xl">Dream Team</Heading>
 
@@ -55,7 +55,7 @@ export function MkMeetTeamThree() {
     return (
         <Box>
             
-            <Flex p={10} gap={5} direction="column" justify="center" height="100dvh" width="100%" border="0px solid black">
+            <Flex gap={5} direction="column" justify="center" height="100dvh" width="100%" border="0px solid black">
 
                 <Heading size="5xl">Work With Us</Heading>
 
@@ -82,7 +82,7 @@ export function MkMeetTeamFour() {
     return (
         <Box>
             
-            <Flex p={10} gap={5} direction="column" justify="center" height="100dvh" width="100%" border="0px solid black">
+            <Flex gap={5} direction="column" justify="center" height="100dvh" width="100%" border="0px solid black">
 
 
                 <Box  border="0px solid black">

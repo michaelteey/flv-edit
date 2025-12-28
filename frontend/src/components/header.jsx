@@ -7,20 +7,27 @@ function MkHeader() {
             <Box
                 border="0px solid black"
                 height="100%"
-                width="100%"
                 position="relative"
+                py="10vh"
             >
                 <Image
                     src={flow}
                     objectFit="cover"
                     height="100%"
                     width="100%"
+                    rounded="40px"
+                    border = "0px solid black"
                 />
 
                 <Box
                     position="absolute"
-                    inset={0}
-                    bg="rgba(255,255,255,0.7)"
+                    left="0"
+                    top="10vh"
+                    height="80vh"
+                    rounded="40px"
+                    width="100%"
+                    bg="rgba(255,255,255,0.3)"
+                    //bg="#f5f0e6"
                     zIndex={1}
                 />
 
@@ -29,7 +36,7 @@ function MkHeader() {
                     inset={0}
                     zIndex={2}
                 > 
-                    <Flex margin={5} height="100%" direction="column" align="center" justify="center">        
+                    <Flex margin={5} color="white" height="100%" direction="column" align="center" justify="center">        
                         <Heading size="6xl">VAYA</Heading>
                         <br/>
                         <Heading size="lg">By your side on the Journey of Self-Care </Heading>

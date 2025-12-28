@@ -4,7 +4,7 @@ export function MkStackText() {
     return (
         <Box>
             
-            <Flex p={10} gap={5} direction="column" justify="center" height="100dvh" width="100%" border="1px solid black">
+            <Flex p={10} gap={5} direction="column" justify="center" height="100dvh" width="100%" border="0px solid black">
 
                 <Heading size="5xl">Come On The Journey With Us</Heading>
 

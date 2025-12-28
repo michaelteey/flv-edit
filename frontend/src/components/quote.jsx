@@ -5,12 +5,15 @@ import flow from "../assets/flowintostill.jpeg"
 
 export function MkQuote() {
     return (
-        <Box height="100dvh">
+        <Box height="100%" py="10vh">
             <Box
-              height="100dvh"
+              height="100%"
               border="0px solid red"
               scrollSnapAlign="center"
               position="relative"
+              //left="50%"
+              //width="99.3dvw"
+              //marginLeft="-50dvw"
             >
 
                 <Image
@@ -19,6 +22,7 @@ export function MkQuote() {
                     height="100%"
                     width="100%"
                     position="absolute"
+                    rounded="40px"
                 />
 
                 <Box
@@ -29,7 +33,7 @@ export function MkQuote() {
                     bg="rgba(255,255,255,0.3)"
                 >
 
-                    <Flex m={10} height="100%" direction="column" align="center" justify="center">
+                    <Flex mx="15dvw"  height="100%" direction="column" align="center" justify="center">
                         <Heading my={5} size="3xl" color="white">Kind Words From Our Community</Heading>
 
                         <Box bg="white" rounded="xl" p={5} my={5}>

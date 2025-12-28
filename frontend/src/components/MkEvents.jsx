@@ -23,6 +23,8 @@ return (
                     {children}
                     <Image
                         src={image}
+                        maxHeight="50vh"
+                        rounded="40px"
                     />
                     <Text>{date}</Text>
                     <Button as="a" href={webLink} >Book Now</Button>
