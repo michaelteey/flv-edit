@@ -46,7 +46,7 @@ export default function App() {
         </Box>
 
 
-        <Box height="100dvh" border="0px solid yellow" width="100%"  overflowY="scroll" scrollSnapType="y mandatory">
+        <Box height="100dvh" border="0px solid yellow" width="100%" overflowX="hidden" overflowY="scroll" scrollSnapType="y mandatory">
             {/* heading */}
             <Box
                 height="100dvh"

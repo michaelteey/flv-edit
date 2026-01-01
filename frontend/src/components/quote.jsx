@@ -5,7 +5,7 @@ import flow from "../assets/flowintostill.jpeg"
 
 export function MkQuote() {
     return (
-        <Box height="100%" py="10vh">
+        <Box height="100%" width="100%" py={{md: "5vh"}}>
             <Box
               height="100%"
               border="0px solid red"
@@ -22,7 +22,7 @@ export function MkQuote() {
                     height="100%"
                     width="100%"
                     position="absolute"
-                    rounded="40px"
+                    rounded={{md:"40px"}}
                 />
 
                 <Box

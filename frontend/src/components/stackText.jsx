@@ -2,9 +2,9 @@ import {Box, Flex, Stack, SimpleGrid, Separator, Heading, Text} from "@chakra-ui
 
 export function MkStackText() {
     return (
-        <Box>
+        <Box height="100%">
             
-            <Flex p={10} gap={5} direction="column" justify="center" height="100dvh" width="100%" border="0px solid black">
+            <Flex p={10} gap={5} direction="column" justify="center" height="100%" width="100%" border="0px solid black">
 
                 <Heading size="5xl">Come On The Journey With Us</Heading>
 
@@ -17,7 +17,7 @@ export function MkStackText() {
 
                 <Box  border="0px solid black">
                     <Heading my={5} size="3xl">Regenerate</Heading>
-                    <Text>Because we believe self-love isn’t one-size-fits-all,  it’s a formula you create for yourself. Here, you’re the scientist and the subject. You get to test out new tools, mix inner work with real rest, and observe what actually supports your body, mind, and nervous system.</Text>
+                    <Text>Through restorative movement and mindful rituals in spaces that truly carry a special energy, you can explore what inspires and nourishes you, cultivating awareness, connection, and a deeper sense of wellbeing.</Text>
 
                 </Box>
 
