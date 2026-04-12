@@ -47,7 +47,7 @@ function App() {
 
 
                 <Flex width="100%" height="100%" align="center" justify="center" flexDirection="column"> 
-                <Box maxWidth="100dvh" height="calc(100% - 60px)" border="0px solid blue">
+                <Box maxWidth="120dvh" height="calc(100% - 60px)" border="0px solid blue">
 
                     {/* hello */}
                     <Box
