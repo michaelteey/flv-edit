@@ -1,129 +1,70 @@
-import { useState } from "react";
-import {
-  Heading,
-  AbsoluteCenter,
-  Center,
-  Button,
-  ScrollArea,
-  Box,
-  Em,
-  Stack,
-  Flex,
-  Separator,
-  Text,
-  Highlight,
-  Image,
-  defineTextStyles,
-  Blockquote,
-  SimpleGrid,
-  Tabs,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
-  IconButton,
-  Carousel,
-} from "@chakra-ui/react";
-import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { Box, Flex } from "@chakra-ui/react";
 
-import flow from "../assets/flowintostill.jpeg"
+import MkHeader from "../components/header";
+import MkBelowHeader from "../components/belowHeader";
+import MkContactDetails from "../components/contactDetails";
+import MkNavBar from "../components/NavBar";
+import { MkQuadrants } from "../components/quadrants";
+import { MkStackText } from "../components/stackText";
+import { MkQuote } from "../components/quote";
 
-import MkHeader from "../components/header"
-import MkBelowHeader from "../components/belowHeader"
-import MkContactDetails from "../components/contactDetails"
-import MkNavBar from "../components/NavBar"
-import { MkQuadrants } from "../components/quadrants"
-import { MkStackText} from "../components/stackText"
-import { MkQuote } from "../components/quote"
+// Nav height: ~36px announcement bar + ~72px nav = ~108px
+const NAV_H = "108px";
 
 function App() {
   return (
-    <Box bg="#f5f0e6" border="0px solid black" position="relative">
-              <Box position="absolute" color="black"  width="100%" left={0} top={0} height="60px" zIndex="3" bg="#f5f0e6">
-                  <MkNavBar>
-                  </MkNavBar>
-              </Box>
+    <Box bg="#f8f4ef" position="relative">
+      {/* Fixed nav */}
+      <Box
+        position="fixed"
+        width="100%"
+        left={0}
+        top={0}
+        zIndex={10}
+        bg="#f8f4ef"
+      >
+        <MkNavBar />
+      </Box>
 
-              <Box height="100dvh" border="0px solid yellow" width="100%"  overflowY="scroll" scrollSnapType="y mandatory" scrollPaddingTop="60px">
+      {/* Scrollable content offset by nav height */}
+      <Box
+        marginTop={NAV_H}
+        height={`calc(100dvh - ${NAV_H})`}
+        overflowY="scroll"
+        scrollSnapType="y mandatory"
+      >
+        {/* Hero */}
+        <Box height="100%" scrollSnapAlign="start">
+          <MkHeader />
+        </Box>
 
+        {/* About */}
+        <Box height="100%" scrollSnapAlign="start">
+          <MkBelowHeader />
+        </Box>
 
-                <Flex width="100%" height="100%" align="center" justify="center" flexDirection="column"> 
-                <Box maxWidth="120dvh" height="calc(100% - 60px)" border="0px solid blue">
+        {/* Services */}
+        <Box height="100%" scrollSnapAlign="start">
+          <MkQuadrants />
+        </Box>
 
-                    {/* hello */}
-                    <Box
-                        height="100%"
-                        border="0px solid green"
-                        scrollSnapAlign="start"
-                        position="relative"
-                        marginTop="60px"
-                    >
-                        <MkHeader>
-                        </MkHeader>
-                    </Box>
+        {/* Journey */}
+        <Box height="100%" scrollSnapAlign="start">
+          <MkStackText />
+        </Box>
 
-                    {/* belowHeader*/}
-                    <Box
-                        height="100%"
-                        border="0px solid green"
-                        scrollSnapAlign="start"
-                        position="relative"
-                    >
-                        <MkBelowHeader>
-                        </MkBelowHeader>
-                    </Box>
+        {/* Testimonials */}
+        <Box height="100%" scrollSnapAlign="start">
+          <MkQuote />
+        </Box>
 
-                    {/* quadrants */}
-                    <Box
-                        height="100%"
-                        maxWidth="100%"
-                        border="0px solid green"
-                        scrollSnapAlign="start"
-                        position="relative"
-                    >
-                        <MkQuadrants>
-                        </MkQuadrants>
-                    </Box>
-
-
-                    {/* quadrants */}
-                    <Box
-                        height="100%"
-                        border="0px solid green"
-                        scrollSnapAlign="start"
-                        position="relative"
-                    >
-                        <MkStackText>
-                        </MkStackText>
-                    </Box>
-
-
-                    {/* quotes */}
-                    <Box
-                        height="100%"
-                        border="0px solid green"
-                        scrollSnapAlign="start"
-                        position="relative"
-                    >
-                        <MkQuote>
-                        </MkQuote>
-                    </Box>
-
-                    {/* contact details */}
-                    <Box
-                        height="100dvh"
-                        border="0px solid green"
-                        scrollSnapAlign="center"
-                        position="relative"
-                    >
-                        <MkContactDetails>
-                        </MkContactDetails>
-                    </Box>
-                </Box>
-                </Flex>
-              </Box>
+        {/* CTA */}
+        <Box height="100dvh" scrollSnapAlign="center">
+          <MkContactDetails />
+        </Box>
+      </Box>
     </Box>
   );
 }
 
 export default App;
-

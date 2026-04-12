@@ -1,11 +1,11 @@
-import { Box, Flex, Heading, Text, Image } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Image, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import flow from "../assets/flowintostill.jpeg";
 
 const testimonials = [
   {
     text: "Thank you for your kind touch and warmth I felt. It was absolutely amazing and powerful. I have such an amazing experience every time I come.",
-    author: "Community Member",
+    author: "Workshop Attendee",
   },
   {
     text: "I am so grateful for this space you have created. Every session leaves me feeling grounded, energised, and truly seen.",
@@ -15,101 +15,98 @@ const testimonials = [
 
 export function MkQuote() {
   return (
-    <Box height="100%" py={{ md: "5vh" }}>
-      <Box height="100%" position="relative" overflow="hidden" rounded={{ md: "40px" }}>
-        <Image
-          src={flow}
-          objectFit="cover"
-          height="100%"
-          width="100%"
-          position="absolute"
-          inset={0}
-        />
-
-        {/* Deep forest green gradient overlay */}
-        <Box
-          position="absolute"
-          inset={0}
-          bg="linear-gradient(135deg, rgba(28,43,20,0.88) 0%, rgba(0,0,0,0.72) 100%)"
-        />
-
-        <Box position="absolute" inset={0}>
-          <Flex
+    <SimpleGrid columns={{ base: 1, md: 2 }} height="100%">
+      {/* Left: full-bleed image */}
+      <Box position="relative" overflow="hidden" minHeight={{ base: "40vh", md: "auto" }}>
+        <motion.div
+          initial={{ scale: 1.06 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.4, ease: "easeOut" }}
+          style={{ height: "100%" }}
+        >
+          <Image
+            src={flow}
+            objectFit="cover"
             height="100%"
-            direction="column"
-            align="center"
-            justify="center"
-            px={{ base: 6, md: "10dvw" }}
+            width="100%"
+          />
+        </motion.div>
+        {/* Subtle dark tint */}
+        <Box position="absolute" inset={0} bg="rgba(10,10,10,0.25)" />
+      </Box>
+
+      {/* Right: testimonials on cream */}
+      <Flex
+        direction="column"
+        justify="center"
+        px={{ base: 8, md: 16 }}
+        py={16}
+        bg="#f8f4ef"
+        borderTop="1px solid #e0d8d0"
+        gap={10}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <Text
+            fontSize="11px"
+            fontFamily="'Raleway', sans-serif"
+            letterSpacing="0.25em"
+            textTransform="uppercase"
+            color="#999"
+            mb={6}
           >
+            Kind Words
+          </Text>
+          <Heading
+            fontFamily="'Playfair Display', serif"
+            fontWeight="400"
+            fontSize={{ base: "3xl", md: "4xl" }}
+            lineHeight="1.1"
+            color="#0d0d0d"
+          >
+            From our<br /><em>community.</em>
+          </Heading>
+        </motion.div>
+
+        <Flex direction="column" gap={8}>
+          {testimonials.map((t, i) => (
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.9 }}
-              style={{ textAlign: "center", marginBottom: "40px" }}
+              transition={{ duration: 0.8, delay: i * 0.15 }}
             >
-              <Text
-                fontSize="xs"
-                fontFamily="'Raleway', sans-serif"
-                letterSpacing="0.3em"
-                textTransform="uppercase"
-                color="rgba(255,255,255,0.5)"
-                mb={3}
-              >
-                Testimonials
-              </Text>
-              <Heading size="2xl" fontWeight="400" color="white">
-                Kind Words From Our Community
-              </Heading>
-            </motion.div>
-
-            <Flex gap={6} direction={{ base: "column", md: "row" }} width="100%">
-              {testimonials.map((t, i) => (
-                <motion.div
-                  key={i}
-                  style={{ flex: 1 }}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.9, delay: 0.15 + i * 0.18 }}
+              <Box borderTop="1px solid #e0d8d0" pt={6}>
+                <Text
+                  fontFamily="'Playfair Display', serif"
+                  fontStyle="italic"
+                  fontSize="lg"
+                  color="#0d0d0d"
+                  lineHeight="1.7"
+                  mb={4}
                 >
-                  <Box
-                    bg="rgba(255,255,255,0.08)"
-                    border="1px solid rgba(255,255,255,0.14)"
-                    rounded="24px"
-                    p={8}
-                    height="100%"
-                    style={{ backdropFilter: "blur(12px)" }}
-                  >
-                    <Text
-                      fontSize="4xl"
-                      color="rgba(255,255,255,0.35)"
-                      lineHeight="1"
-                      mb={4}
-                      fontFamily="'Playfair Display', serif"
-                    >
-                      "
-                    </Text>
-                    <Text color="rgba(255,255,255,0.88)" lineHeight="1.85" fontSize="sm">
-                      {t.text}
-                    </Text>
-                    <Text
-                      mt={6}
-                      color="rgba(255,255,255,0.42)"
-                      fontSize="xs"
-                      letterSpacing="0.18em"
-                      textTransform="uppercase"
-                      fontFamily="'Raleway', sans-serif"
-                    >
-                      — {t.author}
-                    </Text>
-                  </Box>
-                </motion.div>
-              ))}
-            </Flex>
-          </Flex>
-        </Box>
-      </Box>
-    </Box>
+                  "{t.text}"
+                </Text>
+                <Text
+                  fontFamily="'Raleway', sans-serif"
+                  fontSize="10px"
+                  letterSpacing="0.2em"
+                  textTransform="uppercase"
+                  color="#999"
+                >
+                  — {t.author}
+                </Text>
+              </Box>
+            </motion.div>
+          ))}
+        </Flex>
+      </Flex>
+    </SimpleGrid>
   );
 }

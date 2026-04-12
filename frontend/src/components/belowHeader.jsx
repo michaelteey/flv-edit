@@ -1,94 +1,126 @@
-import { Box, Flex, Text, Heading, Button, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, Text, Heading, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
 function MkBelowHeader() {
   return (
-    <Box height="100%">
+    <Box height="100%" bg="#f8f4ef">
       <Flex
         height="100%"
         direction="column"
         justify="center"
         px={{ base: 8, md: 16 }}
-        py={10}
-        gap={8}
+        py={16}
+        gap={12}
+        borderTop="1px solid #e0d8d0"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-        >
-          <Text
-            fontSize="xs"
-            fontFamily="'Raleway', sans-serif"
-            letterSpacing="0.3em"
-            textTransform="uppercase"
-            color="#8b6954"
-            mb={4}
+        {/* Top row: label + large number */}
+        <Flex justify="space-between" align="flex-start" wrap="wrap" gap={6}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            Who we are
-          </Text>
-          <Heading
-            size={{ base: "3xl", md: "5xl" }}
-            fontWeight="400"
-            lineHeight="1.15"
-            maxWidth="680px"
-          >
-            A London-based wellness collective
-          </Heading>
-        </motion.div>
+            <Text
+              fontSize="11px"
+              fontFamily="'Raleway', sans-serif"
+              letterSpacing="0.25em"
+              textTransform="uppercase"
+              color="#999"
+              mb={5}
+            >
+              About Us
+            </Text>
+            <Heading
+              fontFamily="'Playfair Display', serif"
+              fontWeight="400"
+              fontSize={{ base: "4xl", md: "6xl" }}
+              lineHeight="1.05"
+              color="#0d0d0d"
+              maxWidth="520px"
+            >
+              A London-based<br />
+              <em>wellness collective</em>
+            </Heading>
+          </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2 }}
+            style={{ textAlign: "right" }}
+          >
+            <Text
+              fontFamily="'Playfair Display', serif"
+              fontSize="7xl"
+              fontWeight="400"
+              color="#e0d8d0"
+              lineHeight="1"
+            >
+              01
+            </Text>
+          </motion.div>
+        </Flex>
+
+        {/* Body text columns */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
         >
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={10}>
-            <Text color="#4a4a4a" lineHeight="1.9" fontSize="md">
-              We are dedicated to creating immersive experiences that nourish the mind, body, and inner world. Through thoughtfully designed events, we help you slow down, reconnect, and cultivate meaningful connection.
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={12}>
+            <Text
+              fontFamily="'Raleway', sans-serif"
+              fontSize="sm"
+              color="#555"
+              lineHeight="1.9"
+            >
+              We are dedicated to creating immersive experiences that nourish the
+              mind, body, and inner world. Through thoughtfully designed events,
+              we help you slow down, reconnect, and cultivate meaningful
+              connection.
             </Text>
-            <Text color="#4a4a4a" lineHeight="1.9" fontSize="md">
-              Step inside Vaya and discover a new way of being — tailored experiences to reset, recharge, and prioritise your wellbeing. Every experience is designed with intention to foster presence, creativity, and self-care.
+            <Text
+              fontFamily="'Raleway', sans-serif"
+              fontSize="sm"
+              color="#555"
+              lineHeight="1.9"
+            >
+              In collaboration with inspiring practitioners and thoughtful brands,
+              we create spaces where you can nurture your inner world, deepen
+              relationships, and leave feeling enriched, energised, and grounded.
             </Text>
           </SimpleGrid>
         </motion.div>
 
+        {/* CTA link */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: 0.35 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <Flex gap={4} wrap="wrap">
-            <Button
-              bg="#2c3420"
-              color="white"
-              rounded="full"
-              px={8}
-              size="md"
-              as="a"
-              href="/events"
-              _hover={{ bg: "#1a2012" }}
-              style={{ transition: "background 0.2s, transform 0.2s" }}
-            >
-              Join Our Next Event
-            </Button>
-            <Button
-              variant="outline"
-              borderColor="#2c3420"
-              color="#2c3420"
-              rounded="full"
-              px={8}
-              size="md"
-              as="a"
-              href="/about"
-              _hover={{ bg: "rgba(44,52,32,0.07)" }}
-              style={{ transition: "background 0.2s" }}
-            >
-              Work With Us
-            </Button>
-          </Flex>
+          <Box
+            as="a"
+            href="/about"
+            fontSize="11px"
+            fontFamily="'Raleway', sans-serif"
+            fontWeight="500"
+            letterSpacing="0.2em"
+            textTransform="uppercase"
+            color="#0d0d0d"
+            textDecoration="none"
+            display="inline-flex"
+            alignItems="center"
+            gap={3}
+            _hover={{ color: "#888" }}
+            style={{ transition: "color 0.2s" }}
+          >
+            Read Our Story
+            <Box as="span" borderTop="1px solid currentColor" width="40px" display="inline-block" />
+          </Box>
         </motion.div>
       </Flex>
     </Box>

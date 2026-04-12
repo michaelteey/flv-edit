@@ -1,8 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Raleway&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
 
 html, body, #root {
   height: 100%;
   margin: 0;
+  background-color: #f8f4ef;
+}
+
+/* Smooth scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d4c9bc #f8f4ef;
+}
+
+/* Remove outline on links/buttons used as divs */
+a:focus-visible {
+  outline: 2px solid #0d0d0d;
+  outline-offset: 2px;
 }

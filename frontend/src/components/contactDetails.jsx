@@ -1,54 +1,55 @@
-import { Box, Flex, Heading, Button, Center, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Center, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
 const LINKTREE =
   "https://linktr.ee/wearevaya_?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGng9ILv-7HtkHZnLD9IC11Upm9PS8Zihby2M2F6Ok5ODoaEsPZuqk0TTlqIIM_aem_U9V1GkkznHJ0TYZMVdgJTg";
 
+const links = [
+  { label: "Work With Us",  href: LINKTREE },
+  { label: "Book An Event", href: LINKTREE },
+  { label: "Follow Us",     href: LINKTREE },
+];
+
 export default function MkContactDetails() {
   return (
-    <Box
-      height="100dvh"
-      bg="#2c3420"
-      scrollSnapAlign="center"
-      position="relative"
-    >
+    <Box height="100dvh" bg="#0a0a0a" scrollSnapAlign="center" position="relative">
       <Center width="100%" height="100%">
-        <Flex
-          direction="column"
-          align="center"
-          justify="center"
-          textAlign="center"
-          px={10}
-          gap={6}
-          maxWidth="480px"
-          width="100%"
-        >
+        <Flex direction="column" align="center" textAlign="center" px={10} gap={14} maxWidth="600px" width="100%">
+
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            style={{ width: "100%", textAlign: "center" }}
+            style={{ textAlign: "center" }}
           >
             <Text
-              fontSize="xs"
+              fontSize="11px"
               fontFamily="'Raleway', sans-serif"
-              letterSpacing="0.3em"
+              letterSpacing="0.25em"
               textTransform="uppercase"
-              color="rgba(245,240,230,0.45)"
-              mb={5}
+              color="rgba(255,255,255,0.35)"
+              mb={8}
             >
               Get in touch
             </Text>
             <Heading
-              fontSize={{ base: "4xl", md: "5xl" }}
+              fontFamily="'Playfair Display', serif"
               fontWeight="400"
-              fontStyle="italic"
-              color="#f5f0e6"
+              fontSize={{ base: "4xl", md: "6xl" }}
+              lineHeight="1.05"
+              color="#f8f4ef"
             >
-              Like What You See?
+              Like what<br />
+              <em>you see?</em>
             </Heading>
-            <Text color="rgba(245,240,230,0.5)" fontSize="sm" mt={4} lineHeight="1.7">
+            <Text
+              fontFamily="'Raleway', sans-serif"
+              fontSize="sm"
+              color="rgba(255,255,255,0.4)"
+              mt={6}
+              lineHeight="1.8"
+            >
               Let's create something meaningful together.
             </Text>
           </motion.div>
@@ -58,62 +59,39 @@ export default function MkContactDetails() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.3 }}
-            style={{ width: "100%", display: "flex", flexDirection: "column", gap: "12px" }}
+            style={{ width: "100%", display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <Button
-              bg="#f5f0e6"
-              color="#2c3420"
-              rounded="full"
-              width="100%"
-              size="lg"
-              as="a"
-              href={LINKTREE}
-              target="_blank"
-              fontFamily="'Raleway', sans-serif"
-              fontWeight="500"
-              letterSpacing="0.08em"
-              _hover={{ bg: "rgba(245,240,230,0.87)" }}
-              style={{ transition: "background 0.2s, transform 0.2s" }}
-            >
-              Work With Us
-            </Button>
-            <Button
-              variant="outline"
-              borderColor="rgba(245,240,230,0.28)"
-              color="#f5f0e6"
-              rounded="full"
-              width="100%"
-              size="lg"
-              as="a"
-              href={LINKTREE}
-              target="_blank"
-              fontFamily="'Raleway', sans-serif"
-              fontWeight="400"
-              letterSpacing="0.08em"
-              _hover={{ borderColor: "rgba(245,240,230,0.7)", bg: "rgba(245,240,230,0.06)" }}
-              style={{ transition: "all 0.2s" }}
-            >
-              Book An Event
-            </Button>
-            <Button
-              variant="outline"
-              borderColor="rgba(245,240,230,0.28)"
-              color="#f5f0e6"
-              rounded="full"
-              width="100%"
-              size="lg"
-              as="a"
-              href={LINKTREE}
-              target="_blank"
-              fontFamily="'Raleway', sans-serif"
-              fontWeight="400"
-              letterSpacing="0.08em"
-              _hover={{ borderColor: "rgba(245,240,230,0.7)", bg: "rgba(245,240,230,0.06)" }}
-              style={{ transition: "all 0.2s" }}
-            >
-              Follow Us
-            </Button>
+            {links.map(({ label, href }, i) => (
+              <Box
+                key={label}
+                as="a"
+                href={href}
+                target="_blank"
+                display="block"
+                width="100%"
+                py={4}
+                textAlign="center"
+                fontSize="11px"
+                fontFamily="'Raleway', sans-serif"
+                fontWeight="500"
+                letterSpacing="0.2em"
+                textTransform="uppercase"
+                textDecoration="none"
+                bg={i === 0 ? "#f8f4ef" : "transparent"}
+                color={i === 0 ? "#0a0a0a" : "rgba(255,255,255,0.7)"}
+                border={i !== 0 ? "1px solid rgba(255,255,255,0.18)" : "none"}
+                _hover={{
+                  bg: i === 0 ? "#e8dfd6" : "rgba(255,255,255,0.06)",
+                  color: i === 0 ? "#0a0a0a" : "#f8f4ef",
+                  borderColor: "rgba(255,255,255,0.4)",
+                }}
+                style={{ transition: "all 0.2s" }}
+              >
+                {label}
+              </Box>
+            ))}
           </motion.div>
+
         </Flex>
       </Center>
     </Box>
