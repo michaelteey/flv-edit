@@ -1,21 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
 
 html, body, #root {
   height: 100%;
   margin: 0;
-  background-color: #f8f4ef;
+  background-color: #f3ede6;
 }
 
-/* Smooth scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #d4c9bc #f8f4ef;
+  scrollbar-color: #e0d5cb #f3ede6;
 }
 
-/* Remove outline on links/buttons used as divs */
 a:focus-visible {
-  outline: 2px solid #0d0d0d;
+  outline: 2px solid #1a1a1a;
   outline-offset: 2px;
 }

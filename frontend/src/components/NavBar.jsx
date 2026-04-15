@@ -4,17 +4,17 @@ export default function MkNavbar() {
   return (
     <Box>
       {/* Announcement bar */}
-      <Box bg="#e8dfd6" py="8px" textAlign="center">
+      <Box bg="#ead4c6" py="7px" textAlign="center">
         <Text
-          fontSize="11px"
+          fontSize="10px"
           fontFamily="'Raleway', sans-serif"
-          letterSpacing="0.2em"
+          letterSpacing="0.22em"
           textTransform="uppercase"
-          color="#111"
+          color="#1a1a1a"
         >
-          London-based wellness events —{" "}
+          London wellness events —{" "}
           <Link href="/events" textDecoration="underline" _hover={{ opacity: 0.6 }}>
-            See what's coming
+            See what's next
           </Link>
         </Text>
       </Box>
@@ -26,15 +26,15 @@ export default function MkNavbar() {
         py={5}
         align="center"
         justify="space-between"
-        borderBottom="1px solid #e0d8d0"
+        borderBottom="1px solid #e0d5cb"
+        bg="#f3ede6"
       >
         <Text
           fontSize="xl"
           fontFamily="'Playfair Display', serif"
           fontWeight="400"
           fontStyle="italic"
-          color="#111"
-          letterSpacing="0.01em"
+          color="#1a1a1a"
         >
           Vaya
         </Text>
@@ -44,14 +44,14 @@ export default function MkNavbar() {
             <Link
               key={label}
               href={href}
-              fontSize="11px"
-              letterSpacing="0.2em"
+              fontSize="10px"
+              letterSpacing="0.22em"
               textTransform="uppercase"
               fontFamily="'Raleway', sans-serif"
               fontWeight="500"
-              color="#111"
+              color="#1a1a1a"
               textDecoration="none"
-              _hover={{ color: "#888", textDecoration: "none" }}
+              _hover={{ color: "#8a8078", textDecoration: "none" }}
               transition="color 0.2s"
             >
               {label}
