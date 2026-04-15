@@ -1,575 +1,315 @@
-import { Box, Flex, Text, Heading, SimpleGrid, Image } from "@chakra-ui/react";
+import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
-import flow from "../assets/flowintostill.jpeg";
 
-// ─── Design tokens ────────────────────────────────────────────────────────────
-const BG     = "#f3ede6";
-const DARK   = "#1c1916";
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+const BG     = "#f5f0eb";
+const DARK   = "#141210";
 const TEXT   = "#1a1a1a";
-const MUTED  = "#8a8078";
-const BORDER = "#e0d5cb";
-const BTN    = "#c8b5d0"; // dusty lavender — inspired by Self Love Lab
+const MUTED  = "#999";
+const BORDER = "#ddd5cb";
 const LINKTREE = "https://linktr.ee/wearevaya_?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
-const EMAIL  = "hello@vayaevents.com";
+const EMAIL    = "hello@vayaevents.com";
 
-// ─── Shared micro-components ─────────────────────────────────────────────────
-function Label({ dark = false, mb = 5, children }) {
-  return (
-    <Text
-      fontSize="10px"
-      fontFamily="'Raleway', sans-serif"
-      letterSpacing="0.28em"
-      textTransform="uppercase"
-      color={dark ? "rgba(255,255,255,0.35)" : MUTED}
-      mb={mb}
-    >
-      {children}
-    </Text>
-  );
-}
+// ─── Imagery (Pexels) ─────────────────────────────────────────────────────────
+const IMG = {
+  heroBanner:    "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=1800",
+  aboutPortrait: "https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  founderImg:    "https://images.pexels.com/photos/3756168/pexels-photo-3756168.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  eventsAtmos:   "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  soundBowls:    "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  candles:       "https://images.pexels.com/photos/7795755/pexels-photo-7795755.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  brandsImg:     "https://images.pexels.com/photos/3810788/pexels-photo-3810788.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  background:    "https://images.pexels.com/photos/31359311/pexels-photo-31359311.jpeg?auto=compress&cs=tinysrgb&w=1800",
+};
 
-function Display({ italic, dark, fontSize, children, ...rest }) {
-  return (
-    <Heading
-      fontFamily="'Playfair Display', serif"
-      fontWeight="400"
-      fontStyle={italic ? "italic" : "normal"}
-      color={dark ? "#f3ede6" : TEXT}
-      lineHeight="0.95"
-      fontSize={fontSize}
-      {...rest}
-    >
-      {children}
-    </Heading>
-  );
-}
-
-function Body({ dark = false, children, ...rest }) {
-  return (
-    <Text
-      fontFamily="'Raleway', sans-serif"
-      fontSize="sm"
-      color={dark ? "rgba(255,255,255,0.5)" : MUTED}
-      lineHeight="1.9"
-      {...rest}
-    >
-      {children}
-    </Text>
-  );
-}
-
-function SoftBtn({ href, outline = false, dark = false, children }) {
-  const base = {
-    as: "a",
-    href,
-    display: "inline-block",
-    textDecoration: "none",
-    px: 8,
-    py: "14px",
-    fontSize: "10px",
-    fontFamily: "'Raleway', sans-serif",
-    fontWeight: "500",
-    letterSpacing: "0.22em",
-    textTransform: "uppercase",
-    style: { transition: "all 0.2s" },
-  };
-  if (outline) return (
-    <Box
-      {...base}
-      border={`1px solid ${dark ? "rgba(255,255,255,0.22)" : BORDER}`}
-      color={dark ? "rgba(255,255,255,0.6)" : TEXT}
-      _hover={{ bg: dark ? "rgba(255,255,255,0.05)" : "rgba(200,181,208,0.12)", borderColor: dark ? "rgba(255,255,255,0.45)" : MUTED }}
-    >
-      {children}
-    </Box>
-  );
-  return (
-    <Box
-      {...base}
-      bg={dark ? "#f3ede6" : BTN}
-      color={dark ? DARK : TEXT}
-      _hover={{ opacity: 0.82 }}
-    >
-      {children}
-    </Box>
-  );
-}
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 28 },
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { duration: 0.85, delay },
+  transition: { duration: 0.7, delay },
 });
 
-// ─── 1. HERO ─────────────────────────────────────────────────────────────────
-function HeroSection() {
+// ─── Primitives ───────────────────────────────────────────────────────────────
+function Cap({ children, light = false }) {
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ base: "auto", md: "calc(100vh - 88px)" }}>
-      {/* Image */}
-      <Box overflow="hidden" minHeight={{ base: "70vw", md: "auto" }}>
-        <motion.div
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ height: "100%" }}
-        >
-          <Image src={flow} objectFit="cover" height="100%" width="100%" />
-        </motion.div>
-      </Box>
-
-      {/* Text panel */}
-      <Flex
-        direction="column"
-        justify="flex-end"
-        px={{ base: 8, md: 14 }}
-        pb={{ base: 14, md: 24 }}
-        pt={{ base: 12, md: 0 }}
-        bg={BG}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 36 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.5 }}
-        >
-          <Label mb={8}>London · Wellness Events · Est. 2024</Label>
-
-          <Display fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }} mb={1}>
-            Self-care is
-          </Display>
-          <Display italic fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }} mb={10}>
-            a journey.
-          </Display>
-
-          <Body maxWidth="340px" mb={10}>
-            Intentional, sensory-led wellness experiences in London — for those
-            who believe moments should be felt, not just seen.
-          </Body>
-
-          <Flex gap={3} wrap="wrap">
-            <SoftBtn href="/events">Explore Events</SoftBtn>
-            <SoftBtn href="/about" outline>Our Story</SoftBtn>
-          </Flex>
-        </motion.div>
-      </Flex>
-    </SimpleGrid>
+    <Text
+      fontFamily="'Raleway', sans-serif"
+      fontSize="9px"
+      letterSpacing="0.28em"
+      textTransform="uppercase"
+      color={light ? "rgba(245,240,235,0.4)" : MUTED}
+    >
+      {children}
+    </Text>
   );
 }
 
-// ─── 2. PATH SPLIT ───────────────────────────────────────────────────────────
-function PathSplitSection() {
-  const panel = (href, label, heading, body, dark) => (
+function Rule() {
+  return <Box borderTop={`1px solid ${BORDER}`} />;
+}
+
+function TextLink({ href, children, muted = false, light = false }) {
+  const color = light ? "rgba(245,240,235,0.6)" : muted ? MUTED : TEXT;
+  const borderColor = light ? "rgba(245,240,235,0.3)" : muted ? BORDER : TEXT;
+  return (
     <Box
       as="a"
       href={href}
-      display="block"
+      target={href?.startsWith("http") ? "_blank" : undefined}
+      fontFamily="'Raleway', sans-serif"
+      fontSize="10px"
+      letterSpacing="0.22em"
+      textTransform="uppercase"
+      color={color}
       textDecoration="none"
-      position="relative"
-      overflow="hidden"
-      minHeight={{ base: "56vw", md: "520px" }}
-      role="group"
-      cursor="pointer"
+      borderBottom={`1px solid ${borderColor}`}
+      pb="2px"
+      _hover={{ opacity: 0.6 }}
+      style={{ transition: "opacity 0.2s" }}
     >
-      {/* Background */}
-      <Box
-        position="absolute"
-        inset={0}
-        bg={dark ? DARK : "#e8ddd4"}
-        _groupHover={{ opacity: 0.92 }}
-        style={{ transition: "opacity 0.3s" }}
-      />
-
-      {/* Subtle image overlay on the community side */}
-      {!dark && (
-        <Box position="absolute" inset={0}>
-          <Image src={flow} objectFit="cover" height="100%" width="100%" opacity={0.18} />
-        </Box>
-      )}
-
-      {/* Content */}
-      <Flex
-        position="relative"
-        zIndex={1}
-        direction="column"
-        justify="flex-end"
-        height="100%"
-        p={{ base: 8, md: 14 }}
-        pb={{ base: 10, md: 16 }}
-        gap={5}
-      >
-        <Label dark={dark} mb={3}>{label}</Label>
-        <Display
-          dark={dark}
-          fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-          lineHeight="1.1"
-        >
-          {heading}
-        </Display>
-        <Body dark={dark} maxWidth="320px">{body}</Body>
-        <Box
-          display="inline-flex"
-          alignItems="center"
-          gap={3}
-          mt={2}
-          fontSize="10px"
-          fontFamily="'Raleway', sans-serif"
-          fontWeight="500"
-          letterSpacing="0.22em"
-          textTransform="uppercase"
-          color={dark ? "rgba(243,237,230,0.7)" : TEXT}
-          _groupHover={{ gap: "20px" }}
-          style={{ transition: "all 0.3s" }}
-        >
-          {dark ? "Work With Us" : "Explore Events"}
-          <Box
-            as="span"
-            display="inline-block"
-            borderTop="1px solid currentColor"
-            width="32px"
-            _groupHover={{ width: "52px" }}
-            style={{ transition: "width 0.3s" }}
-          />
-        </Box>
-      </Flex>
+      {children}
     </Box>
-  );
-
-  return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} borderTop={`1px solid ${BORDER}`}>
-      {panel("/events",  "For You",    <>For the<br /><em>community.</em></>,   "A space to recharge, reflect and connect. Sound baths, movement, sensory rituals — curated for you.", false)}
-      {panel("/about",  "For Brands", <>For the<br /><em>brands.</em></>,       "A platform for authentic storytelling. Co-create immersive experiences that genuinely connect.", true)}
-    </SimpleGrid>
   );
 }
 
-// ─── 3. MANIFESTO ────────────────────────────────────────────────────────────
-function ManifestoSection() {
+// Breaks out of the max-width container
+function FullBleed({ children }) {
   return (
-    <Box
-      bg={BG}
-      borderTop={`1px solid ${BORDER}`}
-      px={{ base: 8, md: 16 }}
-      py={{ base: 20, md: 28 }}
+    <Box mx={{ base: -6, md: -12 }}>
+      {children}
+    </Box>
+  );
+}
+
+// Two-col label row
+function Row({ label, children, py = 16 }) {
+  return (
+    <Grid
+      templateColumns={{ base: "1fr", md: "180px 1fr" }}
+      gap={{ base: 6, md: 16 }}
+      py={{ base: py / 2, md: py }}
     >
-      <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 14, md: 24 }}>
-        {/* Left: big pull quote */}
-        <motion.div {...fadeUp(0)}>
-          <Label mb={7}>Our mission</Label>
-          <Display
-            italic
-            fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-            lineHeight="1.25"
-          >
-            "We create intentional, sensory-led wellness experiences that help
-            you reconnect — with your body, your mind, and with others."
-          </Display>
-          <Text
+      <Cap>{label}</Cap>
+      <Box>{children}</Box>
+    </Grid>
+  );
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+function HeroSection() {
+  return (
+    <>
+      <Box py={{ base: 20, md: 32 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.15 }}
+        >
+          <Heading
             fontFamily="'Playfair Display', serif"
-            fontSize="7xl"
             fontWeight="400"
-            color="#e6d5cb"
-            lineHeight="1"
-            mt={10}
-            userSelect="none"
+            fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
+            color={TEXT}
+            lineHeight="1.05"
+            mb={8}
+            maxWidth="620px"
           >
-            01
-          </Text>
+            Intentional wellness
+            <br />
+            <em>experiences in London.</em>
+          </Heading>
         </motion.div>
 
-        {/* Right: body + CTA */}
-        <motion.div {...fadeUp(0.15)}>
-          <Box borderTop={`1px solid ${TEXT}`} pt={7} mb={8}>
-            <Body mb={5}>
-              From restorative movement and mindful workshops to immersive
-              environments and co-branded activations, every experience is
-              designed to nourish the body, calm the mind and leave an impact.
-            </Body>
-            <Body>
-              For our community: a space to recharge, reflect and connect.
-              For brands: a platform for authentic storytelling and meaningful
-              engagement.
-            </Body>
-          </Box>
-          <SoftBtn href="/events">Join the journey</SoftBtn>
+        <motion.div {...fade(0.4)}>
+          <Text
+            fontFamily="'Raleway', sans-serif"
+            fontSize="sm"
+            color={MUTED}
+            lineHeight="1.85"
+            maxWidth="380px"
+            mb={10}
+          >
+            Sensory-led events that help you reconnect — with your body,
+            your mind, and with others. Sound healing, yin yoga, red light
+            therapy, aromatherapy, and more.
+          </Text>
+          <Flex gap={8} align="center" wrap="wrap">
+            <TextLink href={LINKTREE}>Book an event</TextLink>
+            <TextLink href={`mailto:${EMAIL}`} muted>Work with us</TextLink>
+          </Flex>
         </motion.div>
-      </SimpleGrid>
-    </Box>
+      </Box>
+
+      <FullBleed>
+        <motion.div
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.6, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <Box
+            as="img"
+            src={IMG.heroBanner}
+            alt="Vaya wellness experience"
+            width="100%"
+            height={{ base: "55vw", md: "62vh" }}
+            objectFit="cover"
+            display="block"
+          />
+        </motion.div>
+      </FullBleed>
+    </>
   );
 }
 
-// ─── 3. OFFERINGS ────────────────────────────────────────────────────────────
-const offerings = [
-  { num: "01", name: "Sound Healing",        desc: "Restorative vibration & gong baths" },
-  { num: "02", name: "Yin Yoga & Movement",  desc: "Gentle flow & somatic practice" },
-  { num: "03", name: "Red Light Therapy",    desc: "Nervous system reset" },
-  { num: "04", name: "Aromatherapy",         desc: "Scent-led sensory rituals" },
-  { num: "05", name: "Brand Activations",    desc: "Conscious co-creation with brands" },
-  { num: "06", name: "Community Events",     desc: "Ongoing London series" },
+// ─── About ────────────────────────────────────────────────────────────────────
+function AboutSection() {
+  const stats = [
+    { n: "12+",  label: "Events hosted" },
+    { n: "500+", label: "Guests welcomed" },
+    { n: "14",   label: "Brand partners" },
+    { n: "2024", label: "Est. London" },
+  ];
+
+  return (
+    <motion.div {...fade(0)}>
+      <Rule />
+
+      {/* Full-bleed split: image left, portrait right */}
+      <FullBleed>
+        <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "560px" }}>
+          <Box overflow="hidden">
+            <motion.div
+              initial={{ scale: 1.06 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              style={{ height: "100%" }}
+            >
+              <Box
+                as="img"
+                src={IMG.aboutPortrait}
+                alt="Vaya founder"
+                width="100%"
+                height={{ base: "70vw", md: "100%" }}
+                objectFit="cover"
+                display="block"
+              />
+            </motion.div>
+          </Box>
+
+          <Box
+            bg="#ede8e1"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            px={{ base: 8, md: 14 }}
+            py={{ base: 12, md: 16 }}
+            gap={8}
+          >
+            <motion.div {...fade(0.1)}>
+              <Cap>Our story</Cap>
+            </motion.div>
+            <motion.div {...fade(0.2)}>
+              <Heading
+                fontFamily="'Playfair Display', serif"
+                fontWeight="400"
+                fontSize={{ base: "2xl", md: "3xl" }}
+                color={TEXT}
+                lineHeight="1.3"
+                mb={5}
+              >
+                Founded on the belief that
+                <br />
+                <em>self-care is a journey,</em>
+                <br />
+                not a destination.
+              </Heading>
+              <Text
+                fontFamily="'Raleway', sans-serif"
+                fontSize="sm"
+                color={MUTED}
+                lineHeight="1.9"
+                mb={5}
+              >
+                Vaya was created by Flavia from a deep passion for wellness
+                and meaningful connection. Every experience is designed with
+                intention — to nurture calm, foster community, and remind
+                people to slow down.
+              </Text>
+              <TextLink href="/about" muted>Meet the team</TextLink>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div {...fade(0.3)}>
+              <Box borderTop={`1px solid ${BORDER}`} pt={8}>
+                <SimpleGrid columns={2} gap={6}>
+                  {stats.map(({ n, label }) => (
+                    <Box key={label}>
+                      <Text
+                        fontFamily="'Playfair Display', serif"
+                        fontSize="2xl"
+                        color={TEXT}
+                        lineHeight="1"
+                        mb={1}
+                      >
+                        {n}
+                      </Text>
+                      <Cap>{label}</Cap>
+                    </Box>
+                  ))}
+                </SimpleGrid>
+              </Box>
+            </motion.div>
+          </Box>
+        </SimpleGrid>
+      </FullBleed>
+    </motion.div>
+  );
+}
+
+// ─── Services ─────────────────────────────────────────────────────────────────
+const services = [
+  { name: "Sound Healing",       desc: "Restorative gong baths & vibrational therapy" },
+  { name: "Yin Yoga & Movement", desc: "Gentle somatic flow for the nervous system" },
+  { name: "Red Light Therapy",   desc: "Science-backed cellular restoration" },
+  { name: "Aromatherapy",        desc: "Scent-led sensory rituals & workshops" },
+  { name: "Brand Activations",   desc: "Immersive co-created experiences" },
+  { name: "Community Events",    desc: "Ongoing London wellness series" },
 ];
 
-function OfferingsSection() {
+function ServicesSection() {
   return (
-    <Box
-      bg={BG}
-      borderTop={`1px solid ${BORDER}`}
-      px={{ base: 8, md: 16 }}
-      py={{ base: 16, md: 24 }}
-    >
-      <Flex justify="space-between" align="flex-end" mb={12} wrap="wrap" gap={4}>
-        <motion.div {...fadeUp(0)}>
-          <Label mb={4}>What we do</Label>
-          <Display fontSize={{ base: "3xl", md: "5xl" }}>
-            Six pathways<br />
-            <em>to wellness.</em>
-          </Display>
-        </motion.div>
-      </Flex>
-
-      <Box>
-        {offerings.map(({ num, name, desc }, i) => (
-          <motion.div key={num} {...fadeUp(i * 0.07)}>
+    <motion.div {...fade(0)}>
+      <Rule />
+      <Row label="What we offer">
+        <Box>
+          {services.map(({ name, desc }, i) => (
             <Flex
-              borderTop={`1px solid ${BORDER}`}
+              key={name}
+              borderBottom={`1px solid ${BORDER}`}
               py={5}
               align="center"
               justify="space-between"
               gap={6}
               role="group"
-              _hover={{ bg: "rgba(200,181,208,0.09)" }}
-              style={{ transition: "background 0.2s" }}
-              _last={{ borderBottom: `1px solid ${BORDER}` }}
+              _first={{ borderTop: `1px solid ${BORDER}` }}
             >
-              <Text
-                fontFamily="'Raleway', sans-serif"
-                fontSize="9px"
-                letterSpacing="0.2em"
-                color={MUTED}
-                minWidth="28px"
-              >
-                {num}
-              </Text>
-              <Text
-                fontFamily="'Playfair Display', serif"
-                fontSize={{ base: "lg", md: "xl" }}
-                color={TEXT}
-                flex={1}
-              >
-                {name}
-              </Text>
-              <Text
-                fontFamily="'Raleway', sans-serif"
-                fontSize="xs"
-                color={MUTED}
-                flex={1}
-                display={{ base: "none", md: "block" }}
-              >
-                {desc}
-              </Text>
-              <Text
-                fontFamily="'Raleway', sans-serif"
-                fontSize="sm"
-                color={MUTED}
-                _groupHover={{ color: TEXT }}
-                style={{ transition: "color 0.2s" }}
-              >
-                →
-              </Text>
-            </Flex>
-          </motion.div>
-        ))}
-      </Box>
-    </Box>
-  );
-}
-
-// ─── 4. BRANDS ───────────────────────────────────────────────────────────────
-const brandPartners = [
-  "Boncharge",       "Tenzing",           "Virtue Drinks",
-  "Ancient & Brave", "Brisco Wellness",   "London Nootropics",
-  "Drink Living Things", "Misty Aromatherapy", "Upcircle Beauty",
-  "LSKD",            "Biomel.life",       "Frankfurt Food Co",
-  "Alchemy Official", "Poco Vino",
-];
-
-function BrandsSection() {
-  return (
-    <Box bg={DARK} px={{ base: 8, md: 16 }} py={{ base: 20, md: 32 }}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 16, md: 24 }}>
-        {/* Left: pitch */}
-        <motion.div {...fadeUp(0)}>
-          <Label dark mb={8}>For Brands</Label>
-          <Display
-            dark
-            fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
-            mb={10}
-          >
-            A platform for<br />
-            <em>authentic engagement.</em>
-          </Display>
-
-          <Box borderTop="1px solid rgba(255,255,255,0.1)" pt={8}>
-            <Body dark mb={6}>
-              We work with brands to create intentional, sensory-led experiences
-              that connect with real audiences. From product placement in signature
-              Vaya events to co-branded workshops and bespoke multi-sensory
-              activations — every collaboration is immersive, meaningful, and
-              memorable.
-            </Body>
-            <Body dark mb={10}>
-              Our DMs and inbox are open. We'd love to connect with brands that
-              align with Vaya's values and want to show up differently.
-            </Body>
-
-            <Box
-              as="a"
-              href={`mailto:${EMAIL}`}
-              display="inline-block"
-              bg="#f3ede6"
-              color={DARK}
-              px={8}
-              py="14px"
-              fontSize="10px"
-              fontFamily="'Raleway', sans-serif"
-              fontWeight="500"
-              letterSpacing="0.22em"
-              textTransform="uppercase"
-              textDecoration="none"
-              _hover={{ opacity: 0.86 }}
-              style={{ transition: "opacity 0.2s" }}
-            >
-              {EMAIL}
-            </Box>
-          </Box>
-        </motion.div>
-
-        {/* Right: partners list */}
-        <motion.div {...fadeUp(0.15)}>
-          <Label dark mb={8}>Brands we've worked with</Label>
-          <Box>
-            {brandPartners.map((brand, i) => (
-              <Flex
-                key={brand}
-                borderTop="1px solid rgba(255,255,255,0.07)"
-                py={4}
-                align="center"
-                justify="space-between"
-                _last={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
-              >
-                <Text
-                  fontFamily="'Raleway', sans-serif"
-                  fontSize="sm"
-                  color="rgba(255,255,255,0.45)"
-                  letterSpacing="0.04em"
-                >
-                  {brand}
-                </Text>
-                <Text
-                  fontFamily="'Raleway', sans-serif"
-                  fontSize="9px"
-                  letterSpacing="0.18em"
-                  textTransform="uppercase"
-                  color="rgba(255,255,255,0.2)"
-                >
-                  Partner
-                </Text>
-              </Flex>
-            ))}
-          </Box>
-        </motion.div>
-      </SimpleGrid>
-    </Box>
-  );
-}
-
-// ─── 5. EVENTS ───────────────────────────────────────────────────────────────
-const events = [
-  {
-    num: "01",
-    name: "Flow into Stillness",
-    type: "Yin Yoga + Sound Healing",
-    date: "01 Feb 2026",
-    status: "past",
-  },
-  {
-    num: "02",
-    name: "Red Light Immersion",
-    type: "Sound + Red Light Therapy",
-    date: "08 Mar 2026",
-    status: "past",
-  },
-  {
-    num: "03",
-    name: "Scent meets Sound",
-    type: "Aromatherapy + Sound Healing",
-    date: "29 Mar 2026",
-    status: "upcoming",
-  },
-  {
-    num: "04",
-    name: "Sound Series Finale",
-    type: "Live Vocals + Sound Bath",
-    date: "10 Apr 2026",
-    status: "upcoming",
-  },
-];
-
-function EventsSection() {
-  return (
-    <Box
-      bg={BG}
-      borderTop={`1px solid ${BORDER}`}
-      px={{ base: 8, md: 16 }}
-      py={{ base: 16, md: 24 }}
-    >
-      <Flex justify="space-between" align="flex-end" mb={12} wrap="wrap" gap={6}>
-        <motion.div {...fadeUp(0)}>
-          <Label mb={4}>Upcoming</Label>
-          <Display fontSize={{ base: "3xl", md: "5xl" }}>
-            Our next<br />
-            <em>experiences.</em>
-          </Display>
-        </motion.div>
-        <motion.div {...fadeUp(0.2)}>
-          <SoftBtn href={LINKTREE} outline>View all</SoftBtn>
-        </motion.div>
-      </Flex>
-
-      <Box>
-        {events.map(({ num, name, type, date, status }, i) => (
-          <motion.div key={num} {...fadeUp(i * 0.08)}>
-            <Box
-              as="a"
-              href={LINKTREE}
-              target="_blank"
-              display="block"
-              textDecoration="none"
-              role="group"
-            >
-              <Flex
-                borderTop={`1px solid ${BORDER}`}
-                py={6}
-                align="center"
-                gap={{ base: 4, md: 8 }}
-                wrap="wrap"
-                _hover={{ bg: "rgba(200,181,208,0.1)" }}
-                _last={{ borderBottom: `1px solid ${BORDER}` }}
-                style={{ transition: "background 0.2s" }}
-              >
+              <Flex align="baseline" gap={5} flex={1}>
                 <Text
                   fontFamily="'Raleway', sans-serif"
                   fontSize="9px"
                   color={MUTED}
-                  letterSpacing="0.15em"
-                  minWidth="28px"
+                  letterSpacing="0.2em"
+                  minWidth="20px"
+                  flexShrink={0}
                 >
-                  {num}
+                  {String(i + 1).padStart(2, "0")}
                 </Text>
-
-                <Box flex={2}>
+                <Box>
                   <Text
                     fontFamily="'Playfair Display', serif"
-                    fontSize={{ base: "lg", md: "xl" }}
+                    fontSize={{ base: "md", md: "lg" }}
                     color={TEXT}
                     mb="2px"
                   >
@@ -579,182 +319,550 @@ function EventsSection() {
                     fontFamily="'Raleway', sans-serif"
                     fontSize="xs"
                     color={MUTED}
+                    display={{ base: "none", md: "block" }}
                   >
-                    {type}
+                    {desc}
                   </Text>
                 </Box>
-
-                <Text
-                  fontFamily="'Raleway', sans-serif"
-                  fontSize="xs"
-                  color={MUTED}
-                  letterSpacing="0.08em"
-                  display={{ base: "none", md: "block" }}
-                >
-                  {date}
-                </Text>
-
-                <Box
-                  bg={status === "upcoming" ? BTN : "transparent"}
-                  border={status !== "upcoming" ? `1px solid ${BORDER}` : "none"}
-                  color={status === "upcoming" ? TEXT : MUTED}
-                  px={5}
-                  py={2}
-                  fontSize="9px"
-                  fontFamily="'Raleway', sans-serif"
-                  letterSpacing="0.18em"
-                  textTransform="uppercase"
-                  minWidth="88px"
-                  textAlign="center"
-                >
-                  {status === "upcoming" ? "Book Now" : "Sold Out"}
-                </Box>
               </Flex>
-            </Box>
-          </motion.div>
-        ))}
-      </Box>
-    </Box>
+              <Text
+                fontFamily="'Raleway', sans-serif"
+                fontSize="sm"
+                color={MUTED}
+                opacity={0}
+                _groupHover={{ opacity: 1 }}
+                style={{ transition: "opacity 0.2s" }}
+                flexShrink={0}
+              >
+                →
+              </Text>
+            </Flex>
+          ))}
+        </Box>
+      </Row>
+    </motion.div>
   );
 }
 
-// ─── 6. TESTIMONIALS ─────────────────────────────────────────────────────────
+// ─── Events ───────────────────────────────────────────────────────────────────
+const events = [
+  { date: "01 Feb 2026", name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",     past: true  },
+  { date: "08 Mar 2026", name: "Red Light Immersion",  type: "Sound + Red Light Therapy",    past: true  },
+  { date: "29 Mar 2026", name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", past: false },
+  { date: "10 Apr 2026", name: "Sound Series Finale",  type: "Live Vocals + Sound Bath",     past: false },
+];
+
+function EventsSection() {
+  return (
+    <motion.div {...fade(0)}>
+      <Rule />
+
+      <FullBleed>
+        <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "480px" }}>
+          {/* Dark text panel left */}
+          <Box
+            bg={DARK}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            px={{ base: 8, md: 14 }}
+            py={{ base: 12, md: 16 }}
+            gap={6}
+          >
+            <Cap light>Spring / Summer 2026</Cap>
+            <Heading
+              fontFamily="'Playfair Display', serif"
+              fontWeight="400"
+              fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+              color="#f5f0eb"
+              lineHeight="1.1"
+            >
+              Our next
+              <br />
+              <em>experiences.</em>
+            </Heading>
+            <Text
+              fontFamily="'Raleway', sans-serif"
+              fontSize="sm"
+              color="rgba(245,240,235,0.5)"
+              lineHeight="1.85"
+              maxWidth="320px"
+            >
+              Intimate, curated events across London. Each one designed to
+              help you slow down, feel more, and leave lighter.
+            </Text>
+            <TextLink href={LINKTREE} light>View all on Instagram</TextLink>
+          </Box>
+
+          {/* Image right */}
+          <Box overflow="hidden">
+            <motion.div
+              initial={{ scale: 1.06 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              style={{ height: "100%" }}
+            >
+              <Box
+                as="img"
+                src={IMG.eventsAtmos}
+                alt="Vaya event atmosphere"
+                width="100%"
+                height={{ base: "70vw", md: "100%" }}
+                objectFit="cover"
+                display="block"
+              />
+            </motion.div>
+          </Box>
+        </SimpleGrid>
+      </FullBleed>
+
+      <Row label="Events">
+        <Box>
+          {events.map(({ date, name, type, past }, i) => (
+            <motion.div key={name} {...fade(i * 0.06)}>
+              <Box
+                as="a"
+                href={LINKTREE}
+                target="_blank"
+                display="block"
+                textDecoration="none"
+                role="group"
+              >
+                <Flex
+                  borderBottom={`1px solid ${BORDER}`}
+                  py={5}
+                  align="center"
+                  justify="space-between"
+                  gap={4}
+                  wrap={{ base: "wrap", md: "nowrap" }}
+                  _first={{ borderTop: `1px solid ${BORDER}` }}
+                  _hover={{ bg: "rgba(0,0,0,0.02)" }}
+                  style={{ transition: "background 0.15s" }}
+                >
+                  <Box flex={1}>
+                    <Text
+                      fontFamily="'Playfair Display', serif"
+                      fontSize={{ base: "md", md: "lg" }}
+                      color={past ? MUTED : TEXT}
+                      mb="3px"
+                    >
+                      {name}
+                    </Text>
+                    <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED}>
+                      {type}
+                    </Text>
+                  </Box>
+
+                  <Flex align="center" gap={6} flexShrink={0}>
+                    <Text
+                      fontFamily="'Raleway', sans-serif"
+                      fontSize="xs"
+                      color={MUTED}
+                      letterSpacing="0.06em"
+                      display={{ base: "none", md: "block" }}
+                    >
+                      {date}
+                    </Text>
+                    {past ? (
+                      <Text
+                        fontFamily="'Raleway', sans-serif"
+                        fontSize="9px"
+                        letterSpacing="0.2em"
+                        textTransform="uppercase"
+                        color={MUTED}
+                        opacity={0.45}
+                      >
+                        Past
+                      </Text>
+                    ) : (
+                      <Box
+                        bg={TEXT}
+                        color={BG}
+                        px={4}
+                        py="8px"
+                        fontFamily="'Raleway', sans-serif"
+                        fontSize="9px"
+                        letterSpacing="0.2em"
+                        textTransform="uppercase"
+                      >
+                        Book →
+                      </Box>
+                    )}
+                  </Flex>
+                </Flex>
+              </Box>
+            </motion.div>
+          ))}
+        </Box>
+      </Row>
+    </motion.div>
+  );
+}
+
+// ─── For Brands ───────────────────────────────────────────────────────────────
+const brandOfferings = [
+  {
+    title: "Co-Branded Events",
+    body:  "We integrate your brand authentically into our curated wellness experiences — product sampling, storytelling moments, and genuine audience engagement.",
+  },
+  {
+    title: "Bespoke Activations",
+    body:  "From intimate workshops to multi-sensory brand experiences, we design and deliver end-to-end activations tailored to your audience and values.",
+  },
+  {
+    title: "Workplace Wellbeing",
+    body:  "Help your team reset and reconnect. We bring sound healing, movement, and nervous system workshops directly into your space.",
+  },
+];
+
+const brandPartners = [
+  "Boncharge", "Tenzing", "Virtue Drinks", "Ancient & Brave",
+  "Brisco Wellness", "London Nootropics", "Drink Living Things",
+  "Misty Aromatherapy", "Upcircle Beauty", "LSKD", "Biomel.life",
+  "Frankfurt Food Co", "Alchemy Official", "Poco Vino",
+];
+
+function ForBrandsSection() {
+  return (
+    <motion.div {...fade(0)}>
+      <Rule />
+
+      {/* Dark full-bleed panel */}
+      <FullBleed>
+        <Box bg={DARK}>
+          <SimpleGrid columns={{ base: 1, md: 2 }}>
+            {/* Left: pitch */}
+            <Box
+              px={{ base: 8, md: 14 }}
+              py={{ base: 14, md: 20 }}
+              display="flex"
+              flexDirection="column"
+              gap={10}
+            >
+              <Box>
+                <Cap light>For Brands</Cap>
+                <Heading
+                  fontFamily="'Playfair Display', serif"
+                  fontWeight="400"
+                  fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+                  color="#f5f0eb"
+                  lineHeight="1.1"
+                  mt={5}
+                  mb={6}
+                >
+                  Where conscious brands
+                  <br />
+                  <em>show up differently.</em>
+                </Heading>
+                <Text
+                  fontFamily="'Raleway', sans-serif"
+                  fontSize="sm"
+                  color="rgba(245,240,235,0.5)"
+                  lineHeight="1.9"
+                  maxWidth="400px"
+                >
+                  We partner with brands that believe in authentic connection.
+                  Our audience is engaged, health-conscious, and seeking
+                  experiences that mean something. We help you show up in a
+                  way that resonates — not just reaches.
+                </Text>
+              </Box>
+
+              {/* Three offering types */}
+              <Box borderTop="1px solid rgba(245,240,235,0.1)" pt={8}>
+                <Flex direction="column" gap={0}>
+                  {brandOfferings.map(({ title, body }, i) => (
+                    <motion.div key={title} {...fade(i * 0.1)}>
+                      <Box
+                        borderBottom="1px solid rgba(245,240,235,0.08)"
+                        py={5}
+                      >
+                        <Text
+                          fontFamily="'Playfair Display', serif"
+                          fontSize="md"
+                          color="#f5f0eb"
+                          mb={2}
+                        >
+                          {title}
+                        </Text>
+                        <Text
+                          fontFamily="'Raleway', sans-serif"
+                          fontSize="xs"
+                          color="rgba(245,240,235,0.4)"
+                          lineHeight="1.85"
+                          maxWidth="360px"
+                        >
+                          {body}
+                        </Text>
+                      </Box>
+                    </motion.div>
+                  ))}
+                </Flex>
+              </Box>
+
+              <Box>
+                <TextLink href={`mailto:${EMAIL}`} light>Get in touch — {EMAIL}</TextLink>
+              </Box>
+            </Box>
+
+            {/* Right: stacked images */}
+            <Box display="flex" flexDirection="column">
+              <Box overflow="hidden" flex={1}>
+                <motion.div
+                  initial={{ scale: 1.06 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.4, ease: "easeOut" }}
+                  style={{ height: "100%" }}
+                >
+                  <Box
+                    as="img"
+                    src={IMG.brandsImg}
+                    alt="Luxury brand products"
+                    width="100%"
+                    height={{ base: "60vw", md: "50%" }}
+                    objectFit="cover"
+                    display="block"
+                    minHeight={{ md: "280px" }}
+                  />
+                </motion.div>
+              </Box>
+              <Box overflow="hidden" flex={1}>
+                <Box
+                  as="img"
+                  src={IMG.candles}
+                  alt="Aromatherapy products"
+                  width="100%"
+                  height={{ base: "60vw", md: "50%" }}
+                  objectFit="cover"
+                  display="block"
+                  minHeight={{ md: "280px" }}
+                />
+              </Box>
+            </Box>
+          </SimpleGrid>
+
+          {/* Partner brands strip */}
+          <Box
+            borderTop="1px solid rgba(245,240,235,0.08)"
+            px={{ base: 8, md: 14 }}
+            py={8}
+          >
+            <Flex align="center" gap={6} wrap="wrap">
+              <Cap light>Partners</Cap>
+              <Flex wrap="wrap" gap={{ base: 4, md: 6 }}>
+                {brandPartners.map((b) => (
+                  <Text
+                    key={b}
+                    fontFamily="'Raleway', sans-serif"
+                    fontSize="10px"
+                    letterSpacing="0.1em"
+                    color="rgba(245,240,235,0.25)"
+                  >
+                    {b}
+                  </Text>
+                ))}
+              </Flex>
+            </Flex>
+          </Box>
+        </Box>
+      </FullBleed>
+    </motion.div>
+  );
+}
+
+// ─── Visual Break ─────────────────────────────────────────────────────────────
+function VisualBreak() {
+  return (
+    <motion.div {...fade(0)}>
+      <Rule />
+      <FullBleed>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={0}>
+          <Box
+            as="img"
+            src={IMG.soundBowls}
+            alt="Sound bowls"
+            width="100%"
+            height={{ base: "60vw", md: "360px" }}
+            objectFit="cover"
+            display="block"
+          />
+          <Box
+            bg="#1a1714"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            p={{ base: 10, md: 14 }}
+            minHeight={{ base: "auto", md: "360px" }}
+          >
+            <Text
+              fontFamily="'Playfair Display', serif"
+              fontStyle="italic"
+              fontSize={{ base: "xl", md: "xl" }}
+              color="rgba(245,240,235,0.75)"
+              lineHeight="1.7"
+              textAlign="center"
+            >
+              "We create moments
+              <br />where people can pause,
+              <br />breathe, and simply <em>be.</em>"
+            </Text>
+          </Box>
+          <Box
+            as="img"
+            src={IMG.founderImg}
+            alt="Vaya founder"
+            width="100%"
+            height={{ base: "60vw", md: "360px" }}
+            objectFit="cover"
+            objectPosition="top"
+            display="block"
+          />
+        </SimpleGrid>
+      </FullBleed>
+    </motion.div>
+  );
+}
+
+// ─── Testimonials ─────────────────────────────────────────────────────────────
 const testimonials = [
   {
-    quote:
-      "Absolutely loved this slow, intentional morning for myself — calming scents, gentle sounds, warm drinks, and beautiful community. Exactly the space I needed to soften, switch off, and truly unwind.",
-    author: "Aromatherapy & Sound Workshop",
+    quote:  "Absolutely loved this slow, intentional morning for myself — calming scents, gentle sounds, warm drinks, and beautiful community.",
+    source: "Sound & Aromatherapy Workshop",
   },
   {
-    quote:
-      "Loved every second of this soundbath experience. It was such an amazing way to reconnect with myself and my emotions.",
-    author: "Sound Healing Series",
-  },
-  {
-    quote:
-      "That felt truly healing, exactly what I needed. Thank you so much.",
-    author: "Flow into Stillness",
+    quote:  "Such an amazing way to reconnect with myself and my emotions. That felt truly healing, exactly what I needed.",
+    source: "Sound Healing Series",
   },
 ];
 
 function TestimonialsSection() {
   return (
-    <Box bg={BG} borderTop={`1px solid ${BORDER}`}>
-      <SimpleGrid columns={{ base: 1, md: 2 }}>
-        {/* Image */}
-        <Box overflow="hidden" minHeight={{ base: "60vw", md: "640px" }} position="relative">
-          <motion.div
-            initial={{ scale: 1.07 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            style={{ height: "100%" }}
+    <motion.div {...fade(0)}>
+      <Rule />
+      <FullBleed>
+        <Box position="relative" overflow="hidden">
+          <Box
+            as="img"
+            src={IMG.background}
+            alt="Misty forest"
+            width="100%"
+            height={{ base: "80vw", md: "520px" }}
+            objectFit="cover"
+            display="block"
+            style={{ filter: "brightness(0.5)" }}
+          />
+          <Box
+            position="absolute"
+            inset={0}
+            display="flex"
+            flexDirection="column"
+            justifyContent="flex-end"
+            p={{ base: 8, md: 16 }}
+            gap={10}
           >
-            <Image src={flow} objectFit="cover" height="100%" width="100%" />
-          </motion.div>
-          <Box position="absolute" inset={0} bg="rgba(28,25,22,0.18)" />
+            <Cap light>Kind words</Cap>
+            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 8, md: 16 }}>
+              {testimonials.map((t, i) => (
+                <motion.div key={i} {...fade(i * 0.15)}>
+                  <Text
+                    fontFamily="'Playfair Display', serif"
+                    fontStyle="italic"
+                    fontSize={{ base: "md", md: "lg" }}
+                    color="rgba(245,240,235,0.9)"
+                    lineHeight="1.75"
+                    mb={4}
+                  >
+                    "{t.quote}"
+                  </Text>
+                  <Text
+                    fontFamily="'Raleway', sans-serif"
+                    fontSize="9px"
+                    letterSpacing="0.22em"
+                    textTransform="uppercase"
+                    color="rgba(245,240,235,0.4)"
+                  >
+                    — {t.source}
+                  </Text>
+                </motion.div>
+              ))}
+            </SimpleGrid>
+          </Box>
         </Box>
+      </FullBleed>
+    </motion.div>
+  );
+}
 
-        {/* Quotes */}
-        <Flex
-          direction="column"
-          justify="center"
-          px={{ base: 8, md: 14 }}
-          py={{ base: 16, md: 20 }}
-          gap={10}
+// ─── Footer ───────────────────────────────────────────────────────────────────
+function Footer() {
+  return (
+    <motion.div {...fade(0)}>
+      <Rule />
+      <Flex
+        py={10}
+        justify="space-between"
+        align="center"
+        wrap="wrap"
+        gap={4}
+      >
+        <Text
+          fontFamily="'Playfair Display', serif"
+          fontStyle="italic"
+          fontSize="xl"
+          color={TEXT}
         >
-          <motion.div {...fadeUp(0)}>
-            <Label mb={5}>Kind words</Label>
-            <Display fontSize={{ base: "3xl", md: "4xl" }}>
-              From our<br />
-              <em>community.</em>
-            </Display>
-          </motion.div>
-
-          {testimonials.map((t, i) => (
-            <motion.div key={i} {...fadeUp(0.1 + i * 0.1)}>
-              <Box borderTop={`1px solid ${BORDER}`} pt={6}>
-                <Text
-                  fontFamily="'Playfair Display', serif"
-                  fontStyle="italic"
-                  fontSize="md"
-                  color={TEXT}
-                  lineHeight="1.75"
-                  mb={4}
-                >
-                  "{t.quote}"
-                </Text>
-                <Text
-                  fontFamily="'Raleway', sans-serif"
-                  fontSize="9px"
-                  letterSpacing="0.22em"
-                  textTransform="uppercase"
-                  color={MUTED}
-                >
-                  — {t.author}
-                </Text>
-              </Box>
-            </motion.div>
+          Vaya
+        </Text>
+        <Flex gap={8} wrap="wrap">
+          {[
+            ["Instagram", LINKTREE],
+            ["Events", "/events"],
+            ["About", "/about"],
+            ["Contact", `mailto:${EMAIL}`],
+          ].map(([label, href]) => (
+            <Box
+              key={label}
+              as="a"
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              fontFamily="'Raleway', sans-serif"
+              fontSize="9px"
+              letterSpacing="0.22em"
+              textTransform="uppercase"
+              color={MUTED}
+              textDecoration="none"
+              _hover={{ color: TEXT }}
+              style={{ transition: "color 0.2s" }}
+            >
+              {label}
+            </Box>
           ))}
         </Flex>
-      </SimpleGrid>
-    </Box>
+        <Cap>London · Est. 2024</Cap>
+      </Flex>
+    </motion.div>
   );
 }
 
-// ─── 7. CTA ──────────────────────────────────────────────────────────────────
-function CTASection() {
-  return (
-    <Box
-      bg={BG}
-      borderTop={`1px solid ${BORDER}`}
-      px={{ base: 8, md: 16 }}
-      py={{ base: 20, md: 32 }}
-    >
-      <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 12, md: 24 }} alignItems="center">
-        <motion.div {...fadeUp(0)}>
-          <Display fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}>
-            Join us in creating<br />
-            <em>moments that are felt.</em>
-          </Display>
-        </motion.div>
-
-        <motion.div {...fadeUp(0.18)}>
-          <Flex direction="column" gap={3} maxWidth="320px">
-            <SoftBtn href="/events">Explore Events</SoftBtn>
-            <SoftBtn href={`mailto:${EMAIL}`} outline>Work With Us</SoftBtn>
-            <SoftBtn href={LINKTREE} outline>Follow on Instagram</SoftBtn>
-          </Flex>
-          <Text
-            fontFamily="'Raleway', sans-serif"
-            fontSize="10px"
-            color={MUTED}
-            letterSpacing="0.15em"
-            mt={8}
-          >
-            {EMAIL}
-          </Text>
-        </motion.div>
-      </SimpleGrid>
-    </Box>
-  );
-}
-
-// ─── App ─────────────────────────────────────────────────────────────────────
+// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function App() {
   return (
-    <Box bg={BG}>
+    <Box bg={BG} minHeight="100vh">
       <Box position="sticky" top={0} zIndex={10} bg={BG}>
         <MkNavBar />
       </Box>
-      <HeroSection />
-      <PathSplitSection />
-      <ManifestoSection />
-      <OfferingsSection />
-      <BrandsSection />
-      <EventsSection />
-      <TestimonialsSection />
-      <CTASection />
+      <Box maxWidth="960px" mx="auto" px={{ base: 6, md: 12 }}>
+        <HeroSection />
+        <AboutSection />
+        <ServicesSection />
+        <EventsSection />
+        <ForBrandsSection />
+        <VisualBreak />
+        <TestimonialsSection />
+        <Footer />
+      </Box>
     </Box>
   );
 }

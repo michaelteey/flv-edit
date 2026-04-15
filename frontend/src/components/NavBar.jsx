@@ -27,7 +27,7 @@ export default function MkNavbar() {
         align="center"
         justify="space-between"
         borderBottom="1px solid #e0d5cb"
-        bg="#f3ede6"
+        bg="#f5f0eb"
       >
         <Text
           fontSize="xl"
@@ -40,7 +40,7 @@ export default function MkNavbar() {
         </Text>
 
         <HStack gap={10}>
-          {[["Home", "/"], ["About", "/about"], ["Events", "/events"]].map(([label, href]) => (
+          {[["Home", "/"], ["About", "/about"], ["Events", "/events"], ["For Brands", "/brands"]].map(([label, href]) => (
             <Link
               key={label}
               href={href}

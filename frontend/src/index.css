@@ -4,12 +4,12 @@
 html, body, #root {
   height: 100%;
   margin: 0;
-  background-color: #f3ede6;
+  background-color: #f5f0eb;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #e0d5cb #f3ede6;
+  scrollbar-color: #ddd5cb #f5f0eb;
 }
 
 a:focus-visible {
