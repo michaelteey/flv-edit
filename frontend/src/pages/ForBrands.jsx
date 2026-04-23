@@ -9,7 +9,8 @@ const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
-const LINKTREE = "https://linktr.ee/wearevaya_?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
+const CONTACT = "https://form.jotform.com/253303930928357";
+const LINKTREE = "https://www.instagram.com/wearevaya_/";
 
 const IMG = {
   hero:    "https://images.pexels.com/photos/31359311/pexels-photo-31359311.jpeg?auto=compress&cs=tinysrgb&w=1800",
@@ -139,7 +140,7 @@ function HeroSection() {
               that is felt more profoundly.
             </Text>
             <Flex gap={8} wrap="wrap">
-              <Box as="a" href={`mailto:${EMAIL}`}
+              <Box as="a" href={CONTACT}
                 fontFamily="'Raleway', sans-serif" fontSize="10px"
                 letterSpacing="0.22em" textTransform="uppercase"
                 bg={ACCENT} color="white"
@@ -345,7 +346,7 @@ function CTASection() {
                 just a real conversation about what we could create together.
               </Text>
               <Flex direction="column" gap={4} alignItems="flex-start">
-                <Box as="a" href={`mailto:${EMAIL}`}
+                <Box as="a" href={CONTACT}
                   fontFamily="'Raleway', sans-serif" fontSize="10px"
                   letterSpacing="0.22em" textTransform="uppercase"
                   bg={ACCENT} color="white"
@@ -371,7 +372,7 @@ function Footer() {
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
         <Text fontFamily="'Playfair Display', serif" fontStyle="italic" fontSize="xl" color={TEXT}>Vaya</Text>
         <Flex gap={8} wrap="wrap">
-          {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", `mailto:${EMAIL}`]].map(([label, href]) => (
+          {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}
               target={href.startsWith("http") ? "_blank" : undefined}
               fontFamily="'Raleway', sans-serif" fontSize="9px"

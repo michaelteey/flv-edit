@@ -9,7 +9,8 @@ const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
-const LINKTREE = "https://linktr.ee/wearevaya_?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
+const CONTACT = "https://form.jotform.com/253303930928357";
+const LINKTREE = "https://www.instagram.com/wearevaya_/";
 const EB     = "https://www.eventbrite.co.uk"; // replace with your Eventbrite organiser page
 
 const IMG = {
@@ -63,14 +64,13 @@ function Row({ label, children, py = 16 }) {
 const upcomingEvents = [
   {
     num: "01",
-    name: "Movement & Stillness",
-    type: "Yoga + Sound Healing",
+    name: "Move & Groove",
+    type: "Yoga + Music",
     date: "TBC",
     time: "TBC",
     location: "London",
-    desc: "A morning of intentional movement and deep restoration. We begin with a grounding yoga practice before settling into a full sound healing immersion — leaving you lighter, clearer, and more connected.",
+    desc: "A feel-good morning of movement and music. Flow through a yoga practice set to uplifting sounds — energising, joyful, and designed to get you out of your head and into your body.",
     img: IMG.yoga,
-    ebLink: EB,
   },
   {
     num: "02",
@@ -81,7 +81,6 @@ const upcomingEvents = [
     location: "London",
     desc: "An intimate evening with Nila M. — a deeply moving sound journey blending crystal singing bowls, gong, and live vocal harmonics. Expect stillness, surrender, and something that stays with you.",
     img: IMG.bowls,
-    ebLink: EB,
   },
 ];
 
@@ -112,7 +111,7 @@ function HeroSection() {
             Intimate, curated wellness experiences across London and beyond.
             Each one designed to help you slow down, feel more and leave lighter.
           </Text>
-          <TextLink href={EB}>Book on Eventbrite</TextLink>
+          <TextLink href={LINKTREE}>Follow us for updates</TextLink>
         </motion.div>
       </Box>
 
@@ -136,7 +135,7 @@ function UpcomingSection() {
       <Rule />
       <Row label="Coming up">
         <Flex direction="column" gap={0}>
-          {upcomingEvents.map(({ num, name, type, date, time, location, desc, img, ebLink }, i) => (
+          {upcomingEvents.map(({ num, name, type, date, time, location, desc, img }, i) => (
             <motion.div key={num} {...fade(i * 0.1)}>
               <Box borderBottom={`1px solid ${BORDER}`} py={10}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
@@ -145,11 +144,11 @@ function UpcomingSection() {
                   <Box>
                     <Flex align="center" gap={4} mb={5}>
                       <Text fontFamily="'Raleway', sans-serif" fontSize="9px" letterSpacing="0.2em" color={MUTED}>{num}</Text>
-                      <Box bg={ACCENT} color="white" px={3} py="6px"
+                      <Box border={`1px solid ${BORDER}`} color={MUTED} px={3} py="6px"
                         fontFamily="'Raleway', sans-serif" fontSize="9px"
                         letterSpacing="0.18em" textTransform="uppercase"
                       >
-                        Upcoming
+                        Up Next
                       </Box>
                     </Flex>
 
@@ -168,16 +167,11 @@ function UpcomingSection() {
                       ))}
                     </Flex>
 
-                    <Box as="a" href={ebLink} target="_blank"
-                      display="inline-block" bg={ACCENT} color="white"
-                      px={8} py="12px"
-                      fontFamily="'Raleway', sans-serif" fontSize="10px"
-                      letterSpacing="0.22em" textTransform="uppercase"
-                      textDecoration="none"
-                      _hover={{ bg: "#D75E48" }} style={{ transition: "background 0.2s" }}
+                    <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
+                      letterSpacing="0.22em" textTransform="uppercase" color={MUTED}
                     >
-                      Reserve your spot →
-                    </Box>
+                      Booking not yet available
+                    </Text>
                   </Box>
 
                   <Box overflow="hidden">
@@ -281,7 +275,7 @@ function StayInTouchSection() {
               </Text>
               <Flex gap={8} wrap="wrap">
                 <TextLink href={LINKTREE} light>Follow on Instagram</TextLink>
-                <TextLink href={`mailto:${EMAIL}`} light muted>Get in touch</TextLink>
+                <TextLink href={CONTACT} light muted>Get in touch</TextLink>
               </Flex>
             </Box>
             <Box overflow="hidden">
@@ -305,7 +299,7 @@ function Footer() {
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
         <Text fontFamily="'Playfair Display', serif" fontStyle="italic" fontSize="xl" color={TEXT}>Vaya</Text>
         <Flex gap={8} wrap="wrap">
-          {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", `mailto:${EMAIL}`]].map(([label, href]) => (
+          {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}
               target={href.startsWith("http") ? "_blank" : undefined}
               fontFamily="'Raleway', sans-serif" fontSize="9px"

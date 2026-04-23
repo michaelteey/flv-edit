@@ -9,8 +9,9 @@ const TEXT     = "#403631";
 const MUTED    = "#9a8878";
 const BORDER   = "#e8ddd5";
 const ACCENT   = "#EC6F51";
-const LINKTREE = "https://linktr.ee/wearevaya_?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
+const LINKTREE = "https://www.instagram.com/wearevaya_/";
 const EMAIL    = "hello@vayaevents.com";
+const CONTACT  = "https://form.jotform.com/253303930928357";
 const EB       = "https://www.eventbrite.co.uk"; // update with actual Eventbrite page
 
 // ─── Imagery (Pexels) ─────────────────────────────────────────────────────────
@@ -127,7 +128,7 @@ function HeroSection() {
           </Text>
           <Flex gap={8} align="center" wrap="wrap">
             <TextLink href={EB}>Book an event</TextLink>
-            <TextLink href={`mailto:${EMAIL}`} muted>Work with us</TextLink>
+            <TextLink href="/brands" muted>Work with us</TextLink>
           </Flex>
         </motion.div>
       </Box>
@@ -309,7 +310,7 @@ const events = [
   { date: "08 Mar 2026", name: "Red Light Immersion",  type: "Sound + Red Light Therapy",    past: true  },
   { date: "29 Mar 2026", name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", past: true  },
   { date: "10 Apr 2026", name: "Stillness after Dark", type: "Sound Healing + Live Vocals",  past: true  },
-  { date: "TBC",         name: "Movement & Stillness", type: "Yoga + Sound Healing",         past: false },
+  { date: "TBC",         name: "Move & Groove",         type: "Yoga + Music",                 past: false },
   { date: "TBC",         name: "Nila M. Sound Experience", type: "Sound Bath + Live Vocals", past: false },
 ];
 
@@ -369,17 +370,15 @@ function EventsSection() {
           {events.map(({ date, name, type, past }, i) => (
             <motion.div key={name + i} {...fade(i * 0.06)}>
               <Box
-                as="a" href={past ? undefined : EB}
-                target={past ? undefined : "_blank"}
                 display="block" textDecoration="none" role="group"
-                cursor={past ? "default" : "pointer"}
+                cursor="default"
               >
                 <Flex
                   borderBottom={`1px solid ${BORDER}`}
                   py={5} align="center" justify="space-between"
                   gap={4} wrap={{ base: "wrap", md: "nowrap" }}
                   _first={{ borderTop: `1px solid ${BORDER}` }}
-                  _hover={{ bg: past ? "transparent" : "rgba(0,0,0,0.02)" }}
+                  _hover={{ bg: "transparent" }}
                   style={{ transition: "background 0.15s" }}
                 >
                   <Box flex={1}>
@@ -411,13 +410,13 @@ function EventsSection() {
                         Past
                       </Text>
                     ) : (
-                      <Box
-                        bg={ACCENT} color="white" px={4} py="8px"
-                        fontFamily="'Raleway', sans-serif"
-                        fontSize="9px" letterSpacing="0.2em" textTransform="uppercase"
+                      <Text
+                        fontFamily="'Raleway', sans-serif" fontSize="9px"
+                        letterSpacing="0.2em" textTransform="uppercase"
+                        color={MUTED} opacity={0.45}
                       >
-                        Book →
-                      </Box>
+                        Coming soon
+                      </Text>
                     )}
                   </Flex>
                 </Flex>
@@ -510,7 +509,7 @@ function ForBrandsSection() {
               </Box>
 
               <Box>
-                <TextLink href={`mailto:${EMAIL}`} light>Get in touch — {EMAIL}</TextLink>
+                <TextLink href={CONTACT} light>Get in touch — {EMAIL}</TextLink>
               </Box>
             </Box>
 
@@ -683,7 +682,7 @@ function Footer() {
           Vaya
         </Text>
         <Flex gap={8} wrap="wrap">
-          {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", `mailto:${EMAIL}`]].map(([label, href]) => (
+          {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box
               key={label} as="a" href={href}
               target={href.startsWith("http") ? "_blank" : undefined}

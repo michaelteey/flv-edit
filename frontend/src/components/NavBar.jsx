@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Link, Text } from "@chakra-ui/react";
+import logo from "../assets/logo.png";
 
 export default function MkNavbar() {
   return (
@@ -29,29 +30,9 @@ export default function MkNavbar() {
         borderBottom="1px solid #e8ddd5"
         bg="#FDF6EE"
       >
-        {/* Logo — orange circle with vaya */}
+        {/* Logo */}
         <Box as="a" href="/" display="flex" alignItems="center" textDecoration="none">
-          <Box
-            as="svg"
-            width="42px"
-            height="42px"
-            viewBox="0 0 100 100"
-            flexShrink={0}
-          >
-            <circle cx="50" cy="50" r="50" fill="#EC6F51" />
-            <text
-              x="50"
-              y="64"
-              textAnchor="middle"
-              fill="white"
-              fontSize="34"
-              fontFamily="Georgia, 'Times New Roman', serif"
-              fontStyle="italic"
-              fontWeight="400"
-            >
-              vaya
-            </text>
-          </Box>
+          <img src={logo} alt="Vaya" style={{ height: "42px", width: "auto" }} />
         </Box>
 
         <HStack gap={10}>

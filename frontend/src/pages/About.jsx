@@ -9,7 +9,8 @@ const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
-const LINKTREE = "https://linktr.ee/wearevaya_?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
+const CONTACT = "https://form.jotform.com/253303930928357";
+const LINKTREE = "https://www.instagram.com/wearevaya_/";
 
 const IMG = {
   hero:   "https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=1800",
@@ -268,7 +269,7 @@ function CollaborateSection() {
               </Box>
             </motion.div>
           ))}
-          <Box mt={10}><TextLink href={`mailto:${EMAIL}`}>{EMAIL}</TextLink></Box>
+          <Box mt={10}><TextLink href={CONTACT}>{EMAIL}</TextLink></Box>
         </Box>
       </Row>
     </motion.div>
@@ -282,7 +283,7 @@ function Footer() {
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
         <Text fontFamily="'Playfair Display', serif" fontStyle="italic" fontSize="xl" color={TEXT}>Vaya</Text>
         <Flex gap={8} wrap="wrap">
-          {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["Contact", `mailto:${EMAIL}`]].map(([label, href]) => (
+          {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}
               target={href.startsWith("http") ? "_blank" : undefined}
               fontFamily="'Raleway', sans-serif" fontSize="9px"

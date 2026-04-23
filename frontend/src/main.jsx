@@ -10,10 +10,9 @@ const config = defineConfig({
     theme : {
         tokens : {
             fonts : {
-                playfair: {value: "'Playfair Display', sans-serif"},
+                playfair: {value: "'Playfair Display', serif"},
                 spectral: {value: "'Spectral', serif"},
                 roboto: {value: "'Roboto', sans-serif"},
-                playfair: {value: "'Playfair Display', serif"}
             },
         },
         semanticTokens: {
