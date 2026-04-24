@@ -9,6 +9,7 @@ const TEXT   = "#403631";
 const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
+const CHARCOAL = "#403631";
 const EMAIL  = "hello@vayaevents.com";
 const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
@@ -46,6 +47,7 @@ function TextLink({ href, children, muted = false, light = false }) {
       fontFamily="'Raleway', sans-serif" fontSize="10px" letterSpacing="0.22em"
       textTransform="uppercase" color={col} textDecoration="none"
       borderBottom={`1px solid ${bdr}`} pb="2px"
+      display="inline-flex" alignItems="center"
       _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
     >{children}</Box>
   );
@@ -186,43 +188,36 @@ function OfferingsSection() {
   return (
     <Box id="offerings" style={{ scrollMarginTop: "80px" }}>
       <Rule />
-      {offerings.map(({ num, title, img, desc, includes }, i) => (
-        <motion.div key={num} {...fade(0)}>
-          <Box borderBottom={`1px solid ${BORDER}`} py={{ base: 14, md: 20 }}>
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 20 }}>
-              <Box order={{ base: 1, md: i % 2 === 0 ? 1 : 2 }}>
-                <Flex align="center" gap={4} mb={6}>
-                  <Text fontFamily="'Raleway', sans-serif" fontSize="9px" letterSpacing="0.2em" color={MUTED}>{num}</Text>
-                  <Box width="32px" borderTop={`1px solid ${BORDER}`} />
-                </Flex>
-                <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-                  fontSize={{ base: "2xl", md: "3xl" }} color={TEXT} lineHeight="1.2" mb={5}
-                >{title}</Heading>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.9" mb={8}>{desc}</Text>
-                <Box borderTop={`1px solid ${BORDER}`} pt={6}>
-                  <Cap>Includes</Cap>
-                  <Flex direction="column" gap={2} mt={4}>
-                    {includes.map((item) => (
-                      <Flex key={item} align="center" gap={3}>
-                        <Box width="4px" height="4px" borderRadius="full" bg={ACCENT} flexShrink={0} />
-                        <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED}>{item}</Text>
-                      </Flex>
-                    ))}
-                  </Flex>
-                </Box>
-              </Box>
-              <Box overflow="hidden" order={{ base: 0, md: i % 2 === 0 ? 2 : 1 }}>
-                <motion.div initial={{ scale: 1.06 }} whileInView={{ scale: 1 }}
-                  viewport={{ once: true }} transition={{ duration: 1.3, ease: "easeOut" }}
-                >
-                  <Box as="img" src={img} alt={title}
-                    width="100%" height={{ base: "60vw", md: "420px" }}
-                    objectFit="cover" display="block"
-                  />
-                </motion.div>
-              </Box>
-            </SimpleGrid>
-          </Box>
+      {offerings.map(({ num, title, desc, includes }, i) => (
+        <motion.div key={num} {...fade(i * 0.08)}>
+          <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
+            gap={{ base: 6, md: 16 }}
+            borderBottom={`1px solid ${BORDER}`}
+            py={{ base: 10, md: 14 }}
+            _first={{ borderTop: `1px solid ${BORDER}` }}
+          >
+            <Box>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
+                letterSpacing="0.2em" color={MUTED} mb={2}>{num}</Text>
+              <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
+                fontSize={{ base: "xl", md: "2xl" }} color={TEXT} lineHeight="1.2"
+              >{title}</Heading>
+            </Box>
+            <Box>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+                color={MUTED} lineHeight="1.9" mb={6}>{desc}</Text>
+              <Flex wrap="wrap" gap={2}>
+                {includes.map((item) => (
+                  <Box key={item}
+                    fontFamily="'Raleway', sans-serif" fontSize="9px"
+                    letterSpacing="0.12em" textTransform="uppercase"
+                    color={MUTED} border={`1px solid ${BORDER}`}
+                    px={3} py="6px"
+                  >{item}</Box>
+                ))}
+              </Flex>
+            </Box>
+          </Grid>
         </motion.div>
       ))}
     </Box>
@@ -239,7 +234,7 @@ function BrandVoicesSection() {
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 16 }} mt={8}>
             {brandVoices.map(({ quote, author }, i) => (
               <motion.div key={author} {...fade(i * 0.15)}>
-                <Box borderTop={`2px solid ${ACCENT}`} pt={6}>
+                <Box borderTop={`2px solid ${CHARCOAL}`} pt={6}>
                   <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
                     fontSize={{ base: "lg", md: "xl" }} color={TEXT}
                     lineHeight="1.7" mb={5}
@@ -294,14 +289,11 @@ function PartnersSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <Row label="Brands we've worked with" py={12}>
-        <Flex wrap="wrap" gap={3}>
-          {partners.map((b) => (
-            <Box key={b} fontFamily="'Raleway', sans-serif" fontSize="11px"
-              letterSpacing="0.06em" color={MUTED} border={`1px solid ${BORDER}`}
-              px={4} py="10px"
-            >{b}</Box>
-          ))}
-        </Flex>
+        <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+          color={MUTED} lineHeight="2"
+        >
+          {partners.join("  ·  ")}
+        </Text>
       </Row>
     </motion.div>
   );
