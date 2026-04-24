@@ -666,16 +666,36 @@ function BrandPartnersSection() {
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
-        gap={{ base: 6, md: 16 }} py={{ base: 10, md: 14 }}
-      >
-        <Cap>Brands we've worked with</Cap>
-        <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
-          color={MUTED} lineHeight="2"
-        >
-          {brandPartnersList.join("  ·  ")}
-        </Text>
-      </Grid>
+      <FullBleed>
+        <Box bg="#ede8e3" px={{ base: 8, md: 16 }} py={{ base: 12, md: 16 }}>
+          <Cap>Brands we've worked with</Cap>
+          <Flex wrap="wrap" align="baseline" mt={6} gap={0} rowGap={1}>
+            {brandPartnersList.map((name, i) => (
+              <Box key={name} display="inline-flex" alignItems="baseline">
+                <Text
+                  fontFamily="'Playfair Display', serif"
+                  fontWeight="400"
+                  fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+                  color={TEXT}
+                  lineHeight="1.4"
+                >
+                  {name}
+                </Text>
+                {i < brandPartnersList.length - 1 && (
+                  <Text
+                    as="span"
+                    fontFamily="'Raleway', sans-serif"
+                    fontSize={{ base: "lg", md: "xl" }}
+                    color={MUTED}
+                    px={{ base: 2, md: 3 }}
+                    lineHeight="1.4"
+                  >·</Text>
+                )}
+              </Box>
+            ))}
+          </Flex>
+        </Box>
+      </FullBleed>
     </motion.div>
   );
 }
