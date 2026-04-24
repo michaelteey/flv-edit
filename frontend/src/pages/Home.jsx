@@ -102,7 +102,7 @@ function Row({ label, children, py = 16 }) {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function HeroSection() {
-  const typed = useTypewriter("truly feel.", 90);
+  const typed = useTypewriter("truly feel.", 160);
   return (
     <>
       <Box py={{ base: 20, md: 32 }}>
@@ -124,7 +124,7 @@ function HeroSection() {
             <br />that make people{" "}
             <Box as="span" fontWeight="700" fontStyle="italic" color={ACCENT}
               fontFamily="'Playfair Display', serif"
-            >{typed}<Box as="span" style={{ borderRight: "2px solid currentColor", marginLeft: "1px", opacity: typed.length < 11 ? 1 : 0, transition: "opacity 0.4s" }} /></Box>
+            >{typed}<Box as="span" style={{ borderRight: "2px solid currentColor", marginLeft: "2px", animation: "blink 1s step-end infinite" }} /></Box>
           </Heading>
         </motion.div>
 
@@ -326,10 +326,10 @@ function ServicesSection() {
 
 // ─── Events ───────────────────────────────────────────────────────────────────
 const events = [
-  { date: "01 Feb 2026", name: "Flow into Stillness",              type: "Yin Yoga + Sound Healing",     past: true },
-  { date: "08 Mar 2026", name: "Red Light Immersion",              type: "Sound + Red Light Therapy",    past: true },
-  { date: "29 Mar 2026", name: "Scent meets Sound",                type: "Aromatherapy + Sound Healing", past: true },
-  { date: "10 Apr 2026", name: "Stillness after Dark",             type: "Sound Healing + Live Vocals",  past: true },
+  { date: "29 Mar 2026", name: "Scent meets Sound",                    type: "Aromatherapy + Sound Healing",    past: true  },
+  { date: "10 Apr 2026", name: "Stillness after Dark",                 type: "Sound Healing + Live Vocals",     past: true  },
+  { date: "TBC",         name: "Move & Groove",                        type: "Yoga + Music",                    past: false },
+  { date: "TBC",         name: "A Moment With Me with Nila M.",        type: "Soundbath, journalling & breathwork", past: false },
 ];
 
 function EventsSection() {
@@ -340,10 +340,9 @@ function EventsSection() {
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "480px" }}>
           <Box
-            bg={BG}
+            bg="#fce8e3"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={6}
-            borderRight={`1px solid ${BORDER}`}
           >
             <Cap>Spring / Summer 2026</Cap>
             <Heading
@@ -732,10 +731,10 @@ export default function App() {
         <HeroSection />
         <AboutSection />
         <ServicesSection />
+        <BrandPartnersSection />
         <EventsSection />
         <VisualBreak />
         <TestimonialsSection />
-        <BrandPartnersSection />
         <Footer />
       </Box>
     </Box>

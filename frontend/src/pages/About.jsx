@@ -109,7 +109,7 @@ function FounderSection() {
           >
             <Cap>Founder</Cap>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
+              fontSize={{ base: "3xl", md: "4xl" }} color="#C4846A" lineHeight="1.15"
             >
               Flavia
             </Heading>
@@ -162,7 +162,7 @@ function TeamSection() {
           >
             <Cap>Head of Partnerships</Cap>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
+              fontSize={{ base: "3xl", md: "4xl" }} color="#C4846A" lineHeight="1.15"
             >
               Tudor
             </Heading>
