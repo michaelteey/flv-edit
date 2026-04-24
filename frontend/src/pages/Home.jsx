@@ -203,7 +203,7 @@ function AboutSection() {
           </Box>
 
           <Box
-            bg="#f0e8df"
+            bg="#ede8e3"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={8}
           >
@@ -340,7 +340,7 @@ function EventsSection() {
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "480px" }}>
           <Box
-            bg="#fce8e3"
+            bg="#ede8e3"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={6}
           >
