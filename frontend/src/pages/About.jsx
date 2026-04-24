@@ -1,6 +1,7 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
+import logo from "../assets/logo.png";
 
 const BG     = "#FDF6EE";
 const DARK   = "#2a1e1a";
@@ -9,7 +10,7 @@ const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
-const CONTACT = "https://form.jotform.com/253303930928357";
+const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
 
 const IMG = {
@@ -103,7 +104,7 @@ function FounderSection() {
       <Rule />
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "580px" }}>
-          <Box bg="#f0e8df" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#F28B75" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7}
           >
             <Cap>Founder</Cap>
@@ -156,7 +157,7 @@ function TeamSection() {
               />
             </motion.div>
           </Box>
-          <Box bg="#f0e8df" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#F28B75" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7} order={{ base: 1, md: 2 }}
           >
             <Cap>Head of Partnerships</Cap>
@@ -281,7 +282,7 @@ function Footer() {
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Text fontFamily="'Playfair Display', serif" fontStyle="italic" fontSize="xl" color={TEXT}>Vaya</Text>
+        <Box as="a" href="/"><img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} /></Box>
         <Flex gap={8} wrap="wrap">
           {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}
@@ -303,7 +304,7 @@ export default function About() {
   return (
     <Box bg={BG} minHeight="100vh">
       <Box position="sticky" top={0} zIndex={10} bg={BG}><MkNavBar /></Box>
-      <Box maxWidth="960px" mx="auto" px={{ base: 6, md: 12 }}>
+      <Box maxWidth="1280px" mx="auto" px={{ base: 6, md: 12 }}>
         <HeroSection />
         <FounderSection />
         <TeamSection />

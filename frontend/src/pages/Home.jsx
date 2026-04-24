@@ -1,6 +1,7 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
+import logo from "../assets/logo.png";
 
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 const BG       = "#FDF6EE";
@@ -11,7 +12,7 @@ const BORDER   = "#e8ddd5";
 const ACCENT   = "#EC6F51";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
 const EMAIL    = "hello@vayaevents.com";
-const CONTACT  = "https://form.jotform.com/253303930928357";
+const CONTACT  = "/contact";
 const EB       = "https://www.eventbrite.co.uk"; // update with actual Eventbrite page
 
 // ─── Imagery (Pexels) ─────────────────────────────────────────────────────────
@@ -104,7 +105,7 @@ function HeroSection() {
           >
             Intentional wellness experiences
             <br />that make people{" "}
-            <Box as="span" fontWeight="700" fontStyle="italic">truly feel.</Box>
+            <Box as="span" fontWeight="700" fontStyle="italic" color="#D75E48">truly feel.</Box>
           </Heading>
         </motion.div>
 
@@ -183,7 +184,7 @@ function AboutSection() {
           </Box>
 
           <Box
-            bg="#f0e8df"
+            bg="#F28B75"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={8}
           >
@@ -222,7 +223,7 @@ function AboutSection() {
                     <Box key={label}>
                       <Text
                         fontFamily="'Playfair Display', serif"
-                        fontSize="2xl" color={TEXT} lineHeight="1" mb={1}
+                        fontSize="2xl" color="#D75E48" lineHeight="1" mb={1}
                       >
                         {n}
                       </Text>
@@ -678,9 +679,9 @@ function Footer() {
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Text fontFamily="'Playfair Display', serif" fontStyle="italic" fontSize="xl" color={TEXT}>
-          Vaya
-        </Text>
+        <Box as="a" href="/">
+          <img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} />
+        </Box>
         <Flex gap={8} wrap="wrap">
           {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box
@@ -708,7 +709,7 @@ export default function App() {
       <Box position="sticky" top={0} zIndex={10} bg={BG}>
         <MkNavBar />
       </Box>
-      <Box maxWidth="960px" mx="auto" px={{ base: 6, md: 12 }}>
+      <Box maxWidth="1280px" mx="auto" px={{ base: 6, md: 12 }}>
         <HeroSection />
         <AboutSection />
         <ServicesSection />

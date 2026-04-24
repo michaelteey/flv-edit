@@ -1,6 +1,7 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
+import logo from "../assets/logo.png";
 
 const BG     = "#FDF6EE";
 const DARK   = "#2a1e1a";
@@ -9,7 +10,7 @@ const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
-const CONTACT = "https://form.jotform.com/253303930928357";
+const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
 
 const IMG = {
@@ -118,7 +119,7 @@ function HeroSection() {
           objectFit="cover" display="block"
           style={{ filter: "brightness(0.3)" }}
         />
-        <Box position="relative" zIndex={1} width="100%" maxWidth="960px"
+        <Box position="relative" zIndex={1} width="100%" maxWidth="1280px"
           mx="auto" px={{ base: 6, md: 12 }} py={{ base: 20, md: 28 }}
         >
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }}>
@@ -248,7 +249,7 @@ function BrandVoicesSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <FullBleed>
-        <Box bg="#f0e8df" px={{ base: 8, md: 16 }} py={{ base: 14, md: 20 }}>
+        <Box bg="#F28B75" px={{ base: 8, md: 16 }} py={{ base: 14, md: 20 }}>
           <Cap>Brand voices</Cap>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 16 }} mt={8}>
             {brandVoices.map(({ quote, author }, i) => (
@@ -353,7 +354,7 @@ function CTASection() {
                   px={6} py="12px" textDecoration="none"
                   _hover={{ bg: "#D75E48" }} style={{ transition: "background 0.2s" }}
                 >
-                  {EMAIL}
+                  Start a conversation
                 </Box>
                 <TextLink href={LINKTREE} light muted>Or DM us on Instagram</TextLink>
               </Flex>
@@ -370,7 +371,7 @@ function Footer() {
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Text fontFamily="'Playfair Display', serif" fontStyle="italic" fontSize="xl" color={TEXT}>Vaya</Text>
+        <Box as="a" href="/"><img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} /></Box>
         <Flex gap={8} wrap="wrap">
           {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}
@@ -393,7 +394,7 @@ export default function ForBrands() {
     <Box bg={BG} minHeight="100vh">
       <Box position="sticky" top={0} zIndex={10} bg={BG}><MkNavBar /></Box>
       <HeroSection />
-      <Box maxWidth="960px" mx="auto" px={{ base: 6, md: 12 }}>
+      <Box maxWidth="1280px" mx="auto" px={{ base: 6, md: 12 }}>
         <WhyVayaSection />
         <OfferingsSection />
         <BrandVoicesSection />

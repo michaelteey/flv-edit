@@ -1,6 +1,7 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
+import logo from "../assets/logo.png";
 
 const BG     = "#FDF6EE";
 const DARK   = "#2a1e1a";
@@ -9,7 +10,7 @@ const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
-const CONTACT = "https://form.jotform.com/253303930928357";
+const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
 const EB     = "https://www.eventbrite.co.uk"; // replace with your Eventbrite organiser page
 
@@ -297,7 +298,7 @@ function Footer() {
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Text fontFamily="'Playfair Display', serif" fontStyle="italic" fontSize="xl" color={TEXT}>Vaya</Text>
+        <Box as="a" href="/"><img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} /></Box>
         <Flex gap={8} wrap="wrap">
           {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}
@@ -319,7 +320,7 @@ export default function Events() {
   return (
     <Box bg={BG} minHeight="100vh">
       <Box position="sticky" top={0} zIndex={10} bg={BG}><MkNavBar /></Box>
-      <Box maxWidth="960px" mx="auto" px={{ base: 6, md: 12 }}>
+      <Box maxWidth="1280px" mx="auto" px={{ base: 6, md: 12 }}>
         <HeroSection />
         <UpcomingSection />
         <WhatToExpectSection />
