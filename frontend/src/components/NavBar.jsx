@@ -6,7 +6,7 @@ export default function MkNavbar() {
   return (
     <Box>
       {/* Announcement bar */}
-      <Box bg="#fce8e3" py="7px" textAlign="center">
+      <Box bg="#f5ece2" py="7px" textAlign="center">
         <Text
           fontSize="10px"
           fontFamily="'Raleway', sans-serif"

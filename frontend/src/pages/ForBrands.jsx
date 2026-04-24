@@ -287,7 +287,6 @@ function ProcessSection() {
 function PartnersSection() {
   return (
     <motion.div {...fade(0)}>
-      <Rule />
       <FullBleed>
         <Box bg="#ede8e3" px={{ base: 8, md: 16 }} py={{ base: 12, md: 16 }}>
           <Cap>Brands we've worked with</Cap>
