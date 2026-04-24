@@ -327,28 +327,28 @@ function EventsSection() {
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "480px" }}>
           <Box
-            bg={DARK}
+            bg="#F28B75"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={6}
           >
-            <Cap light>Spring / Summer 2026</Cap>
+            <Cap>Spring / Summer 2026</Cap>
             <Heading
               fontFamily="'Playfair Display', serif"
               fontWeight="400"
               fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-              color="#f5f0eb" lineHeight="1.1"
+              color={TEXT} lineHeight="1.1"
             >
               Our next<br /><em>experiences.</em>
             </Heading>
             <Text
               fontFamily="'Raleway', sans-serif"
-              fontSize="sm" color="rgba(245,240,235,0.5)"
+              fontSize="sm" color="rgba(64,54,49,0.6)"
               lineHeight="1.85" maxWidth="320px"
             >
               Intimate, curated events across London. Each one designed to
               help you slow down, feel more, and leave lighter.
             </Text>
-            <TextLink href={EB} light>Book on Eventbrite</TextLink>
+            <TextLink href={EB}>Book on Eventbrite</TextLink>
           </Box>
 
           <Box overflow="hidden">
