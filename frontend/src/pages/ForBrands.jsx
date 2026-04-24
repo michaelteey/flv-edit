@@ -127,7 +127,7 @@ function HeroSection() {
           that genuinely mean something. We help you reach them in a way
           that is felt more profoundly.
         </Text>
-        <Flex gap={8} wrap="wrap">
+        <Flex gap={8} wrap="wrap" align="center">
           <Box as="a" href={CONTACT}
             fontFamily="'Raleway', sans-serif" fontSize="10px"
             letterSpacing="0.22em" textTransform="uppercase"
