@@ -68,11 +68,7 @@ function TextLink({ href, children, muted = false, light = false }) {
 }
 
 function FullBleed({ children }) {
-  return (
-    <Box mx="calc(50% - 50vw)" width="100vw">
-      {children}
-    </Box>
-  );
+  return <Box mx={{ base: -6, md: -12 }}>{children}</Box>;
 }
 
 function Row({ label, children, py = 16 }) {
