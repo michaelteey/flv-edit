@@ -184,7 +184,7 @@ function WhyVayaSection() {
 
 function OfferingsSection() {
   return (
-    <Box id="offerings">
+    <Box id="offerings" style={{ scrollMarginTop: "80px" }}>
       <Rule />
       {offerings.map(({ num, title, img, desc, includes }, i) => (
         <motion.div key={num} {...fade(0)}>
