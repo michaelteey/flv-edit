@@ -234,7 +234,7 @@ function BrandVoicesSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <FullBleed>
-        <Box bg="#F28B75" px={{ base: 8, md: 16 }} py={{ base: 14, md: 20 }}>
+        <Box bg="#f0e8df" px={{ base: 8, md: 16 }} py={{ base: 14, md: 20 }}>
           <Cap>Brand voices</Cap>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 16 }} mt={8}>
             {brandVoices.map(({ quote, author }, i) => (
