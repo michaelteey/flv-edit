@@ -9,7 +9,6 @@ const TEXT   = "#403631";
 const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
-const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
 const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
