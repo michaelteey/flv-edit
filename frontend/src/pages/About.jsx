@@ -104,12 +104,12 @@ function FounderSection() {
       <Rule />
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "580px" }}>
-          <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#ede8e3" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7}
           >
             <Cap>Founder</Cap>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl" }} color="#C4846A" lineHeight="1.15"
+              fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
             >
               Flavia
             </Heading>
@@ -157,12 +157,12 @@ function TeamSection() {
               />
             </motion.div>
           </Box>
-          <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#ede8e3" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7} order={{ base: 1, md: 2 }}
           >
             <Cap>Head of Partnerships</Cap>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl" }} color="#C4846A" lineHeight="1.15"
+              fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
             >
               Tudor
             </Heading>
