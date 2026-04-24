@@ -108,54 +108,39 @@ const partners = [
 // ─── Sections ─────────────────────────────────────────────────────────────────
 function HeroSection() {
   return (
-    <FullBleed>
-      <Box position="relative" overflow="hidden"
-        minHeight={{ base: "92vh", md: "88vh" }}
-        display="flex" alignItems="center"
-      >
-        <Box as="img" src={IMG.hero} alt=""
-          position="absolute" inset={0}
-          width="100%" height="100%"
-          objectFit="cover" display="block"
-          style={{ filter: "brightness(0.3)" }}
-        />
-        <Box position="relative" zIndex={1} width="100%" maxWidth="1280px"
-          mx="auto" px={{ base: 6, md: 12 }} py={{ base: 20, md: 28 }}
+    <Box py={{ base: 20, md: 32 }}>
+      <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }}>
+        <Cap>For Brands</Cap>
+        <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
+          fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
+          color={TEXT} lineHeight="1.05" mt={4} mb={8} maxWidth="680px"
         >
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }}>
-            <Cap light>For Brands</Cap>
-            <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-              fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
-              color="#FDF6EE" lineHeight="1.08" mt={5} mb={7} maxWidth="580px"
-            >
-              Where conscious brands
-              <br /><em>show up differently.</em>
-            </Heading>
-          </motion.div>
-          <motion.div {...fade(0.4)}>
-            <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
-              color="rgba(253,246,238,0.5)" lineHeight="1.9" maxWidth="400px" mb={10}
-            >
-              Our audience is health-conscious, engaged and seeking experiences
-              that genuinely mean something. We help you reach them in a way
-              that is felt more profoundly.
-            </Text>
-            <Flex gap={8} wrap="wrap">
-              <Box as="a" href={CONTACT}
-                fontFamily="'Raleway', sans-serif" fontSize="10px"
-                letterSpacing="0.22em" textTransform="uppercase"
-                bg={ACCENT} color="white"
-                px={6} py="12px" textDecoration="none"
-                _hover={{ bg: "#D75E48" }} style={{ transition: "background 0.2s" }}
-              >
-                Start a conversation
-              </Box>
-              <TextLink href="#offerings" light muted>See what we offer</TextLink>
-            </Flex>
-          </motion.div>
-        </Box>
-      </Box>
-    </FullBleed>
+          Where conscious brands
+          <br /><em>show up differently.</em>
+        </Heading>
+      </motion.div>
+      <motion.div {...fade(0.4)}>
+        <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+          color={MUTED} lineHeight="1.9" maxWidth="420px" mb={10}
+        >
+          Our audience is health-conscious, engaged and seeking experiences
+          that genuinely mean something. We help you reach them in a way
+          that is felt more profoundly.
+        </Text>
+        <Flex gap={8} wrap="wrap">
+          <Box as="a" href={CONTACT}
+            fontFamily="'Raleway', sans-serif" fontSize="10px"
+            letterSpacing="0.22em" textTransform="uppercase"
+            bg={ACCENT} color="white"
+            px={6} py="12px" textDecoration="none"
+            _hover={{ bg: "#D75E48" }} style={{ transition: "background 0.2s" }}
+          >
+            Start a conversation
+          </Box>
+          <TextLink href="#offerings" muted>See what we offer</TextLink>
+        </Flex>
+      </motion.div>
+    </Box>
   );
 }
 
@@ -393,8 +378,8 @@ export default function ForBrands() {
   return (
     <Box bg={BG} minHeight="100vh">
       <Box position="sticky" top={0} zIndex={10} bg={BG}><MkNavBar /></Box>
-      <HeroSection />
       <Box maxWidth="1280px" mx="auto" px={{ base: 6, md: 12 }}>
+        <HeroSection />
         <WhyVayaSection />
         <OfferingsSection />
         <BrandVoicesSection />
