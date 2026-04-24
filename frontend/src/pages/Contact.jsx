@@ -42,7 +42,7 @@ const inputStyle = {
 
 export default function Contact() {
   const [form, setForm] = useState({
-    name: "", email: "", type: "", message: "", newsletter: false,
+    name: "", email: "", type: "", message: "",
   });
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
 
@@ -61,7 +61,6 @@ export default function Contact() {
         body: new URLSearchParams({
           "form-name": "contact",
           ...form,
-          newsletter: form.newsletter ? "yes" : "no",
         }).toString(),
       });
       setStatus("success");
@@ -188,31 +187,6 @@ export default function Contact() {
                     />
                   </Box>
 
-                  {/* Newsletter */}
-                  <Flex align="center" gap={3} style={{ cursor: "pointer" }}
-                    as="label" htmlFor="newsletter-check"
-                  >
-                    <Box
-                      width="18px" height="18px" flexShrink={0}
-                      border={`1px solid ${form.newsletter ? ACCENT : BORDER}`}
-                      bg={form.newsletter ? ACCENT : "transparent"}
-                      display="flex" alignItems="center" justifyContent="center"
-                      style={{ transition: "all 0.15s" }}
-                    >
-                      {form.newsletter && (
-                        <Box as="span" color="white" fontSize="10px" fontWeight="700">✓</Box>
-                      )}
-                    </Box>
-                    <input
-                      id="newsletter-check" type="checkbox" name="newsletter"
-                      checked={form.newsletter} onChange={handleChange}
-                      style={{ display: "none" }}
-                    />
-                    <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED} letterSpacing="0.04em">
-                      Subscribe me to the Vaya newsletter — events, updates & more
-                    </Text>
-                  </Flex>
-
                   {/* Submit */}
                   <Box>
                     <Box as="button" type="submit"
@@ -243,7 +217,9 @@ export default function Contact() {
         <Rule />
         <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
           <Box as="a" href="/">
-            <img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} />
+            <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+            fontSize="3xl" color={TEXT} letterSpacing="-0.01em" lineHeight="1"
+          >vaya</Text>
           </Box>
           <Flex gap={8} wrap="wrap">
             {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["About", "/about"]].map(([label, href]) => (

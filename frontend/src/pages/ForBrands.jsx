@@ -118,7 +118,7 @@ function HeroSection() {
           color={TEXT} lineHeight="1.05" mt={4} mb={8} maxWidth="680px"
         >
           Where conscious brands
-          <br /><em>show up differently.</em>
+          <br /><em>show up <Box as="span" color={ACCENT}>differently.</Box></em>
         </Heading>
       </motion.div>
       <motion.div {...fade(0.4)}>
@@ -135,7 +135,7 @@ function HeroSection() {
             letterSpacing="0.22em" textTransform="uppercase"
             bg={ACCENT} color="white"
             px={6} py="12px" textDecoration="none"
-            _hover={{ bg: "#D75E48" }} style={{ transition: "background 0.2s" }}
+            _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
           >
             Start a conversation
           </Box>
@@ -329,7 +329,7 @@ function CTASection() {
                   letterSpacing="0.22em" textTransform="uppercase"
                   bg={ACCENT} color="white"
                   px={6} py="12px" textDecoration="none"
-                  _hover={{ bg: "#D75E48" }} style={{ transition: "background 0.2s" }}
+                  _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
                 >
                   Start a conversation
                 </Box>
@@ -348,7 +348,11 @@ function Footer() {
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Box as="a" href="/"><img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} /></Box>
+        <Box as="a" href="/" textDecoration="none">
+          <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+            fontSize="3xl" color={TEXT} letterSpacing="-0.01em" lineHeight="1"
+          >vaya</Text>
+        </Box>
         <Flex gap={8} wrap="wrap">
           {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}

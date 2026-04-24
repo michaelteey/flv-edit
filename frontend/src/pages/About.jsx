@@ -9,6 +9,7 @@ const TEXT   = "#403631";
 const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
+const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
 const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
@@ -104,12 +105,12 @@ function FounderSection() {
       <Rule />
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "580px" }}>
-          <Box bg="#f0e8df" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7}
           >
             <Cap>Founder</Cap>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl" }} color={TEXT} lineHeight="1.15"
+              fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
             >
               Flavia
             </Heading>
@@ -157,12 +158,12 @@ function TeamSection() {
               />
             </motion.div>
           </Box>
-          <Box bg="#f0e8df" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7} order={{ base: 1, md: 2 }}
           >
             <Cap>Head of Partnerships</Cap>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl" }} color={TEXT} lineHeight="1.15"
+              fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
             >
               Tudor
             </Heading>
@@ -272,7 +273,11 @@ function Footer() {
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Box as="a" href="/"><img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} /></Box>
+        <Box as="a" href="/" textDecoration="none">
+          <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+            fontSize="3xl" color={TEXT} letterSpacing="-0.01em" lineHeight="1"
+          >vaya</Text>
+        </Box>
         <Flex gap={8} wrap="wrap">
           {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}
@@ -300,7 +305,6 @@ export default function About() {
         <TeamSection />
         <ValuesSection />
         <QuoteSection />
-        <CollaborateSection />
         <Footer />
       </Box>
     </Box>

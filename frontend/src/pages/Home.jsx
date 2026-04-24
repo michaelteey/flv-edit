@@ -1,7 +1,7 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
-import logo from "../assets/logo.png";
 
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 const BG       = "#FDF6EE";
@@ -27,6 +27,21 @@ const IMG = {
   brandsImg:     "https://images.pexels.com/photos/3810788/pexels-photo-3810788.jpeg?auto=compress&cs=tinysrgb&w=1200",
   background:    "https://images.pexels.com/photos/31359311/pexels-photo-31359311.jpeg?auto=compress&cs=tinysrgb&w=1800",
 };
+
+function useTypewriter(text, speed = 85) {
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    let i = 0;
+    setDisplayed("");
+    const t = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(t);
+    }, speed);
+    return () => clearInterval(t);
+  }, [text]);
+  return displayed;
+}
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
@@ -87,6 +102,7 @@ function Row({ label, children, py = 16 }) {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function HeroSection() {
+  const typed = useTypewriter("truly feel.", 90);
   return (
     <>
       <Box py={{ base: 20, md: 32 }}>
@@ -106,7 +122,9 @@ function HeroSection() {
           >
             Intentional wellness experiences
             <br />that make people{" "}
-            <Box as="span" fontWeight="700" fontStyle="italic" color="#D75E48">truly feel.</Box>
+            <Box as="span" fontWeight="700" fontStyle="italic" color={ACCENT}
+              fontFamily="'Playfair Display', serif"
+            >{typed}<Box as="span" style={{ borderRight: "2px solid currentColor", marginLeft: "1px", opacity: typed.length < 11 ? 1 : 0, transition: "opacity 0.4s" }} /></Box>
           </Heading>
         </motion.div>
 
@@ -224,7 +242,7 @@ function AboutSection() {
                     <Box key={label}>
                       <Text
                         fontFamily="'Playfair Display', serif"
-                        fontSize="2xl" color="#D75E48" lineHeight="1" mb={1}
+                        fontSize="2xl" color="#EC6F51" lineHeight="1" mb={1}
                       >
                         {n}
                       </Text>
@@ -638,14 +656,41 @@ function TestimonialsSection() {
   );
 }
 
+// ─── Brand Partners ───────────────────────────────────────────────────────────
+const brandPartnersList = [
+  "Bon Charge", "Tenzing", "Ancient & Brave", "Brisco Super Mocha",
+  "London Nootropics", "Living Things", "Misty Aromatherapy",
+  "LSKD", "Frank", "Nila M.", "Poco Vino",
+];
+
+function BrandPartnersSection() {
+  return (
+    <motion.div {...fade(0)}>
+      <Rule />
+      <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
+        gap={{ base: 6, md: 16 }} py={{ base: 10, md: 14 }}
+      >
+        <Cap>Brands we've worked with</Cap>
+        <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+          color={MUTED} lineHeight="2"
+        >
+          {brandPartnersList.join("  ·  ")}
+        </Text>
+      </Grid>
+    </motion.div>
+  );
+}
+
 // ─── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={6}>
-        <Box as="a" href="/">
-          <img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} />
+        <Box as="a" href="/" textDecoration="none">
+          <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+            fontSize="3xl" color={TEXT} letterSpacing="-0.01em" lineHeight="1"
+          >vaya</Text>
         </Box>
         <Flex gap={8} wrap="wrap" align="center">
           {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
@@ -665,7 +710,7 @@ function Footer() {
             letterSpacing="0.22em" textTransform="uppercase"
             bg={ACCENT} color="white"
             px={4} py="8px" textDecoration="none"
-            _hover={{ bg: "#D75E48" }} style={{ transition: "background 0.2s" }}
+            _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
           >
             Join newsletter
           </Box>
@@ -690,6 +735,7 @@ export default function App() {
         <EventsSection />
         <VisualBreak />
         <TestimonialsSection />
+        <BrandPartnersSection />
         <Footer />
       </Box>
     </Box>

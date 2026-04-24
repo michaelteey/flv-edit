@@ -233,20 +233,21 @@ function PastSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <Row label="Past experiences" py={12}>
-        <Box>
+        <Flex direction="column" gap={3}>
           {pastEvents.map(({ name, type, date }) => (
-            <Flex key={name} borderBottom={`1px solid ${BORDER}`} py={4}
-              justify="space-between" align="center"
-              _first={{ borderTop: `1px solid ${BORDER}` }}
-            >
+            <Flex key={name} justify="space-between" align="baseline" gap={4}>
               <Box>
-                <Text fontFamily="'Playfair Display', serif" fontSize="lg" color={MUTED} mb="2px">{name}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED} opacity={0.6}>{type}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+                  color={MUTED} opacity={0.7}>{name}
+                  <Box as="span" fontSize="xs" opacity={0.5} ml={2}>· {type}</Box>
+                </Text>
               </Box>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED} letterSpacing="0.06em">{date}</Text>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="xs"
+                color={MUTED} opacity={0.5} letterSpacing="0.06em" flexShrink={0}
+              >{date}</Text>
             </Flex>
           ))}
-        </Box>
+        </Flex>
       </Row>
     </motion.div>
   );
@@ -256,39 +257,26 @@ function StayInTouchSection() {
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <FullBleed>
-        <Box bg={DARK}>
-          <SimpleGrid columns={{ base: 1, md: 2 }}>
-            <Box px={{ base: 8, md: 14 }} py={{ base: 14, md: 20 }}
-              display="flex" flexDirection="column" gap={8}
-            >
-              <Cap light>Stay in the loop</Cap>
-              <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-                fontSize={{ base: "3xl", md: "4xl" }} color="#FDF6EE" lineHeight="1.15"
-              >
-                New events drop<br /><em>on Instagram first.</em>
-              </Heading>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
-                color="rgba(253,246,238,0.5)" lineHeight="1.85" maxWidth="340px"
-              >
-                Follow us to be the first to know about upcoming experiences,
-                early bird spots, and behind-the-scenes from our events.
-              </Text>
-              <Flex gap={8} wrap="wrap">
-                <TextLink href={LINKTREE} light>Follow on Instagram</TextLink>
-                <TextLink href={CONTACT} light muted>Get in touch</TextLink>
-              </Flex>
-            </Box>
-            <Box overflow="hidden">
-              <Box as="img" src={IMG.yoga} alt="Yoga event"
-                width="100%" height={{ base: "70vw", md: "100%" }}
-                objectFit="cover" display="block" minHeight={{ md: "440px" }}
-                style={{ filter: "brightness(0.7)" }}
-              />
-            </Box>
-          </SimpleGrid>
+      <Flex py={{ base: 12, md: 16 }} gap={8} align="center" justify="space-between" wrap="wrap">
+        <Box>
+          <Cap>Stay in the loop</Cap>
+          <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
+            fontSize={{ base: "2xl", md: "3xl" }} color={TEXT} lineHeight="1.15" mt={3}
+          >
+            New events on <em style={{ color: ACCENT }}>Instagram first.</em>
+          </Heading>
         </Box>
-      </FullBleed>
+        <Flex gap={6} wrap="wrap" align="center">
+          <Box as="a" href={LINKTREE} target="_blank"
+            fontFamily="'Raleway', sans-serif" fontSize="10px"
+            letterSpacing="0.22em" textTransform="uppercase"
+            bg={ACCENT} color="white" px={6} py="12px"
+            textDecoration="none"
+            _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
+          >Follow on Instagram</Box>
+          <TextLink href={CONTACT} muted>Get in touch</TextLink>
+        </Flex>
+      </Flex>
     </motion.div>
   );
 }
@@ -298,7 +286,11 @@ function Footer() {
     <motion.div {...fade(0)}>
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Box as="a" href="/"><img src={logo} alt="Vaya" style={{ height: "32px", width: "auto" }} /></Box>
+        <Box as="a" href="/" textDecoration="none">
+          <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+            fontSize="3xl" color={TEXT} letterSpacing="-0.01em" lineHeight="1"
+          >vaya</Text>
+        </Box>
         <Flex gap={8} wrap="wrap">
           {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
             <Box key={label} as="a" href={href}

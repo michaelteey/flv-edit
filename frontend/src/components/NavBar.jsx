@@ -1,5 +1,6 @@
 import { Box, Flex, HStack, Link, Text } from "@chakra-ui/react";
-import logo from "../assets/logo.png";
+
+const CONTACT = "/contact";
 
 export default function MkNavbar() {
   return (
@@ -30,13 +31,28 @@ export default function MkNavbar() {
         borderBottom="1px solid #e8ddd5"
         bg="#FDF6EE"
       >
-        {/* Logo */}
-        <Box as="a" href="/" display="flex" alignItems="center" textDecoration="none">
-          <img src={logo} alt="Vaya" style={{ height: "42px", width: "auto" }} />
+        {/* Logo — text only, no image */}
+        <Box as="a" href="/" textDecoration="none">
+          <Text
+            fontFamily="'Playfair Display', serif"
+            fontStyle="italic"
+            fontSize="3xl"
+            color="#403631"
+            letterSpacing="-0.01em"
+            lineHeight="1"
+          >
+            vaya
+          </Text>
         </Box>
 
-        <HStack gap={10}>
-          {[["Home", "/"], ["About", "/about"], ["Events", "/events"], ["For Brands", "/brands"]].map(([label, href]) => (
+        <HStack gap={8}>
+          {[
+            ["Home",         "/"],
+            ["About",        "/about"],
+            ["Events",       "/events"],
+            ["Work with us", "/brands"],
+            ["Get in touch", CONTACT],
+          ].map(([label, href]) => (
             <Link
               key={label}
               href={href}
