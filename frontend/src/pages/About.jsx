@@ -104,7 +104,7 @@ function FounderSection() {
       <Rule />
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "580px" }}>
-          <Box bg="#F28B75" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#f0e8df" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7}
           >
             <Cap>Founder</Cap>
@@ -157,7 +157,7 @@ function TeamSection() {
               />
             </motion.div>
           </Box>
-          <Box bg="#F28B75" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#f0e8df" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7} order={{ base: 1, md: 2 }}
           >
             <Cap>Head of Partnerships</Cap>
@@ -222,25 +222,15 @@ function QuoteSection() {
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <FullBleed>
-        <Box position="relative" overflow="hidden">
-          <Box as="img" src={IMG.forest} alt="Misty forest"
-            width="100%" height={{ base: "60vw", md: "50vh" }}
-            objectFit="cover" display="block" style={{ filter: "brightness(0.4)" }}
-          />
-          <Box position="absolute" inset={0} display="flex" alignItems="center"
-            justifyContent="center" px={{ base: 8, md: 20 }}
-          >
-            <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-              fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
-              color="rgba(253,246,238,0.92)" lineHeight="1.3" textAlign="center" maxWidth="700px"
-            >
-              "Every experience we create is a reminder that you deserve
-              to feel good — not someday, but now."
-            </Text>
-          </Box>
-        </Box>
-      </FullBleed>
+      <Box py={{ base: 16, md: 24 }} textAlign="center">
+        <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+          fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+          color={TEXT} lineHeight="1.3" maxWidth="700px" mx="auto"
+        >
+          "Every experience we create is a reminder that you deserve
+          to feel good — not someday, but now."
+        </Text>
+      </Box>
     </motion.div>
   );
 }

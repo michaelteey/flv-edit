@@ -75,8 +75,8 @@ const upcomingEvents = [
   },
   {
     num: "02",
-    name: "Nila M. Sound Experience",
-    type: "Sound Bath + Live Vocals",
+    name: "A Moment With Me with Nila M.",
+    type: "Soundbath, journalling and breathwork",
     date: "TBC",
     time: "TBC",
     location: "London",
