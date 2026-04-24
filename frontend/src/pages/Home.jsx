@@ -68,10 +68,6 @@ function TextLink({ href, children, muted = false, light = false }) {
 }
 
 function FullBleed({ children }) {
-  return <Box mx={{ base: -6, md: -12 }}>{children}</Box>;
-}
-
-function TrueFullBleed({ children }) {
   return (
     <Box mx="calc(50% - 50vw)" width="100vw">
       {children}
@@ -328,7 +324,7 @@ function EventsSection() {
     <motion.div {...fade(0)}>
       <Rule />
 
-      <TrueFullBleed>
+      <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "480px" }}>
           <Box
             bg="#F28B75"
@@ -372,7 +368,7 @@ function EventsSection() {
             </motion.div>
           </Box>
         </SimpleGrid>
-      </TrueFullBleed>
+      </FullBleed>
 
       <Row label="Events">
         <Box>
