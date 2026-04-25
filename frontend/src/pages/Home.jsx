@@ -203,7 +203,7 @@ function AboutSection() {
           </Box>
 
           <Box
-            bg="#ede8e3"
+            bg="#e8d9c8"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={8}
           >
@@ -215,11 +215,11 @@ function AboutSection() {
                 fontFamily="'Playfair Display', serif"
                 fontWeight="400"
                 fontSize={{ base: "2xl", md: "3xl" }}
-                color={TEXT} lineHeight="1.3" mb={5}
+                color="#1a1410" lineHeight="1.3" mb={5}
               >
                 Founded on the belief that
                 <br />
-                <em>self-care is a journey,</em>
+                <Box as="em" color={ACCENT}>self-care is a journey,</Box>
                 <br />
                 not a destination.
               </Heading>
