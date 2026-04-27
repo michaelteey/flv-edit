@@ -104,7 +104,7 @@ function FounderSection() {
       <Rule />
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "580px" }}>
-          <Box bg="#ede8e3" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#e8d9c8" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7}
           >
             <Cap>Founder</Cap>
@@ -157,7 +157,7 @@ function TeamSection() {
               />
             </motion.div>
           </Box>
-          <Box bg="#ede8e3" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#e8d9c8" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7} order={{ base: 1, md: 2 }}
           >
             <Cap>Head of Partnerships</Cap>

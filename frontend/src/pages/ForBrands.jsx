@@ -229,7 +229,7 @@ function BrandVoicesSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <FullBleed>
-        <Box bg="#ede8e3" px={{ base: 8, md: 16 }} py={{ base: 14, md: 20 }}>
+        <Box bg="#e8d9c8" px={{ base: 8, md: 16 }} py={{ base: 14, md: 20 }}>
           <Cap>Brand voices</Cap>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 16 }} mt={8}>
             {brandVoices.map(({ quote, author }, i) => (
@@ -288,7 +288,7 @@ function PartnersSection() {
   return (
     <motion.div {...fade(0)}>
       <FullBleed>
-        <Box bg="#ede8e3" px={{ base: 8, md: 16 }} py={{ base: 12, md: 16 }}>
+        <Box bg="#e8d9c8" px={{ base: 8, md: 16 }} py={{ base: 12, md: 16 }}>
           <Cap>Brands we've worked with</Cap>
           <Flex wrap="wrap" align="baseline" mt={6} gap={0} rowGap={1}>
             {partners.map((name, i) => (
