@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Link, Text } from "@chakra-ui/react";
+import logo2 from "../assets/logo2.png";
 
 const CONTACT = "/contact";
 
@@ -25,24 +26,15 @@ export default function MkNavbar() {
       <Flex
         as="nav"
         px={{ base: 6, md: 12 }}
-        py={4}
+        py={3}
         align="center"
         justify="space-between"
         borderBottom="1px solid #e8ddd5"
         bg="#FDF6EE"
       >
-        {/* Logo — text only, no image */}
+        {/* Logo image */}
         <Box as="a" href="/" textDecoration="none">
-          <Text
-            fontFamily="'Playfair Display', serif"
-            fontStyle="italic"
-            fontSize="3xl"
-            color="#403631"
-            letterSpacing="-0.01em"
-            lineHeight="1"
-          >
-            vaya
-          </Text>
+          <Box as="img" src={logo2} alt="Vaya" height="48px" display="block" />
         </Box>
 
         <HStack gap={8}>
