@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Flex, Text, Heading, Grid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo2.png";
 
 const BG     = "#FDF6EE";
 const TEXT   = "#403631";

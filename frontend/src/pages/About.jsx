@@ -1,7 +1,7 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo2.png";
 
 const BG     = "#FDF6EE";
 const DARK   = "#2a1e1a";
