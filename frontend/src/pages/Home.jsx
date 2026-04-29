@@ -2,6 +2,7 @@ import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
+import logo2 from "../assets/logo2.png";
 
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 const BG       = "#FDF6EE";
@@ -705,9 +706,7 @@ function Footer() {
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={6}>
         <Box as="a" href="/" textDecoration="none">
-          <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-            fontSize="3xl" color={TEXT} letterSpacing="-0.01em" lineHeight="1"
-          >vaya</Text>
+          <Box as="img" src={logo2} alt="Vaya" height="52px" display="block" />
         </Box>
         <Flex gap={8} wrap="wrap" align="center">
           {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (

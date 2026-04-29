@@ -216,10 +216,8 @@ export default function Contact() {
         {/* Footer */}
         <Rule />
         <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Box as="a" href="/">
-            <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-            fontSize="3xl" color={TEXT} letterSpacing="-0.01em" lineHeight="1"
-          >vaya</Text>
+          <Box as="a" href="/" textDecoration="none">
+            <Box as="img" src={logo} alt="Vaya" height="52px" display="block" />
           </Box>
           <Flex gap={8} wrap="wrap">
             {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["About", "/about"]].map(([label, href]) => (
