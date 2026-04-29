@@ -34,7 +34,7 @@ export default function MkNavbar() {
       >
         {/* Logo image */}
         <Box as="a" href="/" textDecoration="none">
-          <Box as="img" src={logo2} alt="Vaya" height="48px" display="block" />
+          <Box as="img" src={logo2} alt="Vaya" height="72px" display="block" />
         </Box>
 
         <HStack gap={8}>
