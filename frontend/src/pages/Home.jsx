@@ -706,7 +706,7 @@ function Footer() {
       <Rule />
       <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={6}>
         <Box as="a" href="/" textDecoration="none">
-          <Box as="img" src={logo2} alt="Vaya" height="52px" display="block" />
+          <Box as="img" src={logo2} alt="Vaya" height="72px" display="block" />
         </Box>
         <Flex gap={8} wrap="wrap" align="center">
           {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
