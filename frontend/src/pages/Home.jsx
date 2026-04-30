@@ -468,7 +468,7 @@ const brandOfferings = [
 const brandPartners = [
   "Bon Charge", "Tenzing", "Ancient & Brave", "Brisco Super Mocha",
   "London Nootropics", "Living Things", "Misty Aromatherapy",
-  "LSKD", "Frank", "Nila M.", "Poco Vino",
+  "LSKD", "Frank", "NILA M.", "Poco Vino",
 ];
 
 function ForBrandsSection() {
@@ -661,7 +661,7 @@ function TestimonialsSection() {
 const brandPartnersList = [
   "Bon Charge", "Tenzing", "Ancient & Brave", "Brisco Super Mocha",
   "London Nootropics", "Living Things", "Misty Aromatherapy",
-  "LSKD", "Frank", "Nila M.", "Poco Vino",
+  "LSKD", "Frank", "NILA M.", "Poco Vino",
 ];
 
 function BrandPartnersSection() {

@@ -82,7 +82,7 @@ const upcomingEvents = [
     date: "TBC",
     time: "TBC",
     location: "London",
-    desc: "An intimate evening with Nila M. — a deeply moving sound journey blending crystal singing bowls, gong, and live vocal harmonics. Expect stillness, surrender, and something that stays with you.",
+    desc: "An intimate evening with NILA M. — a deeply moving sound journey blending crystal singing bowls, gong, and live vocal harmonics. Expect stillness, surrender, and something that stays with you.",
     img: IMG.bowls,
     link: null,
   },
