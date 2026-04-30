@@ -4,6 +4,12 @@ import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo2 from "../assets/logo2.png";
+import imgMoveGroove from "../assets/move-and-groove.jpg";
+import imgScentMeetsSound from "../assets/scent-meets-sound.jpg";
+import imgStillnessAfterDark from "../assets/stillness-after-dark.jpg";
+import imgRedLight from "../assets/red-light-immersion.jpg";
+import imgFlowIntoStillness from "../assets/flow-into-stillness.jpg";
+import imgHerAutumnReset from "../assets/her-autumn-reset.jpg";
 
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 const BG       = "#FDF6EE";
@@ -331,7 +337,10 @@ function ServicesSection() {
 
 // ─── Events ───────────────────────────────────────────────────────────────────
 const events = [
-  { date: "29 Mar 2026", name: "Scent meets Sound",             type: "Aromatherapy + Sound Healing",       past: true,  link: null },
+  { date: "05 Oct 2025", name: "Her Autumn Reset",              type: "Soundbath Experience",                past: true,  link: null },
+  { date: "01 Feb 2026", name: "Flow into Stillness",           type: "Yin Yoga + Sound Healing",            past: true,  link: null },
+  { date: "08 Mar 2026", name: "Red Light Immersion",           type: "Sound + Red Light Therapy",           past: true,  link: null },
+  { date: "29 Mar 2026", name: "Scent meets Sound",             type: "Aromatherapy + Sound Healing",        past: true,  link: null },
   { date: "10 Apr 2026", name: "Stillness after Dark",          type: "Sound Healing + Live Vocals",         past: true,  link: null },
   { date: "23 May 2026", name: "Move & Groove",                 type: "Yoga + Music",                        past: false, link: EB_MOVE_GROOVE },
   { date: "TBC",         name: "A Moment With Me with NILA M.", type: "Soundbath, journalling & breathwork", past: false, link: EB },

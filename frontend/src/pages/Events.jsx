@@ -6,6 +6,10 @@ import MkNavBar from "../components/NavBar";
 import logo from "../assets/logo2.png";
 import imgMoveGroove from "../assets/move-and-groove.jpg";
 import imgScentMeetsSound from "../assets/scent-meets-sound.jpg";
+import imgStillnessAfterDark from "../assets/stillness-after-dark.jpg";
+import imgRedLight from "../assets/red-light-immersion.jpg";
+import imgFlowIntoStillness from "../assets/flow-into-stillness.jpg";
+import imgHerAutumnReset from "../assets/her-autumn-reset.jpg";
 
 const BG     = "#FDF6EE";
 const DARK   = "#2a1e1a";
@@ -96,10 +100,11 @@ const upcomingEvents = [
 ];
 
 const pastEvents = [
-  { name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",    date: "01 Feb 2026", img: "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=800" },
-  { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",   date: "08 Mar 2026", img: "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=800" },
-  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: imgScentMeetsSound },
-  { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",  date: "10 Apr 2026", img: "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=800" },
+  { name: "Her Autumn Reset",     type: "Soundbath Experience",         date: "05 Oct 2025", img: imgHerAutumnReset },
+  { name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",     date: "01 Feb 2026", img: imgFlowIntoStillness },
+  { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",    date: "08 Mar 2026", img: imgRedLight },
+  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing",  date: "29 Mar 2026", img: imgScentMeetsSound },
+  { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",   date: "10 Apr 2026", img: imgStillnessAfterDark },
 ];
 
 // ─── Sections ─────────────────────────────────────────────────────────────────
@@ -258,7 +263,7 @@ function PastSection() {
       <Rule />
       <Box py={{ base: 10, md: 14 }}>
         <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={8}>Past experiences</Text>
-        <SimpleGrid columns={{ base: 2, md: 4 }} gap={4}>
+        <SimpleGrid columns={{ base: 2, md: 3, lg: 5 }} gap={4}>
           {pastEvents.map(({ name, type, date, img }, i) => (
             <motion.div key={name} {...fade(i * 0.08)}>
               <Box>
