@@ -15,7 +15,7 @@ const LINKTREE = "https://www.instagram.com/wearevaya_/";
 const EMAIL    = "hello@vayaevents.com";
 const CONTACT    = "/contact";
 const NEWSLETTER = "https://form.jotform.com/252685067130355";
-const EB       = "https://www.eventbrite.co.uk"; // update with actual Eventbrite page
+const EB       = "https://www.eventbrite.co.uk/o/112025993841";
 
 // ─── Imagery (Pexels) ─────────────────────────────────────────────────────────
 const IMG = {
@@ -215,8 +215,8 @@ function AboutSection() {
               <Heading
                 fontFamily="'Playfair Display', serif"
                 fontWeight="400"
-                fontSize={{ base: "2xl", md: "3xl" }}
-                color="#1a1410" lineHeight="1.3" mb={5}
+                fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+                color="#1a1410" lineHeight="1.2" mb={5}
               >
                 Founded on the belief that
                 <br />
@@ -226,7 +226,7 @@ function AboutSection() {
               </Heading>
               <Text
                 fontFamily="'Raleway', sans-serif"
-                fontSize="sm" color={MUTED} lineHeight="1.9" mb={5}
+                fontSize="md" color={MUTED} lineHeight="1.9" mb={5}
               >
                 Vaya was created from a deep passion for wellness and
                 meaningful connection. Every experience is carefully curated
@@ -295,7 +295,7 @@ function ServicesSection() {
                 <Box>
                   <Text
                     fontFamily="'Playfair Display', serif"
-                    fontSize={{ base: "sm", md: "md" }} color={TEXT} mb="2px"
+                    fontSize={{ base: "md", md: "lg" }} color={TEXT} mb="2px"
                     _groupHover={{ color: ACCENT }}
                     style={{ transition: "color 0.2s" }}
                   >

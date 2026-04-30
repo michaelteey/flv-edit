@@ -12,7 +12,8 @@ const ACCENT = "#EC6F51";
 const EMAIL  = "hello@vayaevents.com";
 const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
-const EB     = "https://www.eventbrite.co.uk"; // replace with your Eventbrite organiser page
+const EB     = "https://www.eventbrite.co.uk/o/112025993841";
+const EB_MOVE_GROOVE = "https://www.eventbrite.co.uk/e/yoga-and-live-dj-move-groove-with-vaya-tickets-1988231040564?aff=ebdssbdestsearch";
 
 const IMG = {
   hero:    "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=1800",
@@ -72,6 +73,7 @@ const upcomingEvents = [
     location: "London",
     desc: "A feel-good morning of movement and music. Flow through a yoga practice set to uplifting sounds — energising, joyful, and designed to get you out of your head and into your body.",
     img: IMG.yoga,
+    link: EB_MOVE_GROOVE,
   },
   {
     num: "02",
@@ -82,6 +84,7 @@ const upcomingEvents = [
     location: "London",
     desc: "An intimate evening with Nila M. — a deeply moving sound journey blending crystal singing bowls, gong, and live vocal harmonics. Expect stillness, surrender, and something that stays with you.",
     img: IMG.bowls,
+    link: null,
   },
 ];
 
@@ -136,7 +139,7 @@ function UpcomingSection() {
       <Rule />
       <Row label="Coming up">
         <Flex direction="column" gap={0}>
-          {upcomingEvents.map(({ num, name, type, date, time, location, desc, img }, i) => (
+          {upcomingEvents.map(({ num, name, type, date, time, location, desc, img, link }, i) => (
             <motion.div key={num} {...fade(i * 0.1)}>
               <Box borderBottom={`1px solid ${BORDER}`} py={10}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
@@ -168,13 +171,19 @@ function UpcomingSection() {
                       ))}
                     </Flex>
 
-                    <Box as="a" href={EB}
-                      fontFamily="'Raleway', sans-serif" fontSize="10px"
-                      letterSpacing="0.22em" textTransform="uppercase"
-                      bg={ACCENT} color="white" px={6} py="12px"
-                      textDecoration="none" display="inline-block"
-                      _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
-                    >Book now</Box>
+                    {link ? (
+                      <Box as="a" href={link} target="_blank"
+                        fontFamily="'Raleway', sans-serif" fontSize="10px"
+                        letterSpacing="0.22em" textTransform="uppercase"
+                        bg={ACCENT} color="white" px={6} py="12px"
+                        textDecoration="none" display="inline-block"
+                        _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
+                      >Book now</Box>
+                    ) : (
+                      <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
+                        letterSpacing="0.22em" textTransform="uppercase" color={MUTED}
+                      >Booking coming soon</Text>
+                    )}
                   </Box>
 
                   <Box overflow="hidden">
