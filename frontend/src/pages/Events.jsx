@@ -95,7 +95,7 @@ const upcomingEvents = [
 const pastEvents = [
   { name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",    date: "01 Feb 2026", img: "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=800" },
   { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",   date: "08 Mar 2026", img: "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=800" },
-  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: "https://img.evbuc.com/https://cdn.evbuc.com/images/1175247376/567922715237/1/original.20260119-155018?w=480&auto=format,compress&q=75&sharp=10&rect=0,0,1200,600&s=a74c077499e5a09873485758a1179bdc" },
+  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1175247376%2F567922715237%2F1%2Foriginal.20260119-155018?w=600&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C1200%2C600&s=77653ec21bbb06629f5606cc1ab5fcad&w=1880&q=75" },
   { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",  date: "10 Apr 2026", img: "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=800" },
 ];
 
