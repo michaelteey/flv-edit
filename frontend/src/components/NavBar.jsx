@@ -1,4 +1,5 @@
-import { Box, Flex, HStack, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import logo2 from "../assets/logo2.png";
 
 const CONTACT = "/contact";
@@ -16,9 +17,12 @@ export default function MkNavbar() {
           color="#403631"
         >
           London wellness events —{" "}
-          <Link href="/events" textDecoration="underline" _hover={{ opacity: 0.6 }}>
+          <Box as={RouterLink} to="/events"
+            display="inline" textDecoration="underline"
+            _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
+          >
             See what's next
-          </Link>
+          </Box>
         </Text>
       </Box>
 
@@ -32,8 +36,8 @@ export default function MkNavbar() {
         borderBottom="1px solid #e8ddd5"
         bg="#FDF6EE"
       >
-        {/* Logo image */}
-        <Box as="a" href="/" textDecoration="none">
+        {/* Logo */}
+        <Box as={RouterLink} to="/" textDecoration="none">
           <Box as="img" src={logo2} alt="Vaya" height="86px" display="block" />
         </Box>
 
@@ -45,9 +49,10 @@ export default function MkNavbar() {
             ["Work with us", "/brands"],
             ["Get in touch", CONTACT],
           ].map(([label, href]) => (
-            <Link
+            <Box
               key={label}
-              href={href}
+              as={RouterLink}
+              to={href}
               fontSize="10px"
               letterSpacing="0.22em"
               textTransform="uppercase"
@@ -55,11 +60,11 @@ export default function MkNavbar() {
               fontWeight="500"
               color="#403631"
               textDecoration="none"
-              _hover={{ color: "#EC6F51", textDecoration: "none" }}
-              transition="color 0.2s"
+              _hover={{ color: "#EC6F51" }}
+              style={{ transition: "color 0.2s" }}
             >
               {label}
-            </Link>
+            </Box>
           ))}
         </HStack>
       </Flex>
