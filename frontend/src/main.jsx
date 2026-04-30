@@ -31,7 +31,7 @@ const system = createSystem(defaultConfig, config)
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ChakraProvider value={system}>
-        <BrowserRouter>
+        <BrowserRouter basename="/flv-edit">
             <App/>
         </BrowserRouter>
     </ChakraProvider>

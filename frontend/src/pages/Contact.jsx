@@ -55,15 +55,13 @@ export default function Contact() {
     e.preventDefault();
     setStatus("submitting");
     try {
-      await fetch("/", {
+      const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          "form-name": "contact",
-          ...form,
-        }).toString(),
+        headers: { "Accept": "application/json" },
+        body: new FormData(e.target),
       });
-      setStatus("success");
+      if (res.ok) setStatus("success");
+      else setStatus("error");
     } catch {
       setStatus("error");
     }
@@ -126,10 +124,7 @@ export default function Contact() {
             </motion.div>
           ) : (
             <motion.div {...fade(0.1)}>
-              <Box as="form" name="contact" method="POST" data-netlify="true"
-                onSubmit={handleSubmit} maxWidth="560px"
-              >
-                <input type="hidden" name="form-name" value="contact" />
+              <Box as="form" onSubmit={handleSubmit} maxWidth="560px">
 
                 <Flex direction="column" gap={8}>
                   {/* Name */}
