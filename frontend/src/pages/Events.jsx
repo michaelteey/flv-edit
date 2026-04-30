@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
@@ -211,6 +212,7 @@ function UpcomingSection() {
 }
 
 function WhatToExpectSection() {
+  const [hovered, setHovered] = useState(null);
   const expects = [
     { title: "Curated space",     body: "Every venue is chosen with intention — warm, intimate, and designed to help you arrive fully." },
     { title: "Guided experience", body: "Led by expert practitioners with deep knowledge of their craft and invested in the Vaya experience." },
@@ -229,9 +231,14 @@ function WhatToExpectSection() {
                 align={{ base: "flex-start", md: "center" }}
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
+                cursor="default"
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
               >
-                <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }} color={ACCENT}
+                <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }}
+                  color={hovered === i ? ACCENT : TEXT}
                   minWidth={{ md: "200px" }} flexShrink={0}
+                  style={{ transition: "color 0.2s" }}
                 >{title}</Text>
                 <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED} lineHeight="1.85">{body}</Text>
               </Flex>
