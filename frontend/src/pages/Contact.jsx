@@ -208,9 +208,11 @@ export default function Contact() {
           )}
         </Grid>
 
-        {/* Footer */}
-        <Rule />
-        <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
+      </Box>
+      {/* Footer */}
+      <Box borderTop={`1px solid ${BORDER}`} />
+      <Box px={{ base: 6, md: 12 }} py={10}>
+        <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
           <Box as="a" href="/" textDecoration="none">
             <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
           </Box>
@@ -227,7 +229,6 @@ export default function Contact() {
           </Flex>
           <Cap>London · Est. 2025</Cap>
         </Flex>
-
       </Box>
     </Box>
   );

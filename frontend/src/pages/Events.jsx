@@ -75,7 +75,7 @@ const upcomingEvents = [
   },
   {
     num: "02",
-    name: "A Moment With Me with Nila M.",
+    name: "A Moment With Me with NILA M.",
     type: "Soundbath, journalling and breathwork",
     date: "TBC",
     time: "TBC",
@@ -86,10 +86,10 @@ const upcomingEvents = [
 ];
 
 const pastEvents = [
-  { name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",    date: "01 Feb 2026" },
-  { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",   date: "08 Mar 2026" },
-  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026" },
-  { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",  date: "10 Apr 2026" },
+  { name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",    date: "01 Feb 2026", img: "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=800" },
+  { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",   date: "08 Mar 2026", img: "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=800" },
+  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: "https://images.pexels.com/photos/7795755/pexels-photo-7795755.jpeg?auto=compress&cs=tinysrgb&w=800" },
+  { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",  date: "10 Apr 2026", img: "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=800" },
 ];
 
 // ─── Sections ─────────────────────────────────────────────────────────────────
@@ -168,11 +168,13 @@ function UpcomingSection() {
                       ))}
                     </Flex>
 
-                    <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
-                      letterSpacing="0.22em" textTransform="uppercase" color={MUTED}
-                    >
-                      Booking not yet available
-                    </Text>
+                    <Box as="a" href={EB}
+                      fontFamily="'Raleway', sans-serif" fontSize="10px"
+                      letterSpacing="0.22em" textTransform="uppercase"
+                      bg={ACCENT} color="white" px={6} py="12px"
+                      textDecoration="none" display="inline-block"
+                      _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
+                    >Book now</Box>
                   </Box>
 
                   <Box overflow="hidden">
@@ -215,10 +217,10 @@ function WhatToExpectSection() {
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
               >
-                <Text fontFamily="'Playfair Display', serif" fontSize="lg" color={TEXT}
+                <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }} color={ACCENT}
                   minWidth={{ md: "200px" }} flexShrink={0}
                 >{title}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.85">{body}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED} lineHeight="1.85">{body}</Text>
               </Flex>
             </motion.div>
           ))}
@@ -232,23 +234,28 @@ function PastSection() {
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <Row label="Past experiences" py={12}>
-        <Flex direction="column" gap={3}>
-          {pastEvents.map(({ name, type, date }) => (
-            <Flex key={name} justify="space-between" align="baseline" gap={4}>
+      <Box py={{ base: 10, md: 14 }}>
+        <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={8}>Past experiences</Text>
+        <SimpleGrid columns={{ base: 2, md: 4 }} gap={4}>
+          {pastEvents.map(({ name, type, date, img }, i) => (
+            <motion.div key={name} {...fade(i * 0.08)}>
               <Box>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
-                  color={MUTED} opacity={0.7}>{name}
-                  <Box as="span" fontSize="xs" opacity={0.5} ml={2}>· {type}</Box>
-                </Text>
+                <Box overflow="hidden" mb={3}>
+                  <Box as="img" src={img} alt={name}
+                    width="100%" height={{ base: "40vw", md: "220px" }}
+                    objectFit="cover" display="block"
+                    style={{ transition: "transform 0.4s ease" }}
+                    _hover={{ transform: "scale(1.03)" }}
+                  />
+                </Box>
+                <Text fontFamily="'Playfair Display', serif" fontSize="sm" color={TEXT} mb={1}>{name}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="9px" letterSpacing="0.12em" textTransform="uppercase" color={MUTED} mb={1}>{type}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="9px" color={MUTED} opacity={0.6}>{date}</Text>
               </Box>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="xs"
-                color={MUTED} opacity={0.5} letterSpacing="0.06em" flexShrink={0}
-              >{date}</Text>
-            </Flex>
+            </motion.div>
           ))}
-        </Flex>
-      </Row>
+        </SimpleGrid>
+      </Box>
     </motion.div>
   );
 }
@@ -284,24 +291,26 @@ function StayInTouchSection() {
 function Footer() {
   return (
     <motion.div {...fade(0)}>
-      <Rule />
-      <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Box as="a" href="/" textDecoration="none">
-          <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
-        </Box>
-        <Flex gap={8} wrap="wrap">
-          {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
-            <Box key={label} as="a" href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              fontFamily="'Raleway', sans-serif" fontSize="9px"
-              letterSpacing="0.22em" textTransform="uppercase"
-              color={MUTED} textDecoration="none"
-              _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
-            >{label}</Box>
-          ))}
+      <Box borderTop={`1px solid ${BORDER}`} />
+      <Box px={{ base: 6, md: 12 }} py={10}>
+        <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
+          <Box as="a" href="/" textDecoration="none">
+            <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
+          </Box>
+          <Flex gap={8} wrap="wrap">
+            {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
+              <Box key={label} as="a" href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                fontFamily="'Raleway', sans-serif" fontSize="9px"
+                letterSpacing="0.22em" textTransform="uppercase"
+                color={MUTED} textDecoration="none"
+                _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
+              >{label}</Box>
+            ))}
+          </Flex>
+          <Cap>London · Est. 2025</Cap>
         </Flex>
-        <Cap>London · Est. 2025</Cap>
-      </Flex>
+      </Box>
     </motion.div>
   );
 }
@@ -316,8 +325,8 @@ export default function Events() {
         <WhatToExpectSection />
         <PastSection />
         <StayInTouchSection />
-        <Footer />
       </Box>
+      <Footer />
     </Box>
   );
 }

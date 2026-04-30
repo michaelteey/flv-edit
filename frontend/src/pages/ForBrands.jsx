@@ -1,4 +1,5 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import MkNavBar from "../components/NavBar";
 import logo from "../assets/logo2.png";
@@ -22,6 +23,21 @@ const IMG = {
   yoga:    "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=1400",
   brands:  "https://images.pexels.com/photos/3810788/pexels-photo-3810788.jpeg?auto=compress&cs=tinysrgb&w=1200",
 };
+
+function useTypewriter(text, speed = 85) {
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    let i = 0;
+    setDisplayed("");
+    const t = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(t);
+    }, speed);
+    return () => clearInterval(t);
+  }, [text]);
+  return displayed;
+}
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
@@ -104,11 +120,12 @@ const process = [
 const partners = [
   "Bon Charge", "Tenzing", "Ancient & Brave", "Brisco Super Mocha",
   "London Nootropics", "Living Things", "Misty Aromatherapy",
-  "LSKD", "Frank", "Nila M.", "Poco Vino",
+  "LSKD", "Frank", "NILA M.", "Poco Vino",
 ];
 
 // ─── Sections ─────────────────────────────────────────────────────────────────
 function HeroSection() {
+  const typed = useTypewriter("differently.", 120);
   return (
     <Box py={{ base: 20, md: 32 }}>
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }}>
@@ -118,7 +135,7 @@ function HeroSection() {
           color={TEXT} lineHeight="1.05" mt={4} mb={8} maxWidth="680px"
         >
           Where conscious brands
-          <br /><em>show up <Box as="span" color={ACCENT}>differently.</Box></em>
+          <br /><em>show up <Box as="span" color={ACCENT}>{typed}</Box></em>
         </Heading>
       </motion.div>
       <motion.div {...fade(0.4)}>
@@ -158,10 +175,7 @@ function WhyVayaSection() {
       <Rule />
       <Row label="Why Vaya">
         <Box>
-          <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED}
-            lineHeight="1.9" maxWidth="480px" mb={10}
-          >
-            We've hosted 15+ events and worked with 10+ brand partners.
+          <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }} color={TEXT} mb={8} fontStyle="italic">
             Here's why they love working with us.
           </Text>
           {reasons.map(({ title, body }, i) => (
@@ -195,12 +209,14 @@ function OfferingsSection() {
             borderBottom={`1px solid ${BORDER}`}
             py={{ base: 10, md: 14 }}
             _first={{ borderTop: `1px solid ${BORDER}` }}
+            role="group"
           >
             <Box>
               <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
                 letterSpacing="0.2em" color={MUTED} mb={2}>{num}</Text>
               <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
                 fontSize={{ base: "xl", md: "2xl" }} color={TEXT} lineHeight="1.2"
+                _groupHover={{ color: ACCENT }} style={{ transition: "color 0.2s" }}
               >{title}</Heading>
             </Box>
             <Box>
@@ -228,30 +244,28 @@ function BrandVoicesSection() {
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <FullBleed>
-        <Box bg="#e8d9c8" px={{ base: 8, md: 16 }} py={{ base: 14, md: 20 }}>
-          <Cap>Brand voices</Cap>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 16 }} mt={8}>
-            {brandVoices.map(({ quote, author }, i) => (
-              <motion.div key={author} {...fade(i * 0.15)}>
-                <Box borderTop={`2px solid ${CHARCOAL}`} pt={6}>
-                  <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-                    fontSize={{ base: "lg", md: "xl" }} color={TEXT}
-                    lineHeight="1.7" mb={5}
-                  >
-                    "{quote}"
-                  </Text>
-                  <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
-                    letterSpacing="0.22em" textTransform="uppercase" color={MUTED}
-                  >
-                    — {author}
-                  </Text>
-                </Box>
-              </motion.div>
-            ))}
-          </SimpleGrid>
-        </Box>
-      </FullBleed>
+      <Box py={{ base: 12, md: 16 }}>
+        <Cap>Brand voices</Cap>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 16 }} mt={8}>
+          {brandVoices.map(({ quote, author }, i) => (
+            <motion.div key={author} {...fade(i * 0.15)}>
+              <Box borderTop={`1px solid ${BORDER}`} pt={6}>
+                <Text fontFamily="'Raleway', sans-serif" fontWeight="300" fontStyle="italic"
+                  fontSize={{ base: "md", md: "lg" }} color={TEXT}
+                  lineHeight="1.7" mb={5}
+                >
+                  "{quote}"
+                </Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
+                  letterSpacing="0.22em" textTransform="uppercase" color={MUTED}
+                >
+                  — {author}
+                </Text>
+              </Box>
+            </motion.div>
+          ))}
+        </SimpleGrid>
+      </Box>
     </motion.div>
   );
 }
@@ -267,12 +281,15 @@ function ProcessSection() {
               <Flex borderBottom={`1px solid ${BORDER}`} py={5} gap={8}
                 align={{ base: "flex-start", md: "center" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
+                role="group"
               >
                 <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
                   letterSpacing="0.2em" color={MUTED} minWidth="28px" flexShrink={0}
                 >{n}</Text>
                 <Box>
-                  <Text fontFamily="'Playfair Display', serif" fontSize="lg" color={TEXT} mb={2}>{title}</Text>
+                  <Text fontFamily="'Playfair Display', serif" fontSize="md" color={TEXT} mb={2}
+                    _groupHover={{ color: ACCENT }} style={{ transition: "color 0.2s" }}
+                  >{title}</Text>
                   <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.85">{body}</Text>
                 </Box>
               </Flex>
@@ -285,38 +302,29 @@ function ProcessSection() {
 }
 
 function PartnersSection() {
+  const items = [...partners, ...partners]; // duplicate for seamless loop
   return (
     <motion.div {...fade(0)}>
-      <FullBleed>
-        <Box bg="#e8d9c8" px={{ base: 8, md: 16 }} py={{ base: 12, md: 16 }}>
-          <Cap>Brands we've worked with</Cap>
-          <Flex wrap="wrap" align="baseline" mt={6} gap={0} rowGap={1}>
-            {partners.map((name, i) => (
-              <Box key={name} display="inline-flex" alignItems="baseline">
-                <Text
-                  fontFamily="'Playfair Display', serif"
-                  fontWeight="400"
-                  fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-                  color={TEXT}
-                  lineHeight="1.4"
-                >
-                  {name}
-                </Text>
-                {i < partners.length - 1 && (
-                  <Text
-                    as="span"
-                    fontFamily="'Raleway', sans-serif"
-                    fontSize={{ base: "lg", md: "xl" }}
-                    color={MUTED}
-                    px={{ base: 2, md: 3 }}
-                    lineHeight="1.4"
-                  >·</Text>
-                )}
-              </Box>
+      <Rule />
+      <Box py={{ base: 10, md: 14 }} overflow="hidden">
+        <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={6}>Brands we've worked with</Text>
+        <Box overflow="hidden">
+          <Flex
+            gap={10}
+            style={{ animation: "marquee 22s linear infinite", width: "max-content" }}
+          >
+            {items.map((name, i) => (
+              <Text key={i}
+                fontFamily="'Playfair Display', serif"
+                fontWeight="400"
+                fontSize={{ base: "2xl", md: "3xl" }}
+                color={TEXT}
+                whiteSpace="nowrap"
+              >{name}</Text>
             ))}
           </Flex>
         </Box>
-      </FullBleed>
+      </Box>
     </motion.div>
   );
 }
@@ -326,36 +334,39 @@ function CTASection() {
     <motion.div {...fade(0)}>
       <Rule />
       <FullBleed>
-        <Box bg={DARK} px={{ base: 8, md: 16 }} py={{ base: 16, md: 24 }}>
+        <Box bg={ACCENT} px={{ base: 8, md: 16 }} py={{ base: 16, md: 24 }}>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 20 }} alignItems="center">
             <Box>
-              <Cap light>Let's talk</Cap>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="9px" letterSpacing="0.28em" textTransform="uppercase" color="rgba(253,246,238,0.6)" mb={5}>Let's create together</Text>
               <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
                 fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-                color="#FDF6EE" lineHeight="1.1" mt={5}
+                color="#FDF6EE" lineHeight="1.1"
               >
-                Ready to create<br /><em>something meaningful?</em>
+                Ready to reach people<br /><em>who actually care?</em>
               </Heading>
             </Box>
             <Box>
               <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
-                color="rgba(253,246,238,0.5)" lineHeight="1.9" mb={8}
+                color="rgba(253,246,238,0.85)" lineHeight="1.9" mb={8}
               >
-                Tell us about your brand, your goals, and what you're imagining.
-                We'll come back with a concept. No obligation, no templates —
-                just a real conversation about what we could create together.
+                Tell us about your brand and what you're imagining. We'll come back with a concept — no obligation, no templates. Just a real conversation.
               </Text>
               <Flex direction="column" gap={4} alignItems="flex-start">
                 <Box as="a" href={CONTACT}
                   fontFamily="'Raleway', sans-serif" fontSize="10px"
                   letterSpacing="0.22em" textTransform="uppercase"
-                  bg={ACCENT} color="white"
+                  bg={TEXT} color="#FDF6EE"
                   px={6} py="12px" textDecoration="none"
-                  _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
+                  _hover={{ bg: DARK }} style={{ transition: "background 0.2s" }}
                 >
                   Start a conversation
                 </Box>
-                <TextLink href={LINKTREE} light muted>Or DM us on Instagram</TextLink>
+                <Box as="a" href={LINKTREE} target="_blank"
+                  fontFamily="'Raleway', sans-serif" fontSize="10px" letterSpacing="0.22em"
+                  textTransform="uppercase" color="rgba(253,246,238,0.7)" textDecoration="none"
+                  borderBottom="1px solid rgba(253,246,238,0.3)" pb="2px"
+                  _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
+                >Or DM us on Instagram</Box>
               </Flex>
             </Box>
           </SimpleGrid>
@@ -368,24 +379,26 @@ function CTASection() {
 function Footer() {
   return (
     <motion.div {...fade(0)}>
-      <Rule />
-      <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Box as="a" href="/" textDecoration="none">
-          <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
-        </Box>
-        <Flex gap={8} wrap="wrap">
-          {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
-            <Box key={label} as="a" href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              fontFamily="'Raleway', sans-serif" fontSize="9px"
-              letterSpacing="0.22em" textTransform="uppercase"
-              color={MUTED} textDecoration="none"
-              _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
-            >{label}</Box>
-          ))}
+      <Box borderTop={`1px solid ${BORDER}`} />
+      <Box px={{ base: 6, md: 12 }} py={10}>
+        <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
+          <Box as="a" href="/" textDecoration="none">
+            <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
+          </Box>
+          <Flex gap={8} wrap="wrap">
+            {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
+              <Box key={label} as="a" href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                fontFamily="'Raleway', sans-serif" fontSize="9px"
+                letterSpacing="0.22em" textTransform="uppercase"
+                color={MUTED} textDecoration="none"
+                _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
+              >{label}</Box>
+            ))}
+          </Flex>
+          <Cap>London · Est. 2025</Cap>
         </Flex>
-        <Cap>London · Est. 2025</Cap>
-      </Flex>
+      </Box>
     </motion.div>
   );
 }
@@ -402,8 +415,8 @@ export default function ForBrands() {
         <BrandVoicesSection />
         <ProcessSection />
         <CTASection />
-        <Footer />
       </Box>
+      <Footer />
     </Box>
   );
 }

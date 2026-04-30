@@ -104,7 +104,7 @@ function FounderSection() {
       <Rule />
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "580px" }}>
-          <Box bg="#e8d9c8" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7}
           >
             <Cap>Founder</Cap>
@@ -157,7 +157,7 @@ function TeamSection() {
               />
             </motion.div>
           </Box>
-          <Box bg="#e8d9c8" display="flex" flexDirection="column" justifyContent="center"
+          <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7} order={{ base: 1, md: 2 }}
           >
             <Cap>Head of Partnerships</Cap>
@@ -205,9 +205,12 @@ function ValuesSection() {
                 align={{ base: "flex-start", md: "center" }}
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
+                role="group"
               >
-                <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }}
-                  color={TEXT} minWidth="180px">{title}</Text>
+                <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "md", md: "lg" }}
+                  color={TEXT} minWidth="180px"
+                  _groupHover={{ color: "#F28B75" }} style={{ transition: "color 0.2s" }}
+                >{title}</Text>
                 <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.8">{body}</Text>
               </Flex>
             </motion.div>
@@ -224,7 +227,7 @@ function QuoteSection() {
       <Rule />
       <Box py={{ base: 16, md: 24 }} textAlign="center">
         <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-          fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+          fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
           color={TEXT} lineHeight="1.3" maxWidth="700px" mx="auto"
         >
           "Every experience we create is a reminder that you deserve
@@ -270,24 +273,26 @@ function CollaborateSection() {
 function Footer() {
   return (
     <motion.div {...fade(0)}>
-      <Rule />
-      <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Box as="a" href="/" textDecoration="none">
-          <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
-        </Box>
-        <Flex gap={8} wrap="wrap">
-          {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
-            <Box key={label} as="a" href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              fontFamily="'Raleway', sans-serif" fontSize="9px"
-              letterSpacing="0.22em" textTransform="uppercase"
-              color={MUTED} textDecoration="none"
-              _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
-            >{label}</Box>
-          ))}
+      <Box borderTop={`1px solid ${BORDER}`} />
+      <Box px={{ base: 6, md: 12 }} py={10}>
+        <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
+          <Box as="a" href="/" textDecoration="none">
+            <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
+          </Box>
+          <Flex gap={8} wrap="wrap">
+            {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
+              <Box key={label} as="a" href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                fontFamily="'Raleway', sans-serif" fontSize="9px"
+                letterSpacing="0.22em" textTransform="uppercase"
+                color={MUTED} textDecoration="none"
+                _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
+              >{label}</Box>
+            ))}
+          </Flex>
+          <Cap>London · Est. 2025</Cap>
         </Flex>
-        <Cap>London · Est. 2025</Cap>
-      </Flex>
+      </Box>
     </motion.div>
   );
 }
@@ -302,8 +307,8 @@ export default function About() {
         <TeamSection />
         <ValuesSection />
         <QuoteSection />
-        <Footer />
       </Box>
+      <Footer />
     </Box>
   );
 }

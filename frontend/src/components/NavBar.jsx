@@ -7,7 +7,7 @@ export default function MkNavbar() {
   return (
     <Box>
       {/* Announcement bar */}
-      <Box bg="#f5ece2" py="7px" textAlign="center">
+      <Box bg="#F28B75" py="12px" textAlign="center">
         <Text
           fontSize="10px"
           fontFamily="'Raleway', sans-serif"
@@ -34,7 +34,7 @@ export default function MkNavbar() {
       >
         {/* Logo image */}
         <Box as="a" href="/" textDecoration="none">
-          <Box as="img" src={logo2} alt="Vaya" height="72px" display="block" />
+          <Box as="img" src={logo2} alt="Vaya" height="86px" display="block" />
         </Box>
 
         <HStack gap={8}>

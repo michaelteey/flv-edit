@@ -95,7 +95,7 @@ function Row({ label, children, py = 16 }) {
       gap={{ base: 6, md: 16 }}
       py={{ base: py / 2, md: py }}
     >
-      <Cap>{label}</Cap>
+      <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED}>{label}</Text>
       <Box>{children}</Box>
     </Grid>
   );
@@ -204,7 +204,7 @@ function AboutSection() {
           </Box>
 
           <Box
-            bg="#e8d9c8"
+            bg="#FDF6EE"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={8}
           >
@@ -233,7 +233,6 @@ function AboutSection() {
                 and designed with intention. We are here to nurture, foster
                 community and remind people to take a break and look inwards.
               </Text>
-              <TextLink href="/about" muted>Meet the team</TextLink>
             </motion.div>
 
             <motion.div {...fade(0.3)}>
@@ -296,7 +295,9 @@ function ServicesSection() {
                 <Box>
                   <Text
                     fontFamily="'Playfair Display', serif"
-                    fontSize={{ base: "md", md: "lg" }} color={TEXT} mb="2px"
+                    fontSize={{ base: "sm", md: "md" }} color={TEXT} mb="2px"
+                    _groupHover={{ color: ACCENT }}
+                    style={{ transition: "color 0.2s" }}
                   >
                     {name}
                   </Text>
@@ -330,7 +331,7 @@ const events = [
   { date: "29 Mar 2026", name: "Scent meets Sound",                    type: "Aromatherapy + Sound Healing",    past: true  },
   { date: "10 Apr 2026", name: "Stillness after Dark",                 type: "Sound Healing + Live Vocals",     past: true  },
   { date: "TBC",         name: "Move & Groove",                        type: "Yoga + Music",                    past: false },
-  { date: "TBC",         name: "A Moment With Me with Nila M.",        type: "Soundbath, journalling & breathwork", past: false },
+  { date: "TBC",         name: "A Moment With Me with NILA M.",        type: "Soundbath, journalling & breathwork", past: false },
 ];
 
 function EventsSection() {
@@ -341,7 +342,7 @@ function EventsSection() {
       <FullBleed>
         <SimpleGrid columns={{ base: 1, md: 2 }} minHeight={{ md: "480px" }}>
           <Box
-            bg="#e8d9c8"
+            bg="#FDF6EE"
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={6}
           >
@@ -362,7 +363,7 @@ function EventsSection() {
               Intimate, curated events across London. Each one designed to
               help you slow down, feel more, and leave lighter.
             </Text>
-            <TextLink href={EB}>Book on Eventbrite</TextLink>
+            <TextLink href={EB}>Book now</TextLink>
           </Box>
 
           <Box overflow="hidden">
@@ -637,7 +638,7 @@ function TestimonialsSection() {
             >
               <Text
                 fontFamily="'Playfair Display', serif" fontStyle="italic"
-                fontSize={{ base: "md", md: "lg" }}
+                fontSize={{ base: "sm", md: "md" }}
                 color={TEXT} lineHeight="1.8" mb={5}
               >
                 "{t.quote}"
@@ -664,36 +665,28 @@ const brandPartnersList = [
 ];
 
 function BrandPartnersSection() {
+  const items = [...brandPartnersList, ...brandPartnersList]; // duplicate for seamless loop
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <Box py={{ base: 12, md: 16 }}>
-        <Cap>Brands we've worked with</Cap>
-        <Flex wrap="wrap" align="baseline" mt={6} gap={0} rowGap={1}>
-          {brandPartnersList.map((name, i) => (
-            <Box key={name} display="inline-flex" alignItems="baseline">
-              <Text
+      <Box py={{ base: 10, md: 14 }} overflow="hidden">
+        <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={6}>Brands we've worked with</Text>
+        <Box overflow="hidden">
+          <Flex
+            gap={10}
+            style={{ animation: "marquee 22s linear infinite", width: "max-content" }}
+          >
+            {items.map((name, i) => (
+              <Text key={i}
                 fontFamily="'Playfair Display', serif"
                 fontWeight="400"
-                fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+                fontSize={{ base: "2xl", md: "3xl" }}
                 color={TEXT}
-                lineHeight="1.4"
-              >
-                {name}
-              </Text>
-              {i < brandPartnersList.length - 1 && (
-                <Text
-                  as="span"
-                  fontFamily="'Raleway', sans-serif"
-                  fontSize={{ base: "lg", md: "xl" }}
-                  color={MUTED}
-                  px={{ base: 2, md: 3 }}
-                  lineHeight="1.4"
-                >·</Text>
-              )}
-            </Box>
-          ))}
-        </Flex>
+                whiteSpace="nowrap"
+              >{name}</Text>
+            ))}
+          </Flex>
+        </Box>
       </Box>
     </motion.div>
   );
@@ -703,36 +696,38 @@ function BrandPartnersSection() {
 function Footer() {
   return (
     <motion.div {...fade(0)}>
-      <Rule />
-      <Flex py={10} justify="space-between" align="center" wrap="wrap" gap={6}>
-        <Box as="a" href="/" textDecoration="none">
-          <Box as="img" src={logo2} alt="Vaya" height="72px" display="block" />
-        </Box>
-        <Flex gap={8} wrap="wrap" align="center">
-          {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
-            <Box
-              key={label} as="a" href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
+      <Box borderTop={`1px solid ${BORDER}`} />
+      <Box px={{ base: 6, md: 12 }} py={10}>
+        <Flex justify="space-between" align="center" wrap="wrap" gap={6}>
+          <Box as="a" href="/" textDecoration="none">
+            <Box as="img" src={logo2} alt="Vaya" height="72px" display="block" />
+          </Box>
+          <Flex gap={8} wrap="wrap" align="center">
+            {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
+              <Box
+                key={label} as="a" href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                fontFamily="'Raleway', sans-serif" fontSize="9px"
+                letterSpacing="0.22em" textTransform="uppercase"
+                color={MUTED} textDecoration="none"
+                _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
+              >
+                {label}
+              </Box>
+            ))}
+            <Box as="a" href={NEWSLETTER} target="_blank"
               fontFamily="'Raleway', sans-serif" fontSize="9px"
               letterSpacing="0.22em" textTransform="uppercase"
-              color={MUTED} textDecoration="none"
-              _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
+              bg={ACCENT} color="white"
+              px={4} py="8px" textDecoration="none"
+              _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
             >
-              {label}
+              Join newsletter
             </Box>
-          ))}
-          <Box as="a" href={NEWSLETTER} target="_blank"
-            fontFamily="'Raleway', sans-serif" fontSize="9px"
-            letterSpacing="0.22em" textTransform="uppercase"
-            bg={ACCENT} color="white"
-            px={4} py="8px" textDecoration="none"
-            _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
-          >
-            Join newsletter
-          </Box>
+          </Flex>
+          <Cap>London · Est. 2025</Cap>
         </Flex>
-        <Cap>London · Est. 2025</Cap>
-      </Flex>
+      </Box>
     </motion.div>
   );
 }
@@ -741,9 +736,7 @@ function Footer() {
 export default function App() {
   return (
     <Box bg={BG} minHeight="100vh">
-      <Box position="sticky" top={0} zIndex={10} bg={BG}>
-        <MkNavBar />
-      </Box>
+      <Box position="sticky" top={0} zIndex={10} bg={BG}><MkNavBar /></Box>
       <Box maxWidth="1280px" mx="auto" px={{ base: 6, md: 12 }}>
         <HeroSection />
         <AboutSection />
@@ -752,8 +745,8 @@ export default function App() {
         <EventsSection />
         <VisualBreak />
         <TestimonialsSection />
-        <Footer />
       </Box>
+      <Footer />
     </Box>
   );
 }
