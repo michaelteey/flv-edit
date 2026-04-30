@@ -202,6 +202,7 @@ function WhyVayaSection() {
 }
 
 function OfferingsSection() {
+  const [hovered, setHovered] = useState(null);
   return (
     <Box id="offerings" style={{ scrollMarginTop: "80px" }}>
       <Rule />
@@ -212,14 +213,16 @@ function OfferingsSection() {
             borderBottom={`1px solid ${BORDER}`}
             py={{ base: 10, md: 14 }}
             _first={{ borderTop: `1px solid ${BORDER}` }}
-            role="group"
+            cursor="default"
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
           >
             <Box>
               <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
                 letterSpacing="0.2em" color={MUTED} mb={2}>{num}</Text>
               <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-                fontSize={{ base: "xl", md: "2xl" }} color={TEXT} lineHeight="1.2"
-                _groupHover={{ color: ACCENT }} style={{ transition: "color 0.2s" }}
+                fontSize={{ base: "xl", md: "2xl" }} lineHeight="1.2"
+                color={hovered === i ? ACCENT : TEXT} style={{ transition: "color 0.2s" }}
               >{title}</Heading>
             </Box>
             <Box>
@@ -274,6 +277,7 @@ function BrandVoicesSection() {
 }
 
 function ProcessSection() {
+  const [hovered, setHovered] = useState(null);
   return (
     <motion.div {...fade(0)}>
       <Rule />
@@ -284,14 +288,16 @@ function ProcessSection() {
               <Flex borderBottom={`1px solid ${BORDER}`} py={5} gap={8}
                 align={{ base: "flex-start", md: "center" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
-                role="group"
+                cursor="default"
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
               >
                 <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
                   letterSpacing="0.2em" color={MUTED} minWidth="28px" flexShrink={0}
                 >{n}</Text>
                 <Box>
-                  <Text fontFamily="'Playfair Display', serif" fontSize="md" color={TEXT} mb={2}
-                    _groupHover={{ color: ACCENT }} style={{ transition: "color 0.2s" }}
+                  <Text fontFamily="'Playfair Display', serif" fontSize="md" mb={2}
+                    color={hovered === i ? ACCENT : TEXT} style={{ transition: "color 0.2s" }}
                   >{title}</Text>
                   <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.85">{body}</Text>
                 </Box>
