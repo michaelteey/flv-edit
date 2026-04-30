@@ -168,6 +168,7 @@ function HeroSection() {
 }
 
 function WhyVayaSection() {
+  const [hovered, setHovered] = useState(null);
   const reasons = [
     { title: "Engaged audience",      body: "Our community comes to Vaya events with intention. They're not passive attendees — they genuinely seek out brands and experiences to enhance their wellbeing journey." },
     { title: "Authentic integration", body: "We don't plaster logos or hand out bags of stuff just because. Depending on the type of experience we work on and your involvement, your brand will be integrated in the overall atmosphere in a way that feels natural and considered." },
@@ -184,11 +185,17 @@ function WhyVayaSection() {
           </Text>
           {reasons.map(({ title, body }, i) => (
             <motion.div key={title} {...fade(i * 0.08)}>
-              <Flex borderBottom={`1px solid ${BORDER}`} py={5}
+              <Flex borderBottom={`1px solid ${BORDER}`} py={5} px={4}
                 gap={{ base: 4, md: 10 }}
                 align={{ base: "flex-start", md: "center" }}
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
+                mx={-4}
+                bg={hovered === i ? "#f5ece2" : "transparent"}
+                cursor="default"
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                style={{ transition: "background 0.2s" }}
               >
                 <Text fontFamily="'Playfair Display', serif" fontSize="lg" color={TEXT}
                   minWidth={{ md: "220px" }} flexShrink={0}>{title}</Text>
@@ -393,7 +400,7 @@ function Footer() {
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
           <Box as={RouterLink} to="/" textDecoration="none">
-            <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
+            <Box as="img" src={logo} alt="Vaya" height="86px" display="block" />
           </Box>
           <Flex gap={8} wrap="wrap">
             {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
