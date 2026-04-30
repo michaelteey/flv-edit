@@ -16,7 +16,8 @@ const LINKTREE = "https://www.instagram.com/wearevaya_/";
 const EMAIL    = "hello@vayaevents.com";
 const CONTACT    = "/contact";
 const NEWSLETTER = "https://form.jotform.com/252685067130355";
-const EB       = "https://www.eventbrite.co.uk/o/112025993841";
+const EB            = "https://www.eventbrite.co.uk/o/112025993841";
+const EB_MOVE_GROOVE = "https://www.eventbrite.co.uk/e/yoga-and-live-dj-move-groove-with-vaya-tickets-1988231040564?aff=ebdssbdestsearch";
 
 // ─── Imagery (Pexels) ─────────────────────────────────────────────────────────
 const IMG = {
@@ -330,10 +331,10 @@ function ServicesSection() {
 
 // ─── Events ───────────────────────────────────────────────────────────────────
 const events = [
-  { date: "29 Mar 2026", name: "Scent meets Sound",                    type: "Aromatherapy + Sound Healing",    past: true  },
-  { date: "10 Apr 2026", name: "Stillness after Dark",                 type: "Sound Healing + Live Vocals",     past: true  },
-  { date: "TBC",         name: "Move & Groove",                        type: "Yoga + Music",                    past: false },
-  { date: "TBC",         name: "A Moment With Me with NILA M.",        type: "Soundbath, journalling & breathwork", past: false },
+  { date: "29 Mar 2026", name: "Scent meets Sound",             type: "Aromatherapy + Sound Healing",       past: true,  link: null },
+  { date: "10 Apr 2026", name: "Stillness after Dark",          type: "Sound Healing + Live Vocals",         past: true,  link: null },
+  { date: "TBC",         name: "Move & Groove",                 type: "Yoga + Music",                        past: false, link: EB_MOVE_GROOVE },
+  { date: "TBC",         name: "A Moment With Me with NILA M.", type: "Soundbath, journalling & breathwork", past: false, link: EB },
 ];
 
 function EventsSection() {
@@ -389,60 +390,55 @@ function EventsSection() {
 
       <Row label="Events">
         <Box>
-          {events.map(({ date, name, type, past }, i) => (
+          {events.map(({ date, name, type, past, link }, i) => (
             <motion.div key={name + i} {...fade(i * 0.06)}>
-              <Box
-                display="block" textDecoration="none" role="group"
-                cursor="default"
+              <Flex
+                borderBottom={`1px solid ${BORDER}`}
+                py={5} align="center" justify="space-between"
+                gap={4} wrap={{ base: "wrap", md: "nowrap" }}
+                _first={{ borderTop: `1px solid ${BORDER}` }}
               >
-                <Flex
-                  borderBottom={`1px solid ${BORDER}`}
-                  py={5} align="center" justify="space-between"
-                  gap={4} wrap={{ base: "wrap", md: "nowrap" }}
-                  _first={{ borderTop: `1px solid ${BORDER}` }}
-                  _hover={{ bg: "transparent" }}
-                  style={{ transition: "background 0.15s" }}
-                >
-                  <Box flex={1}>
-                    <Text
-                      fontFamily="'Playfair Display', serif"
-                      fontSize={{ base: "md", md: "lg" }}
-                      color={past ? MUTED : TEXT} mb="3px"
-                    >
-                      {name}
-                    </Text>
-                    <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED}>
-                      {type}
-                    </Text>
-                  </Box>
-                  <Flex align="center" gap={6} flexShrink={0}>
-                    <Text
-                      fontFamily="'Raleway', sans-serif" fontSize="xs"
-                      color={MUTED} letterSpacing="0.06em"
-                      display={{ base: "none", md: "block" }}
-                    >
-                      {date}
-                    </Text>
-                    {past ? (
-                      <Text
-                        fontFamily="'Raleway', sans-serif" fontSize="9px"
-                        letterSpacing="0.2em" textTransform="uppercase"
-                        color={MUTED} opacity={0.45}
-                      >
-                        Past
-                      </Text>
-                    ) : (
-                      <Text
-                        fontFamily="'Raleway', sans-serif" fontSize="9px"
-                        letterSpacing="0.2em" textTransform="uppercase"
-                        color={MUTED} opacity={0.45}
-                      >
-                        Coming soon
-                      </Text>
-                    )}
-                  </Flex>
+                <Box flex={1}>
+                  <Text
+                    fontFamily="'Playfair Display', serif"
+                    fontSize={{ base: "md", md: "lg" }}
+                    color={past ? MUTED : TEXT} mb="3px"
+                  >
+                    {name}
+                  </Text>
+                  <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED}>
+                    {type}
+                  </Text>
+                </Box>
+                <Flex align="center" gap={6} flexShrink={0}>
+                  <Text
+                    fontFamily="'Raleway', sans-serif" fontSize="xs"
+                    color={MUTED} letterSpacing="0.06em"
+                    display={{ base: "none", md: "block" }}
+                  >
+                    {date}
+                  </Text>
+                  {past ? (
+                    <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
+                      letterSpacing="0.2em" textTransform="uppercase"
+                      color={MUTED} opacity={0.45}
+                    >Past</Text>
+                  ) : link ? (
+                    <Box as="a" href={link} target="_blank"
+                      fontFamily="'Raleway', sans-serif" fontSize="9px"
+                      letterSpacing="0.2em" textTransform="uppercase"
+                      bg={ACCENT} color="white" px={3} py="5px"
+                      textDecoration="none"
+                      _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
+                    >Book now</Box>
+                  ) : (
+                    <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
+                      letterSpacing="0.2em" textTransform="uppercase"
+                      color={MUTED} opacity={0.45}
+                    >Coming soon</Text>
+                  )}
                 </Flex>
-              </Box>
+              </Flex>
             </motion.div>
           ))}
         </Box>
