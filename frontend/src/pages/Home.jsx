@@ -1,6 +1,7 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo2 from "../assets/logo2.png";
 
@@ -67,20 +68,18 @@ function Cap({ children, light = false }) {
 function Rule() { return <Box borderTop={`1px solid ${BORDER}`} />; }
 
 function TextLink({ href, children, muted = false, light = false }) {
-  const col = light ? "rgba(245,240,235,0.6)" : muted ? MUTED : TEXT;
-  const bdr = light ? "rgba(245,240,235,0.3)" : muted ? BORDER : TEXT;
+  const col = light ? "rgba(253,246,238,0.7)" : muted ? MUTED : TEXT;
+  const bdr = light ? "rgba(253,246,238,0.3)" : muted ? BORDER : TEXT;
+  const isExternal = href?.startsWith("http");
   return (
-    <Box
-      as="a" href={href}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      fontFamily="'Raleway', sans-serif"
-      fontSize="10px" letterSpacing="0.22em" textTransform="uppercase"
-      color={col} textDecoration="none"
+    <Box as={isExternal ? "a" : RouterLink}
+      {...(isExternal ? { href, target: "_blank" } : { to: href })}
+      fontFamily="'Raleway', sans-serif" fontSize="10px" letterSpacing="0.22em"
+      textTransform="uppercase" color={col} textDecoration="none"
       borderBottom={`1px solid ${bdr}`} pb="2px"
+      display="inline-flex" alignItems="center"
       _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
-    >
-      {children}
-    </Box>
+    >{children}</Box>
   );
 }
 
@@ -271,6 +270,7 @@ const services = [
 ];
 
 function ServicesSection() {
+  const [hovered, setHovered] = useState(null);
   return (
     <motion.div {...fade(0)}>
       <Rule />
@@ -281,8 +281,10 @@ function ServicesSection() {
               key={name}
               borderBottom={`1px solid ${BORDER}`}
               py={5} align="center" justify="space-between"
-              gap={6} role="group"
+              gap={6}
               _first={{ borderTop: `1px solid ${BORDER}` }}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
             >
               <Flex align="baseline" gap={5} flex={1}>
                 <Text
@@ -295,8 +297,8 @@ function ServicesSection() {
                 <Box>
                   <Text
                     fontFamily="'Playfair Display', serif"
-                    fontSize={{ base: "md", md: "lg" }} color={TEXT} mb="2px"
-                    _groupHover={{ color: ACCENT }}
+                    fontSize={{ base: "md", md: "lg" }} mb="2px"
+                    color={hovered === i ? ACCENT : TEXT}
                     style={{ transition: "color 0.2s" }}
                   >
                     {name}
@@ -312,9 +314,9 @@ function ServicesSection() {
               </Flex>
               <Text
                 fontFamily="'Raleway', sans-serif" fontSize="sm"
-                color={MUTED} opacity={0}
-                _groupHover={{ opacity: 1 }}
-                style={{ transition: "opacity 0.2s" }} flexShrink={0}
+                color={MUTED} flexShrink={0}
+                opacity={hovered === i ? 1 : 0}
+                style={{ transition: "opacity 0.2s" }}
               >
                 →
               </Text>
@@ -699,14 +701,15 @@ function Footer() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={6}>
-          <Box as="a" href="/" textDecoration="none">
+          <Box as={RouterLink} to="/" textDecoration="none">
             <Box as="img" src={logo2} alt="Vaya" height="72px" display="block" />
           </Box>
           <Flex gap={8} wrap="wrap" align="center">
             {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
               <Box
-                key={label} as="a" href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
+                key={label}
+                as={href.startsWith("http") ? "a" : RouterLink}
+                {...(href.startsWith("http") ? { href, target: "_blank" } : { to: href })}
                 fontFamily="'Raleway', sans-serif" fontSize="9px"
                 letterSpacing="0.22em" textTransform="uppercase"
                 color={MUTED} textDecoration="none"

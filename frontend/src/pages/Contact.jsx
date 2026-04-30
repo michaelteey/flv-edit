@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Flex, Text, Heading, Grid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo from "../assets/logo2.png";
 
@@ -111,7 +112,7 @@ export default function Contact() {
                 <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.85" mb={8}>
                   We've received your message and will be in touch soon.
                 </Text>
-                <Box as="a" href="/"
+                <Box as={RouterLink} to="/"
                   fontFamily="'Raleway', sans-serif" fontSize="10px"
                   letterSpacing="0.22em" textTransform="uppercase"
                   color={MUTED} textDecoration="none"
@@ -213,13 +214,14 @@ export default function Contact() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Box as="a" href="/" textDecoration="none">
+          <Box as={RouterLink} to="/" textDecoration="none">
             <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
           </Box>
           <Flex gap={8} wrap="wrap">
             {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["About", "/about"]].map(([label, href]) => (
-              <Box key={label} as="a" href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
+              <Box key={label}
+                as={href.startsWith("http") ? "a" : RouterLink}
+                {...(href.startsWith("http") ? { href, target: "_blank" } : { to: href })}
                 fontFamily="'Raleway', sans-serif" fontSize="9px"
                 letterSpacing="0.22em" textTransform="uppercase"
                 color={MUTED} textDecoration="none"

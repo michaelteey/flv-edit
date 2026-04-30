@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo from "../assets/logo2.png";
 
@@ -41,11 +42,14 @@ function Rule() { return <Box borderTop={`1px solid ${BORDER}`} />; }
 function TextLink({ href, children, muted = false, light = false }) {
   const col = light ? "rgba(253,246,238,0.7)" : muted ? MUTED : TEXT;
   const bdr = light ? "rgba(253,246,238,0.3)" : muted ? BORDER : TEXT;
+  const isExternal = href?.startsWith("http");
   return (
-    <Box as="a" href={href} target={href?.startsWith("http") ? "_blank" : undefined}
+    <Box as={isExternal ? "a" : RouterLink}
+      {...(isExternal ? { href, target: "_blank" } : { to: href })}
       fontFamily="'Raleway', sans-serif" fontSize="10px" letterSpacing="0.22em"
       textTransform="uppercase" color={col} textDecoration="none"
       borderBottom={`1px solid ${bdr}`} pb="2px"
+      display="inline-flex" alignItems="center"
       _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
     >{children}</Box>
   );
@@ -303,13 +307,14 @@ function Footer() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Box as="a" href="/" textDecoration="none">
+          <Box as={RouterLink} to="/" textDecoration="none">
             <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
           </Box>
           <Flex gap={8} wrap="wrap">
             {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
-              <Box key={label} as="a" href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
+              <Box key={label}
+                as={href.startsWith("http") ? "a" : RouterLink}
+                {...(href.startsWith("http") ? { href, target: "_blank" } : { to: href })}
                 fontFamily="'Raleway', sans-serif" fontSize="9px"
                 letterSpacing="0.22em" textTransform="uppercase"
                 color={MUTED} textDecoration="none"
