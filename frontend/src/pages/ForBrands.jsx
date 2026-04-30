@@ -60,9 +60,10 @@ function TextLink({ href, children, muted = false, light = false }) {
   const col = light ? "rgba(253,246,238,0.7)" : muted ? MUTED : TEXT;
   const bdr = light ? "rgba(253,246,238,0.3)" : muted ? BORDER : TEXT;
   const isExternal = href?.startsWith("http");
+  const isHash = href?.startsWith("#");
   return (
-    <Box as={isExternal ? "a" : RouterLink}
-      {...(isExternal ? { href, target: "_blank" } : { to: href })}
+    <Box as={isExternal || isHash ? "a" : RouterLink}
+      {...(isExternal ? { href, target: "_blank" } : isHash ? { href } : { to: href })}
       fontFamily="'Raleway', sans-serif" fontSize="10px" letterSpacing="0.22em"
       textTransform="uppercase" color={col} textDecoration="none"
       borderBottom={`1px solid ${bdr}`} pb="2px"
