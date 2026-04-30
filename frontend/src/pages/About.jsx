@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
@@ -191,6 +192,7 @@ function TeamSection() {
 }
 
 function ValuesSection() {
+  const [hovered, setHovered] = useState(null);
   const values = [
     { title: "Intention",     body: "Every detail is chosen with purpose. Nothing is accidental." },
     { title: "Connection",    body: "Real moments between real people. Community over consumption." },
@@ -209,11 +211,13 @@ function ValuesSection() {
                 align={{ base: "flex-start", md: "center" }}
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
-                role="group"
+                cursor="default"
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
               >
-                <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "md", md: "lg" }}
-                  color={TEXT} minWidth="180px"
-                  _groupHover={{ color: "#F28B75" }} style={{ transition: "color 0.2s" }}
+                <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "xl", md: "2xl" }}
+                  color={hovered === i ? ACCENT : TEXT} minWidth="200px"
+                  style={{ transition: "color 0.2s" }}
                 >{title}</Text>
                 <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.8">{body}</Text>
               </Flex>
@@ -231,8 +235,8 @@ function QuoteSection() {
       <Rule />
       <Box py={{ base: 16, md: 24 }} textAlign="center">
         <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-          fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
-          color={TEXT} lineHeight="1.3" maxWidth="700px" mx="auto"
+          fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+          color={TEXT} lineHeight="1.4" maxWidth="640px" mx="auto"
         >
           "Every experience we create is a reminder that you deserve
           to feel good — not someday, but now."
