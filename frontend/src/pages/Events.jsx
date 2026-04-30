@@ -72,11 +72,11 @@ const upcomingEvents = [
     num: "01",
     name: "Move & Groove",
     type: "Yoga + Music",
-    date: "TBC",
-    time: "TBC",
+    date: "23 May 2026",
+    time: "11:15 AM – 1:15 PM",
     location: "London",
     desc: "A feel-good morning of movement and music. Flow through a yoga practice set to uplifting sounds — energising, joyful, and designed to get you out of your head and into your body.",
-    img: IMG.yoga,
+    img: "https://img.evbuc.com/https://cdn.evbuc.com/images/1183056439/567922715237/1/original.20260426-092642?crop=focalpoint&fit=crop&w=480&auto=format,compress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=e2311350b16f4185db76acae66be6700",
     link: EB_MOVE_GROOVE,
   },
   {
@@ -95,7 +95,7 @@ const upcomingEvents = [
 const pastEvents = [
   { name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",    date: "01 Feb 2026", img: "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=800" },
   { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",   date: "08 Mar 2026", img: "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=800" },
-  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: "https://images.pexels.com/photos/7795755/pexels-photo-7795755.jpeg?auto=compress&cs=tinysrgb&w=800" },
+  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: "https://img.evbuc.com/https://cdn.evbuc.com/images/1175247376/567922715237/1/original.20260119-155018?w=480&auto=format,compress&q=75&sharp=10&rect=0,0,1200,600&s=a74c077499e5a09873485758a1179bdc" },
   { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",  date: "10 Apr 2026", img: "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=800" },
 ];
 

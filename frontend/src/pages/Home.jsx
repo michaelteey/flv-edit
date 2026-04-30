@@ -333,7 +333,7 @@ function ServicesSection() {
 const events = [
   { date: "29 Mar 2026", name: "Scent meets Sound",             type: "Aromatherapy + Sound Healing",       past: true,  link: null },
   { date: "10 Apr 2026", name: "Stillness after Dark",          type: "Sound Healing + Live Vocals",         past: true,  link: null },
-  { date: "TBC",         name: "Move & Groove",                 type: "Yoga + Music",                        past: false, link: EB_MOVE_GROOVE },
+  { date: "23 May 2026", name: "Move & Groove",                 type: "Yoga + Music",                        past: false, link: EB_MOVE_GROOVE },
   { date: "TBC",         name: "A Moment With Me with NILA M.", type: "Soundbath, journalling & breathwork", past: false, link: EB },
 ];
 
