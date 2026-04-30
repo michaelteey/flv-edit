@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo from "../assets/logo2.png";
+import imgMoveGroove from "../assets/move-and-groove.jpg";
+import imgScentMeetsSound from "../assets/scent-meets-sound.jpg";
 
 const BG     = "#FDF6EE";
 const DARK   = "#2a1e1a";
@@ -77,7 +79,7 @@ const upcomingEvents = [
     time: "11:15 AM – 1:15 PM",
     location: "London",
     desc: "A feel-good morning of movement and music. Flow through a yoga practice set to uplifting sounds — energising, joyful, and designed to get you out of your head and into your body.",
-    img: "https://img.evbuc.com/https://cdn.evbuc.com/images/1183056439/567922715237/1/original.20260426-092642?crop=focalpoint&fit=crop&w=480&auto=format,compress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=e2311350b16f4185db76acae66be6700",
+    img: imgMoveGroove,
     link: EB_MOVE_GROOVE,
   },
   {
@@ -96,7 +98,7 @@ const upcomingEvents = [
 const pastEvents = [
   { name: "Flow into Stillness",  type: "Yin Yoga + Sound Healing",    date: "01 Feb 2026", img: "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=800" },
   { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",   date: "08 Mar 2026", img: "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=800" },
-  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1175247376%2F567922715237%2F1%2Foriginal.20260119-155018?w=600&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C1200%2C600&s=77653ec21bbb06629f5606cc1ab5fcad&w=1880&q=75" },
+  { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing", date: "29 Mar 2026", img: imgScentMeetsSound },
   { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",  date: "10 Apr 2026", img: "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=800" },
 ];
 
