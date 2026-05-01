@@ -287,11 +287,13 @@ function ServicesSection() {
             <Flex
               key={name}
               borderBottom={`1px solid ${BORDER}`}
-              py={5} align="center" justify="space-between"
+              py={5} px={4} align="center" justify="space-between"
               gap={6}
               _first={{ borderTop: `1px solid ${BORDER}` }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
+              bg={hovered === i ? ACCENT : "transparent"}
+              style={{ transition: "background 0.2s" }}
             >
               <Flex align="baseline" gap={5} flex={1}>
                 <Text
@@ -305,8 +307,7 @@ function ServicesSection() {
                   <Text
                     fontFamily="'Playfair Display', serif"
                     fontSize={{ base: "md", md: "lg" }} mb="2px"
-                    color={hovered === i ? ACCENT : TEXT}
-                    style={{ transition: "color 0.2s" }}
+                    color={TEXT}
                   >
                     {name}
                   </Text>
@@ -319,14 +320,6 @@ function ServicesSection() {
                   </Text>
                 </Box>
               </Flex>
-              <Text
-                fontFamily="'Raleway', sans-serif" fontSize="sm"
-                color={MUTED} flexShrink={0}
-                opacity={hovered === i ? 1 : 0}
-                style={{ transition: "opacity 0.2s" }}
-              >
-                →
-              </Text>
             </Flex>
           ))}
         </Box>
@@ -358,7 +351,6 @@ function EventsSection() {
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={6}
           >
-            <Cap>Spring / Summer 2026</Cap>
             <Heading
               fontFamily="'Playfair Display', serif"
               fontWeight="400"
@@ -399,7 +391,7 @@ function EventsSection() {
 
       <Row label="Events">
         <Box>
-          {events.map(({ date, name, type, past, link }, i) => (
+          {events.slice(0, 4).map(({ date, name, type, past, link }, i) => (
             <motion.div key={name + i} {...fade(i * 0.06)}>
               <Flex
                 borderBottom={`1px solid ${BORDER}`}
@@ -632,14 +624,29 @@ function TestimonialsSection() {
       <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
         gap={{ base: 6, md: 16 }} py={{ base: 12, md: 16 }}
       >
-        <Cap>Kind words</Cap>
+        <Box>
+          <Cap>Kind words</Cap>
+          <Text
+            mt={3}
+            fontFamily="'Raleway', sans-serif" fontSize="10px"
+            letterSpacing="0.22em" textTransform="uppercase" color={ACCENT}
+          >
+            Scroll →
+          </Text>
+        </Box>
         <Box
-          display="flex" gap={8} overflowX="auto" pb={4}
+          display="flex" gap={8} overflowX="auto" pb={5}
           style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
-          css={{ "&::-webkit-scrollbar": { display: "none" }, "scrollbarWidth": "none" }}
+          css={{
+            "&::-webkit-scrollbar": { height: "6px" },
+            "&::-webkit-scrollbar-track": { background: BORDER },
+            "&::-webkit-scrollbar-thumb": { background: ACCENT, borderRadius: "3px" },
+            "scrollbarWidth": "thin",
+            "scrollbarColor": `${ACCENT} ${BORDER}`,
+          }}
         >
           {testimonials.map((t, i) => (
-            <Box key={i} flexShrink={0} width={{ base: "85vw", md: "380px" }}
+            <Box key={i} flexShrink={0} width={{ base: "85vw", md: "440px" }}
               borderTop={`2px solid ${BORDER}`} pt={6}
               style={{ scrollSnapAlign: "start" }}
             >
