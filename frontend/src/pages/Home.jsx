@@ -391,7 +391,7 @@ function EventsSection() {
 
       <Row label="Events">
         <Box>
-          {events.map(({ date, name, type, past, link }, i) => (
+          {events.slice(0, 4).map(({ date, name, type, past, link }, i) => (
             <motion.div key={name + i} {...fade(i * 0.06)}>
               <Flex
                 borderBottom={`1px solid ${BORDER}`}
@@ -624,14 +624,29 @@ function TestimonialsSection() {
       <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
         gap={{ base: 6, md: 16 }} py={{ base: 12, md: 16 }}
       >
-        <Cap>Kind words</Cap>
+        <Box>
+          <Cap>Kind words</Cap>
+          <Text
+            mt={3}
+            fontFamily="'Raleway', sans-serif" fontSize="10px"
+            letterSpacing="0.22em" textTransform="uppercase" color={ACCENT}
+          >
+            Scroll →
+          </Text>
+        </Box>
         <Box
-          display="flex" gap={8} overflowX="auto" pb={4}
+          display="flex" gap={8} overflowX="auto" pb={5}
           style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
-          css={{ "&::-webkit-scrollbar": { display: "none" }, "scrollbarWidth": "none" }}
+          css={{
+            "&::-webkit-scrollbar": { height: "6px" },
+            "&::-webkit-scrollbar-track": { background: BORDER },
+            "&::-webkit-scrollbar-thumb": { background: ACCENT, borderRadius: "3px" },
+            "scrollbarWidth": "thin",
+            "scrollbarColor": `${ACCENT} ${BORDER}`,
+          }}
         >
           {testimonials.map((t, i) => (
-            <Box key={i} flexShrink={0} width={{ base: "85vw", md: "380px" }}
+            <Box key={i} flexShrink={0} width={{ base: "85vw", md: "440px" }}
               borderTop={`2px solid ${BORDER}`} pt={6}
               style={{ scrollSnapAlign: "start" }}
             >
