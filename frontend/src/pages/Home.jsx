@@ -287,11 +287,13 @@ function ServicesSection() {
             <Flex
               key={name}
               borderBottom={`1px solid ${BORDER}`}
-              py={5} align="center" justify="space-between"
+              py={5} px={4} align="center" justify="space-between"
               gap={6}
               _first={{ borderTop: `1px solid ${BORDER}` }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
+              bg={hovered === i ? ACCENT : "transparent"}
+              style={{ transition: "background 0.2s" }}
             >
               <Flex align="baseline" gap={5} flex={1}>
                 <Text
@@ -305,8 +307,7 @@ function ServicesSection() {
                   <Text
                     fontFamily="'Playfair Display', serif"
                     fontSize={{ base: "md", md: "lg" }} mb="2px"
-                    color={hovered === i ? ACCENT : TEXT}
-                    style={{ transition: "color 0.2s" }}
+                    color={TEXT}
                   >
                     {name}
                   </Text>
@@ -319,14 +320,6 @@ function ServicesSection() {
                   </Text>
                 </Box>
               </Flex>
-              <Text
-                fontFamily="'Raleway', sans-serif" fontSize="sm"
-                color={MUTED} flexShrink={0}
-                opacity={hovered === i ? 1 : 0}
-                style={{ transition: "opacity 0.2s" }}
-              >
-                →
-              </Text>
             </Flex>
           ))}
         </Box>
@@ -358,7 +351,6 @@ function EventsSection() {
             display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={6}
           >
-            <Cap>Spring / Summer 2026</Cap>
             <Heading
               fontFamily="'Playfair Display', serif"
               fontWeight="400"
