@@ -55,7 +55,7 @@ function MkHeader() {
             mb={3}
             fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }}
           >
-            The Home
+            hello flavia
           </Heading>
           <Heading
             fontFamily="'Playfair Display', serif"
@@ -66,7 +66,7 @@ function MkHeader() {
             mb={10}
             fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }}
           >
-            Of Vaya.
+            my love my true love
           </Heading>
 
           <Text
