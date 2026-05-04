@@ -233,7 +233,7 @@ function WhatToExpectSection() {
         <Box>
           {expects.map(({ title, body }, i) => (
             <motion.div key={title} {...fade(i * 0.07)}>
-              <Flex borderBottom={`1px solid ${BORDER}`} py={5}
+              <Flex borderBottom={`1px solid ${BORDER}`} py={5} px={4} mx={-4}
                 gap={{ base: 4, md: 10 }}
                 align={{ base: "flex-start", md: "center" }}
                 direction={{ base: "column", md: "row" }}
@@ -241,13 +241,18 @@ function WhatToExpectSection() {
                 cursor="default"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
+                bg={hovered === i ? TEXT : "transparent"}
+                style={{ transition: "background 0.2s" }}
               >
                 <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }}
-                  color={hovered === i ? ACCENT : TEXT}
+                  color={hovered === i ? "white" : TEXT}
                   minWidth={{ md: "200px" }} flexShrink={0}
                   style={{ transition: "color 0.2s" }}
                 >{title}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED} lineHeight="1.85">{body}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="xs"
+                  color={hovered === i ? "rgba(255,255,255,0.75)" : MUTED} lineHeight="1.85"
+                  style={{ transition: "color 0.2s" }}
+                >{body}</Text>
               </Flex>
             </motion.div>
           ))}

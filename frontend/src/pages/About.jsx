@@ -207,19 +207,24 @@ function ValuesSection() {
         <Box>
           {values.map(({ title, body }, i) => (
             <motion.div key={title} {...fade(i * 0.07)}>
-              <Flex borderBottom={`1px solid ${BORDER}`} py={5} gap={8}
+              <Flex borderBottom={`1px solid ${BORDER}`} py={5} px={4} mx={-4} gap={8}
                 align={{ base: "flex-start", md: "center" }}
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
                 cursor="default"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
+                bg={hovered === i ? TEXT : "transparent"}
+                style={{ transition: "background 0.2s" }}
               >
                 <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "xl", md: "2xl" }}
-                  color={hovered === i ? ACCENT : TEXT} minWidth="200px"
+                  color={hovered === i ? "white" : TEXT} minWidth="200px"
                   style={{ transition: "color 0.2s" }}
                 >{title}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.8">{body}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+                  color={hovered === i ? "rgba(255,255,255,0.75)" : MUTED} lineHeight="1.8"
+                  style={{ transition: "color 0.2s" }}
+                >{body}</Text>
               </Flex>
             </motion.div>
           ))}

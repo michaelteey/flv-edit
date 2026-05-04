@@ -323,14 +323,16 @@ function ServicesSection() {
               _first={{ borderTop: `1px solid ${BORDER}` }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              bg={hovered === i ? "#F28B75" : "transparent"}
-              style={{ transition: "background 0.2s" }}
+              bg={hovered === i ? TEXT : "transparent"}
+              style={{ transition: "background 0.2s, color 0.2s" }}
             >
               <Flex align="baseline" gap={5} flex={1}>
                 <Text
                   fontFamily="'Raleway', sans-serif"
-                  fontSize="9px" color={MUTED}
+                  fontSize="9px"
+                  color={hovered === i ? "white" : MUTED}
                   letterSpacing="0.2em" minWidth="20px" flexShrink={0}
+                  style={{ transition: "color 0.2s" }}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </Text>
@@ -338,14 +340,17 @@ function ServicesSection() {
                   <Text
                     fontFamily="'Playfair Display', serif"
                     fontSize={{ base: "md", md: "lg" }} mb="2px"
-                    color={TEXT}
+                    color={hovered === i ? "white" : TEXT}
+                    style={{ transition: "color 0.2s" }}
                   >
                     {name}
                   </Text>
                   <Text
                     fontFamily="'Raleway', sans-serif"
-                    fontSize="13px" color={MUTED}
+                    fontSize="13px"
+                    color={hovered === i ? "rgba(255,255,255,0.75)" : MUTED}
                     display={{ base: "none", md: "block" }}
+                    style={{ transition: "color 0.2s" }}
                   >
                     {desc}
                   </Text>
@@ -706,7 +711,7 @@ function BrandPartnersSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <Box py={{ base: 10, md: 14 }} overflow="hidden">
-        <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={6}>Brands we've worked with</Text>
+        <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={6}>Brands we've worked with so far</Text>
         <Box overflow="hidden">
           <Flex
             gap={10}
