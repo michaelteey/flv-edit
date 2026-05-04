@@ -22,12 +22,14 @@ const CONTACT = "/contact";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
 const EB     = "https://www.eventbrite.co.uk/o/112025993841";
 const EB_MOVE_GROOVE = "https://www.eventbrite.co.uk/e/yoga-and-live-dj-move-groove-with-vaya-tickets-1988231040564?aff=ebdssbdestsearch";
+const EB_HER_SPRING_RESET = "https://www.eventbrite.co.uk/e/her-spring-reset-sound-bath-journaling-meditation-retreat-women-only-tickets-1988235100708";
 
 const IMG = {
   hero:    "https://images.pexels.com/photos/7162250/pexels-photo-7162250.jpeg?auto=compress&cs=tinysrgb&w=1800",
   yoga:    "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=1200",
   bowls:   "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=1200",
   candles: "https://images.pexels.com/photos/7795755/pexels-photo-7795755.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  spring:  "https://images.pexels.com/photos/4505172/pexels-photo-4505172.jpeg?auto=compress&cs=tinysrgb&w=1200",
 };
 
 const fade = (delay = 0) => ({
@@ -88,14 +90,14 @@ const upcomingEvents = [
   },
   {
     num: "02",
-    name: "A Moment With Me with NILA M.",
-    type: "Soundbath, journalling and breathwork",
+    name: "Her Spring Reset with NILA M.",
+    type: "Sound bath, journaling & meditation retreat — women only",
     date: "TBC",
     time: "TBC",
     location: "London",
-    desc: "An intimate evening with NILA M. — a deeply moving sound journey blending crystal singing bowls, gong, and live vocal harmonics. Expect stillness, surrender, and something that stays with you.",
-    img: IMG.bowls,
-    link: EB,
+    desc: "A women-only retreat with NILA M. — a slow, intentional reset combining sound bath, guided journaling and meditation. Step into spring softer, clearer, and more connected to yourself.",
+    img: IMG.spring,
+    link: EB_HER_SPRING_RESET,
   },
 ];
 
@@ -241,7 +243,7 @@ function WhatToExpectSection() {
                 cursor="default"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
-                bg={hovered === i ? TEXT : "transparent"}
+                bg={hovered === i ? "#F28B75" : "transparent"}
                 style={{ transition: "background 0.2s" }}
               >
                 <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }}

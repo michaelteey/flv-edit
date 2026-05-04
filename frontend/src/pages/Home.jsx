@@ -323,7 +323,7 @@ function ServicesSection() {
               _first={{ borderTop: `1px solid ${BORDER}` }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              bg={hovered === i ? TEXT : "transparent"}
+              bg={hovered === i ? "#F28B75" : "transparent"}
               style={{ transition: "background 0.2s, color 0.2s" }}
             >
               <Flex align="baseline" gap={5} flex={1}>

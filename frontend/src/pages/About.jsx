@@ -112,7 +112,9 @@ function FounderSection() {
           <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7}
           >
-            <Cap>Founder</Cap>
+            <Text fontFamily="'Raleway', sans-serif" fontSize="14px"
+              letterSpacing="0.28em" textTransform="uppercase" color={MUTED}
+            >Founder</Text>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
               fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
             >
@@ -165,7 +167,9 @@ function TeamSection() {
           <Box bg="#FDF6EE" display="flex" flexDirection="column" justifyContent="center"
             px={{ base: 8, md: 14 }} py={{ base: 12, md: 16 }} gap={7} order={{ base: 1, md: 2 }}
           >
-            <Cap>Head of Partnerships</Cap>
+            <Text fontFamily="'Raleway', sans-serif" fontSize="14px"
+              letterSpacing="0.28em" textTransform="uppercase" color={MUTED}
+            >Head of Partnerships</Text>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
               fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
             >
@@ -214,7 +218,7 @@ function ValuesSection() {
                 cursor="default"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
-                bg={hovered === i ? TEXT : "transparent"}
+                bg={hovered === i ? "#F28B75" : "transparent"}
                 style={{ transition: "background 0.2s" }}
               >
                 <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "xl", md: "2xl" }}
