@@ -219,9 +219,9 @@ function OfferingsSection() {
   const [active, setActive] = useState(0);
   const current = offerings[active];
   return (
-    <Box id="offerings" style={{ scrollMarginTop: "80px" }} py={{ base: 10, md: 14 }}>
+    <Box id="offerings" style={{ scrollMarginTop: "80px" }}>
       <Rule />
-      <Box pt={{ base: 8, md: 12 }}>
+      <Box py={{ base: 10, md: 14 }}>
         <Cap>What we offer</Cap>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 4, md: 6 }} mt={6}>
           {offerings.map(({ num, title, img }, i) => {
@@ -304,43 +304,86 @@ function OfferingsSection() {
 }
 
 function BrandVoicesSection() {
+  const [index, setIndex] = useState(0);
+  const total = brandVoices.length;
+  const current = brandVoices[index];
+  const goPrev = () => setIndex((i) => (i - 1 + total) % total);
+  const goNext = () => setIndex((i) => (i + 1) % total);
+
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <Box py={{ base: 12, md: 16 }}>
-        <Cap>Brand voices</Cap>
-        <Box mt={8}
-          display="flex" gap={8} overflowX="auto" pb={5}
-          style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
-          css={{
-            "&::-webkit-scrollbar": { height: "6px" },
-            "&::-webkit-scrollbar-track": { background: BORDER },
-            "&::-webkit-scrollbar-thumb": { background: "#F28B75", borderRadius: "3px" },
-            "scrollbarWidth": "thin",
-            "scrollbarColor": `#F28B75 ${BORDER}`,
-          }}
-        >
-          {brandVoices.map(({ quote, author }, i) => (
-            <motion.div key={author} {...fade(i * 0.15)} style={{ flexShrink: 0 }}>
-              <Box width={{ base: "85vw", md: "440px" }}
-                borderTop={`2px solid ${BORDER}`} pt={6}
-                style={{ scrollSnapAlign: "start" }}
-              >
+      <Box py={{ base: 14, md: 20 }}>
+        <Flex align="center" justify="space-between" mb={{ base: 8, md: 10 }} gap={4}>
+          <Cap>Brand voices</Cap>
+          <Text fontFamily="'Raleway', sans-serif" fontSize="11px"
+            letterSpacing="0.22em" color={MUTED}
+          >
+            {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </Text>
+        </Flex>
+
+        <Box minHeight={{ base: "260px", md: "220px" }} position="relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.author}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              <Box maxWidth="820px">
+                <Box as="span" fontFamily="'Playfair Display', serif"
+                  fontSize={{ base: "80px", md: "120px" }} color="#F28B75"
+                  lineHeight="0.6" display="block" mb={2}
+                >“</Box>
                 <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-                  fontSize={{ base: "15px", md: "17px" }} color={TEXT}
-                  lineHeight="1.8" mb={5}
+                  fontSize={{ base: "xl", md: "3xl" }} color={TEXT}
+                  lineHeight="1.4" mb={8}
                 >
-                  "{quote}"
+                  {current.quote}
                 </Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
-                  letterSpacing="0.22em" textTransform="uppercase" color={MUTED}
+                <Text fontFamily="'Raleway', sans-serif" fontSize="11px"
+                  letterSpacing="0.24em" textTransform="uppercase" color={MUTED}
                 >
-                  — {author}
+                  — {current.author}
                 </Text>
               </Box>
             </motion.div>
-          ))}
+          </AnimatePresence>
         </Box>
+
+        <Flex align="center" gap={4} mt={{ base: 8, md: 10 }}>
+          <Box as="button" type="button" onClick={goPrev} aria-label="Previous voice"
+            width="48px" height="48px" border={`1px solid ${BORDER}`}
+            background="transparent" color={TEXT} cursor="pointer"
+            display="inline-flex" alignItems="center" justifyContent="center"
+            fontFamily="'Raleway', sans-serif" fontSize="20px"
+            _hover={{ bg: "#F28B75", color: "white", borderColor: "#F28B75" }}
+            style={{ transition: "background 0.2s, color 0.2s, border-color 0.2s" }}
+          >←</Box>
+          <Box as="button" type="button" onClick={goNext} aria-label="Next voice"
+            width="48px" height="48px" border={`1px solid ${BORDER}`}
+            background="transparent" color={TEXT} cursor="pointer"
+            display="inline-flex" alignItems="center" justifyContent="center"
+            fontFamily="'Raleway', sans-serif" fontSize="20px"
+            _hover={{ bg: "#F28B75", color: "white", borderColor: "#F28B75" }}
+            style={{ transition: "background 0.2s, color 0.2s, border-color 0.2s" }}
+          >→</Box>
+
+          <Flex gap={2} ml={{ base: 4, md: 6 }}>
+            {brandVoices.map((v, i) => (
+              <Box key={v.author} as="button" type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Voice ${i + 1}`}
+                width="28px" height="2px" border="none"
+                bg={i === index ? "#F28B75" : BORDER}
+                cursor="pointer" padding={0}
+                style={{ transition: "background 0.2s" }}
+              />
+            ))}
+          </Flex>
+        </Flex>
       </Box>
     </motion.div>
   );
