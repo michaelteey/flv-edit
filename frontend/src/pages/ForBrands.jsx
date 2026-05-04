@@ -180,9 +180,6 @@ function WhyVayaSection() {
       <Rule />
       <Row label="Why Vaya">
         <Box>
-          <Text fontFamily="'Playfair Display', serif" fontSize={{ base: "lg", md: "xl" }} color={TEXT} mb={8} fontStyle="italic">
-            Here's why they love working with us.
-          </Text>
           {reasons.map(({ title, body }, i) => (
             <motion.div key={title} {...fade(i * 0.08)}>
               <Flex borderBottom={`1px solid ${BORDER}`} py={5} px={4}
