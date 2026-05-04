@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo from "../assets/logo2.png";
@@ -191,15 +191,21 @@ function WhyVayaSection() {
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
                 mx={-4}
-                bg={hovered === i ? "#f5ece2" : "transparent"}
+                bg={hovered === i ? TEXT : "transparent"}
                 cursor="default"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
                 style={{ transition: "background 0.2s" }}
               >
-                <Text fontFamily="'Playfair Display', serif" fontSize="lg" color={TEXT}
-                  minWidth={{ md: "220px" }} flexShrink={0}>{title}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.85">{body}</Text>
+                <Text fontFamily="'Playfair Display', serif" fontSize="lg"
+                  color={hovered === i ? "white" : TEXT}
+                  minWidth={{ md: "220px" }} flexShrink={0}
+                  style={{ transition: "color 0.2s" }}
+                >{title}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+                  color={hovered === i ? "rgba(255,255,255,0.75)" : MUTED} lineHeight="1.85"
+                  style={{ transition: "color 0.2s" }}
+                >{body}</Text>
               </Flex>
             </motion.div>
           ))}
@@ -210,46 +216,89 @@ function WhyVayaSection() {
 }
 
 function OfferingsSection() {
-  const [hovered, setHovered] = useState(null);
+  const [active, setActive] = useState(0);
+  const current = offerings[active];
   return (
-    <Box id="offerings" style={{ scrollMarginTop: "80px" }}>
+    <Box id="offerings" style={{ scrollMarginTop: "80px" }} py={{ base: 10, md: 14 }}>
       <Rule />
-      {offerings.map(({ num, title, desc, includes }, i) => (
-        <motion.div key={num} {...fade(i * 0.08)}>
-          <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
-            gap={{ base: 6, md: 16 }}
-            borderBottom={`1px solid ${BORDER}`}
-            py={{ base: 10, md: 14 }}
-            _first={{ borderTop: `1px solid ${BORDER}` }}
-            cursor="default"
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
+      <Box pt={{ base: 8, md: 12 }}>
+        <Cap>What we offer</Cap>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 4, md: 6 }} mt={6}>
+          {offerings.map(({ num, title, img }, i) => {
+            const isActive = active === i;
+            return (
+              <Box key={num}
+                onClick={() => setActive(i)}
+                cursor="pointer"
+                position="relative"
+                overflow="hidden"
+                role="button"
+                aria-pressed={isActive}
+                style={{ aspectRatio: "4 / 5", transition: "transform 0.3s ease" }}
+                _hover={{ transform: "translateY(-4px)" }}
+              >
+                <Box as="img" src={img} alt={title}
+                  width="100%" height="100%"
+                  objectFit="cover" display="block"
+                  style={{ transition: "transform 0.6s ease, filter 0.3s ease" }}
+                  _hover={{ transform: "scale(1.04)" }}
+                />
+                <Box position="absolute" inset={0}
+                  bg={isActive ? "rgba(64,54,49,0.65)" : "rgba(64,54,49,0.35)"}
+                  style={{ transition: "background 0.3s ease" }}
+                />
+                <Flex position="absolute" inset={0} direction="column"
+                  justify="space-between" p={{ base: 5, md: 6 }} color="white"
+                >
+                  <Text fontFamily="'Raleway', sans-serif" fontSize="10px"
+                    letterSpacing="0.24em" color="rgba(255,255,255,0.75)"
+                  >{num}</Text>
+                  <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
+                    fontSize={{ base: "xl", md: "2xl" }} lineHeight="1.15"
+                  >{title}</Heading>
+                </Flex>
+                {isActive && (
+                  <Box position="absolute" left={0} right={0} bottom={0} height="3px" bg="#F28B75" />
+                )}
+              </Box>
+            );
+          })}
+        </SimpleGrid>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.num}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
           >
-            <Box>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
-                letterSpacing="0.2em" color={MUTED} mb={2}>{num}</Text>
-              <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-                fontSize={{ base: "xl", md: "2xl" }} lineHeight="1.2"
-                color={hovered === i ? ACCENT : TEXT} style={{ transition: "color 0.2s" }}
-              >{title}</Heading>
-            </Box>
-            <Box>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
-                color={MUTED} lineHeight="1.9" mb={6}>{desc}</Text>
-              <Flex wrap="wrap" gap={2}>
-                {includes.map((item) => (
-                  <Box key={item}
-                    fontFamily="'Raleway', sans-serif" fontSize="9px"
-                    letterSpacing="0.12em" textTransform="uppercase"
-                    color={MUTED} border={`1px solid ${BORDER}`}
-                    px={3} py="6px"
-                  >{item}</Box>
-                ))}
-              </Flex>
-            </Box>
-          </Grid>
-        </motion.div>
-      ))}
+            <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
+              gap={{ base: 6, md: 16 }}
+              mt={{ base: 8, md: 10 }}
+              borderTop={`1px solid ${BORDER}`}
+              pt={{ base: 8, md: 10 }}
+            >
+              <Cap>Details</Cap>
+              <Box>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
+                  color={MUTED} lineHeight="1.9" mb={6}
+                >{current.desc}</Text>
+                <Flex wrap="wrap" gap={2}>
+                  {current.includes.map((item) => (
+                    <Box key={item}
+                      fontFamily="'Raleway', sans-serif" fontSize="9px"
+                      letterSpacing="0.12em" textTransform="uppercase"
+                      color={MUTED} border={`1px solid ${BORDER}`}
+                      px={3} py="6px"
+                    >{item}</Box>
+                  ))}
+                </Flex>
+              </Box>
+            </Grid>
+          </motion.div>
+        </AnimatePresence>
+      </Box>
     </Box>
   );
 }
@@ -260,13 +309,26 @@ function BrandVoicesSection() {
       <Rule />
       <Box py={{ base: 12, md: 16 }}>
         <Cap>Brand voices</Cap>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 16 }} mt={8}>
+        <Box mt={8}
+          display="flex" gap={8} overflowX="auto" pb={5}
+          style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
+          css={{
+            "&::-webkit-scrollbar": { height: "6px" },
+            "&::-webkit-scrollbar-track": { background: BORDER },
+            "&::-webkit-scrollbar-thumb": { background: "#F28B75", borderRadius: "3px" },
+            "scrollbarWidth": "thin",
+            "scrollbarColor": `#F28B75 ${BORDER}`,
+          }}
+        >
           {brandVoices.map(({ quote, author }, i) => (
-            <motion.div key={author} {...fade(i * 0.15)}>
-              <Box borderTop={`1px solid ${BORDER}`} pt={6}>
-                <Text fontFamily="'Raleway', sans-serif" fontWeight="300" fontStyle="italic"
-                  fontSize={{ base: "md", md: "lg" }} color={TEXT}
-                  lineHeight="1.7" mb={5}
+            <motion.div key={author} {...fade(i * 0.15)} style={{ flexShrink: 0 }}>
+              <Box width={{ base: "85vw", md: "440px" }}
+                borderTop={`2px solid ${BORDER}`} pt={6}
+                style={{ scrollSnapAlign: "start" }}
+              >
+                <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+                  fontSize={{ base: "15px", md: "17px" }} color={TEXT}
+                  lineHeight="1.8" mb={5}
                 >
                   "{quote}"
                 </Text>
@@ -278,40 +340,80 @@ function BrandVoicesSection() {
               </Box>
             </motion.div>
           ))}
-        </SimpleGrid>
+        </Box>
       </Box>
     </motion.div>
   );
 }
 
 function ProcessSection() {
-  const [hovered, setHovered] = useState(null);
+  const [open, setOpen] = useState(0);
   return (
     <motion.div {...fade(0)}>
       <Rule />
       <Row label="How it works">
         <Box>
-          {process.map(({ n, title, body }, i) => (
-            <motion.div key={n} {...fade(i * 0.07)}>
-              <Flex borderBottom={`1px solid ${BORDER}`} py={5} gap={8}
-                align={{ base: "flex-start", md: "center" }}
+          {process.map(({ n, title, body }, i) => {
+            const isOpen = open === i;
+            return (
+              <Box key={n}
+                borderBottom={`1px solid ${BORDER}`}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
-                cursor="default"
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
               >
-                <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
-                  letterSpacing="0.2em" color={MUTED} minWidth="28px" flexShrink={0}
-                >{n}</Text>
-                <Box>
-                  <Text fontFamily="'Playfair Display', serif" fontSize="md" mb={2}
-                    color={hovered === i ? ACCENT : TEXT} style={{ transition: "color 0.2s" }}
+                <Flex
+                  as="button"
+                  type="button"
+                  onClick={() => setOpen(isOpen ? -1 : i)}
+                  width="100%"
+                  py={5} px={4} mx={-4}
+                  align="center" gap={6}
+                  textAlign="left"
+                  bg={isOpen ? TEXT : "transparent"}
+                  cursor="pointer"
+                  style={{ transition: "background 0.2s" }}
+                  aria-expanded={isOpen}
+                >
+                  <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
+                    letterSpacing="0.2em" minWidth="28px" flexShrink={0}
+                    color={isOpen ? "rgba(255,255,255,0.7)" : MUTED}
+                    style={{ transition: "color 0.2s" }}
+                  >{n}</Text>
+                  <Text flex={1} fontFamily="'Playfair Display', serif"
+                    fontSize={{ base: "md", md: "lg" }}
+                    color={isOpen ? "white" : TEXT}
+                    style={{ transition: "color 0.2s" }}
                   >{title}</Text>
-                  <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.85">{body}</Text>
-                </Box>
-              </Flex>
-            </motion.div>
-          ))}
+                  <Box as="span" flexShrink={0}
+                    fontFamily="'Raleway', sans-serif" fontSize="20px"
+                    color={isOpen ? "white" : MUTED}
+                    style={{
+                      transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+                      transition: "transform 0.25s ease, color 0.2s",
+                      lineHeight: 1,
+                    }}
+                  >+</Box>
+                </Flex>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      <Box pl={{ base: 0, md: "52px" }} pr={4} pb={6} pt={2}>
+                        <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
+                          color={MUTED} lineHeight="1.85" maxWidth="640px"
+                        >{body}</Text>
+                      </Box>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Box>
+            );
+          })}
         </Box>
       </Row>
     </motion.div>
@@ -324,7 +426,7 @@ function PartnersSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <Box py={{ base: 10, md: 14 }} overflow="hidden">
-        <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={6}>Brands we've worked with</Text>
+        <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED} mb={6}>Brands we've worked with so far</Text>
         <Box overflow="hidden">
           <Flex
             gap={10}
@@ -351,10 +453,10 @@ function CTASection() {
     <motion.div {...fade(0)}>
       <Rule />
       <FullBleed>
-        <Box bg={ACCENT} px={{ base: 8, md: 16 }} py={{ base: 16, md: 24 }}>
+        <Box bg="#F28B75" px={{ base: 8, md: 16 }} py={{ base: 16, md: 24 }}>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 20 }} alignItems="center">
             <Box>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="9px" letterSpacing="0.28em" textTransform="uppercase" color="rgba(253,246,238,0.6)" mb={5}>Let's create together</Text>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="14px" letterSpacing="0.28em" textTransform="uppercase" color="white" mb={5}>Let's create together</Text>
               <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
                 fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
                 color="#FDF6EE" lineHeight="1.1"
