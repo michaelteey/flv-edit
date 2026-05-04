@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Box, Flex, Text, Heading, Grid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
@@ -10,7 +10,9 @@ const TEXT   = "#403631";
 const MUTED  = "#9a8878";
 const BORDER = "#e8ddd5";
 const ACCENT = "#EC6F51";
+const CORAL  = "#F28B75";
 const LINKTREE = "https://www.instagram.com/wearevaya_/";
+const ML_SUBSCRIBE_URL = "https://assets.mailerlite.com/jsonp/2086737/forms/186367181833897792/subscribe";
 
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
@@ -40,6 +42,131 @@ const inputStyle = {
   color: TEXT,
   letterSpacing: "0.02em",
 };
+
+function NewsletterSection() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const iframeName = "ml-newsletter-iframe";
+  const iframeMounted = useRef(false);
+
+  const handleSubmit = (e) => {
+    if (!email) {
+      e.preventDefault();
+      return;
+    }
+    setStatus("submitting");
+  };
+
+  const handleIframeLoad = () => {
+    if (!iframeMounted.current) {
+      iframeMounted.current = true;
+      return;
+    }
+    setStatus("success");
+    setEmail("");
+  };
+
+  return (
+    <Grid
+      id="newsletter"
+      templateColumns={{ base: "1fr", md: "180px 1fr" }}
+      gap={{ base: 6, md: 16 }}
+      py={{ base: 12, md: 20 }}
+      style={{ scrollMarginTop: "80px" }}
+    >
+      <Cap>Newsletter</Cap>
+
+      <motion.div {...fade(0.1)}>
+        <Box maxWidth="560px">
+          {status === "success" ? (
+            <Box>
+              <Heading
+                fontFamily="'Playfair Display', serif" fontWeight="400"
+                fontSize={{ base: "2xl", md: "3xl" }} color={TEXT} mb={4}
+              >
+                You're in.
+              </Heading>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.85" mb={6}>
+                Thanks — we'll keep you in the loop on upcoming events and the occasional special offer.
+              </Text>
+              <Box as="button" type="button"
+                onClick={() => setStatus("idle")}
+                fontFamily="'Raleway', sans-serif" fontSize="10px"
+                letterSpacing="0.22em" textTransform="uppercase"
+                color={MUTED} background="transparent" border="none"
+                borderBottom={`1px solid ${BORDER}`} pb="2px"
+                cursor="pointer"
+                _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
+              >
+                Subscribe another email
+              </Box>
+            </Box>
+          ) : (
+            <>
+              <Heading
+                fontFamily="'Playfair Display', serif" fontWeight="400"
+                fontSize={{ base: "2xl", md: "3xl" }} color={TEXT} lineHeight="1.2" mb={4}
+              >
+                Stay in the loop.
+              </Heading>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED}
+                lineHeight="1.85" maxWidth="420px" mb={8}
+              >
+                Be the first to hear about upcoming Vaya events and the occasional
+                special offer. No spam — promise.
+              </Text>
+
+              <Box as="form"
+                action={ML_SUBSCRIBE_URL}
+                method="POST"
+                target={iframeName}
+                onSubmit={handleSubmit}
+              >
+                <Flex direction={{ base: "column", md: "row" }} gap={4} align={{ md: "flex-end" }}>
+                  <Box flex={1} width="100%">
+                    <Cap>Email</Cap>
+                    <input
+                      type="email"
+                      name="fields[email]"
+                      required
+                      autoComplete="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      style={inputStyle}
+                    />
+                  </Box>
+                  <input type="hidden" name="ml-submit" value="1" />
+                  <input type="hidden" name="anticsrf" value="true" />
+                  <Box as="button" type="submit"
+                    disabled={status === "submitting"}
+                    bg={CORAL} color="white"
+                    px={10} py="14px"
+                    fontFamily="'Raleway', sans-serif" fontSize="10px"
+                    letterSpacing="0.22em" textTransform="uppercase"
+                    border="none" cursor="pointer"
+                    flexShrink={0}
+                    opacity={status === "submitting" ? 0.6 : 1}
+                    _hover={{ bg: ACCENT }} style={{ transition: "background 0.2s" }}
+                  >
+                    {status === "submitting" ? "Joining…" : "Subscribe"}
+                  </Box>
+                </Flex>
+              </Box>
+
+              <iframe
+                name={iframeName}
+                title="newsletter-response"
+                onLoad={handleIframeLoad}
+                style={{ display: "none" }}
+              />
+            </>
+          )}
+        </Box>
+      </motion.div>
+    </Grid>
+  );
+}
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -208,6 +335,11 @@ export default function Contact() {
             </motion.div>
           )}
         </Grid>
+
+        <Rule />
+
+        {/* Newsletter (MailerLite) */}
+        <NewsletterSection />
 
       </Box>
       {/* Footer */}
