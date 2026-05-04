@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo2 from "../assets/logo2.png";
@@ -24,6 +24,7 @@ const CONTACT    = "/contact";
 const NEWSLETTER = "https://form.jotform.com/252685067130355";
 const EB            = "https://www.eventbrite.co.uk/o/112025993841";
 const EB_MOVE_GROOVE = "https://www.eventbrite.co.uk/e/yoga-and-live-dj-move-groove-with-vaya-tickets-1988231040564?aff=ebdssbdestsearch";
+const EB_HER_SPRING_RESET = "https://www.eventbrite.co.uk/e/her-spring-reset-sound-bath-journaling-meditation-retreat-women-only-tickets-1988235100708";
 
 // ─── Imagery (Pexels) ─────────────────────────────────────────────────────────
 const IMG = {
@@ -52,6 +53,31 @@ function useTypewriter(text, speed = 85) {
   return displayed;
 }
 
+function ScrollTypewriter({ text, speed = 55, as: Component = "span", ...rest }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    if (!inView) return;
+    let i = 0;
+    setDisplayed("");
+    const t = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(t);
+    }, speed);
+    return () => clearInterval(t);
+  }, [inView, text, speed]);
+  return (
+    <Component ref={ref} {...rest}>
+      {displayed}
+      {inView && displayed.length < text.length && (
+        <Box as="span" opacity={0.6}>|</Box>
+      )}
+    </Component>
+  );
+}
+
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
   whileInView: { opacity: 1, y: 0 },
@@ -63,7 +89,7 @@ const fade = (delay = 0) => ({
 function Cap({ children, light = false }) {
   return (
     <Text
-      fontFamily="'Raleway', sans-serif" fontSize="9px"
+      fontFamily="'Raleway', sans-serif" fontSize="13px"
       letterSpacing="0.28em" textTransform="uppercase"
       color={light ? "rgba(245,240,235,0.4)" : MUTED}
     >
@@ -101,7 +127,7 @@ function Row({ label, children, py = 16 }) {
       gap={{ base: 6, md: 16 }}
       py={{ base: py / 2, md: py }}
     >
-      <Text fontFamily="'Raleway', sans-serif" fontSize="11px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED}>{label}</Text>
+      <Text fontFamily="'Raleway', sans-serif" fontSize="15px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED}>{label}</Text>
       <Box>{children}</Box>
     </Grid>
   );
@@ -226,7 +252,12 @@ function AboutSection() {
               >
                 Founded on the belief that
                 <br />
-                <Box as="em" color={ACCENT}>self-care is a journey,</Box>
+                <ScrollTypewriter
+                  as={Box}
+                  text="self-care is a journey,"
+                  fontStyle="italic"
+                  color={ACCENT}
+                />
                 <br />
                 not a destination.
               </Heading>
@@ -292,7 +323,7 @@ function ServicesSection() {
               _first={{ borderTop: `1px solid ${BORDER}` }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              bg={hovered === i ? ACCENT : "transparent"}
+              bg={hovered === i ? "#F28B75" : "transparent"}
               style={{ transition: "background 0.2s" }}
             >
               <Flex align="baseline" gap={5} flex={1}>
@@ -336,7 +367,7 @@ const events = [
   { date: "29 Mar 2026", name: "Scent meets Sound",             type: "Aromatherapy + Sound Healing",        past: true,  link: null },
   { date: "10 Apr 2026", name: "Stillness after Dark",          type: "Sound Healing + Live Vocals",         past: true,  link: null },
   { date: "23 May 2026", name: "Move & Groove",                 type: "Yoga + Music",                        past: false, link: EB_MOVE_GROOVE },
-  { date: "TBC",         name: "A Moment With Me with NILA M.", type: "Soundbath, journalling & breathwork", past: false, link: EB },
+  { date: "TBC",         name: "A Moment With Me with NILA M.", type: "Soundbath, journalling & breathwork", past: false, link: EB_HER_SPRING_RESET },
 ];
 
 function EventsSection() {
@@ -391,7 +422,7 @@ function EventsSection() {
 
       <Row label="Events">
         <Box>
-          {events.slice(0, 4).map(({ date, name, type, past, link }, i) => (
+          {events.slice(-4).map(({ date, name, type, past, link }, i) => (
             <motion.div key={name + i} {...fade(i * 0.06)}>
               <Flex
                 borderBottom={`1px solid ${BORDER}`}
@@ -624,25 +655,16 @@ function TestimonialsSection() {
       <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
         gap={{ base: 6, md: 16 }} py={{ base: 12, md: 16 }}
       >
-        <Box>
-          <Cap>Kind words</Cap>
-          <Text
-            mt={3}
-            fontFamily="'Raleway', sans-serif" fontSize="10px"
-            letterSpacing="0.22em" textTransform="uppercase" color={ACCENT}
-          >
-            Scroll →
-          </Text>
-        </Box>
+        <Cap>Kind words</Cap>
         <Box
           display="flex" gap={8} overflowX="auto" pb={5}
           style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
           css={{
             "&::-webkit-scrollbar": { height: "6px" },
             "&::-webkit-scrollbar-track": { background: BORDER },
-            "&::-webkit-scrollbar-thumb": { background: ACCENT, borderRadius: "3px" },
+            "&::-webkit-scrollbar-thumb": { background: "#F28B75", borderRadius: "3px" },
             "scrollbarWidth": "thin",
-            "scrollbarColor": `${ACCENT} ${BORDER}`,
+            "scrollbarColor": `#F28B75 ${BORDER}`,
           }}
         >
           {testimonials.map((t, i) => (
@@ -735,7 +757,7 @@ function Footer() {
               letterSpacing="0.22em" textTransform="uppercase"
               bg={ACCENT} color="white"
               px={4} py="8px" textDecoration="none"
-              _hover={{ bg: "#EC6F51" }} style={{ transition: "background 0.2s" }}
+              _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
             >
               Join newsletter
             </Box>

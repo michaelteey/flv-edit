@@ -38,7 +38,7 @@ export default function MkNavbar() {
       >
         {/* Logo */}
         <Box as={RouterLink} to="/" textDecoration="none">
-          <Box as="img" src={logo2} alt="Vaya" height="86px" display="block" />
+          <Box as="img" src={logo2} alt="Vaya" height="120px" display="block" />
         </Box>
 
         <HStack gap={8}>
@@ -60,7 +60,7 @@ export default function MkNavbar() {
               fontWeight="500"
               color="#403631"
               textDecoration="none"
-              _hover={{ color: "#EC6F51" }}
+              _hover={{ color: "#F28B75" }}
               style={{ transition: "color 0.2s" }}
             >
               {label}
