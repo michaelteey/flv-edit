@@ -757,7 +757,7 @@ function Footer() {
                 {label}
               </Box>
             ))}
-            <Box as="a" href={NEWSLETTER} target="_blank"
+            <Box as={RouterLink} to="/contact#newsletter"
               fontFamily="'Raleway', sans-serif" fontSize="9px"
               letterSpacing="0.22em" textTransform="uppercase"
               bg={ACCENT} color="white"
