@@ -45,23 +45,22 @@ const inputStyle = {
 
 function NewsletterSection() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const [status, setStatus] = useState("idle"); // idle | submitting | success
   const iframeName = "ml-newsletter-iframe";
-  const iframeMounted = useRef(false);
+  const awaitingResponse = useRef(false);
 
   const handleSubmit = (e) => {
     if (!email) {
       e.preventDefault();
       return;
     }
+    awaitingResponse.current = true;
     setStatus("submitting");
   };
 
   const handleIframeLoad = () => {
-    if (!iframeMounted.current) {
-      iframeMounted.current = true;
-      return;
-    }
+    if (!awaitingResponse.current) return;
+    awaitingResponse.current = false;
     setStatus("success");
     setEmail("");
   };

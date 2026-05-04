@@ -191,7 +191,7 @@ function WhyVayaSection() {
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}
                 mx={-4}
-                bg={hovered === i ? TEXT : "transparent"}
+                bg={hovered === i ? "#F28B75" : "transparent"}
                 cursor="default"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
@@ -368,7 +368,7 @@ function ProcessSection() {
                   py={5} px={4} mx={-4}
                   align="center" gap={6}
                   textAlign="left"
-                  bg={isOpen ? TEXT : "transparent"}
+                  bg={isOpen ? "#F28B75" : "transparent"}
                   cursor="pointer"
                   style={{ transition: "background 0.2s" }}
                   aria-expanded={isOpen}
