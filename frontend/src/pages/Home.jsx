@@ -89,7 +89,7 @@ const fade = (delay = 0) => ({
 function Cap({ children, light = false }) {
   return (
     <Text
-      fontFamily="'Raleway', sans-serif" fontSize="13px"
+      fontFamily="'Raleway', sans-serif" fontSize="12px"
       letterSpacing="0.28em" textTransform="uppercase"
       color={light ? "rgba(245,240,235,0.4)" : MUTED}
     >
@@ -127,7 +127,7 @@ function Row({ label, children, py = 16 }) {
       gap={{ base: 6, md: 16 }}
       py={{ base: py / 2, md: py }}
     >
-      <Text fontFamily="'Raleway', sans-serif" fontSize="15px" letterSpacing="0.24em" textTransform="uppercase" color={MUTED}>{label}</Text>
+      <Text fontFamily="'Raleway', sans-serif" fontSize="12px" letterSpacing="0.28em" textTransform="uppercase" color={MUTED}>{label}</Text>
       <Box>{children}</Box>
     </Grid>
   );
@@ -164,7 +164,7 @@ function HeroSection() {
         <motion.div {...fade(0.4)}>
           <Text
             fontFamily="'Raleway', sans-serif"
-            fontSize="sm" color={MUTED} lineHeight="1.85"
+            fontSize="15px" color={MUTED} lineHeight="1.85"
             maxWidth="420px" mb={4}
           >
             Sensory-led events that help you reconnect with your body,
@@ -172,7 +172,7 @@ function HeroSection() {
           </Text>
           <Text
             fontFamily="'Raleway', sans-serif"
-            fontSize="sm" color={MUTED} lineHeight="1.85"
+            fontSize="15px" color={MUTED} lineHeight="1.85"
             maxWidth="420px" mb={10}
           >
             Vaya integrates the physical with the mental, emotional and
@@ -263,7 +263,7 @@ function AboutSection() {
               </Heading>
               <Text
                 fontFamily="'Raleway', sans-serif"
-                fontSize="md" color={MUTED} lineHeight="1.9" mb={5}
+                fontSize="17px" color={MUTED} lineHeight="1.9" mb={5}
               >
                 Vaya was created from a deep passion for wellness and
                 meaningful connection. Every experience is carefully curated
@@ -344,7 +344,7 @@ function ServicesSection() {
                   </Text>
                   <Text
                     fontFamily="'Raleway', sans-serif"
-                    fontSize="xs" color={MUTED}
+                    fontSize="13px" color={MUTED}
                     display={{ base: "none", md: "block" }}
                   >
                     {desc}
@@ -392,7 +392,7 @@ function EventsSection() {
             </Heading>
             <Text
               fontFamily="'Raleway', sans-serif"
-              fontSize="sm" color={MUTED}
+              fontSize="15px" color={MUTED}
               lineHeight="1.85" maxWidth="320px"
             >
               Intimate, curated events across London. Each one designed to
@@ -438,7 +438,7 @@ function EventsSection() {
                   >
                     {name}
                   </Text>
-                  <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED}>
+                  <Text fontFamily="'Raleway', sans-serif" fontSize="13px" color={MUTED}>
                     {type}
                   </Text>
                 </Box>
@@ -525,7 +525,7 @@ function ForBrandsSection() {
                 </Heading>
                 <Text
                   fontFamily="'Raleway', sans-serif"
-                  fontSize="sm" color="rgba(245,240,235,0.5)"
+                  fontSize="15px" color="rgba(245,240,235,0.5)"
                   lineHeight="1.9" maxWidth="400px"
                 >
                   Our audience is health-conscious, engaged and seeking
@@ -547,7 +547,7 @@ function ForBrandsSection() {
                         </Text>
                         <Text
                           fontFamily="'Raleway', sans-serif"
-                          fontSize="xs" color="rgba(245,240,235,0.4)"
+                          fontSize="13px" color="rgba(245,240,235,0.4)"
                           lineHeight="1.85" maxWidth="360px"
                         >
                           {body}
@@ -674,7 +674,7 @@ function TestimonialsSection() {
             >
               <Text
                 fontFamily="'Playfair Display', serif" fontStyle="italic"
-                fontSize={{ base: "sm", md: "md" }}
+                fontSize={{ base: "15px", md: "17px" }}
                 color={TEXT} lineHeight="1.8" mb={5}
               >
                 "{t.quote}"
