@@ -29,10 +29,12 @@ export default function MkNavbar() {
       {/* Nav */}
       <Flex
         as="nav"
-        px={{ base: 6, md: 12 }}
-        py={3}
+        px={{ base: 4, md: 12 }}
+        py={{ base: 3, md: 3 }}
+        direction={{ base: "column", md: "row" }}
         align="center"
-        justify="space-between"
+        justify={{ base: "center", md: "space-between" }}
+        gap={{ base: 2, md: 0 }}
         borderBottom="1px solid #e8ddd5"
         bg="#FDF6EE"
       >
@@ -43,13 +45,16 @@ export default function MkNavbar() {
           />
           <Box display={{ base: "block", md: "none" }}
             fontFamily="'Playfair Display', serif"
-            fontSize="26px" lineHeight={1}
+            fontSize="24px" lineHeight={1}
             color="#0d0d0d" letterSpacing="0.02em"
+            textAlign="center"
           >Vaya</Box>
         </Box>
 
-        <Flex gap={{ base: 4, md: 8 }} rowGap={2} wrap="wrap"
-          justify="flex-end" align="center"
+        <Flex
+          rowGap={1} columnGap={{ base: 3, md: 8 }}
+          wrap="wrap"
+          justify="center" align="center"
         >
           {[
             ["Home",         "/"],
@@ -63,7 +68,7 @@ export default function MkNavbar() {
               as={RouterLink}
               to={href}
               fontSize={{ base: "9px", md: "10px" }}
-              letterSpacing={{ base: "0.16em", md: "0.22em" }}
+              letterSpacing={{ base: "0.12em", md: "0.22em" }}
               textTransform="uppercase"
               fontFamily="'Raleway', sans-serif"
               fontWeight="500"
