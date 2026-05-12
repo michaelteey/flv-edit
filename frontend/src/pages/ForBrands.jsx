@@ -391,105 +391,118 @@ function ProcessSection() {
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <Box py={{ base: 8, md: 12 }}>
-        <Flex
-          as="button"
-          type="button"
-          onClick={() => setOpen(o => !o)}
-          width="100%"
-          align="center" justify="space-between" gap={6}
-          py={{ base: 6, md: 8 }} px={{ base: 6, md: 10 }} mx={{ base: -6, md: -10 }}
-          textAlign="left"
-          bg={open ? "#F28B75" : "transparent"}
-          border={`1px solid ${open ? "transparent" : BORDER}`}
-          cursor="pointer"
-          aria-expanded={open}
-          style={{ transition: "background 0.25s, border-color 0.25s" }}
+      <Box py={{ base: 12, md: 16 }}>
+        <Flex align={{ base: "flex-start", md: "center" }} justify="space-between"
+          gap={6} wrap="wrap" mb={open ? { base: 10, md: 14 } : 0}
+          style={{ transition: "margin 0.3s ease" }}
         >
           <Box>
-            <Text fontFamily="'Raleway', sans-serif" fontSize="12px"
-              letterSpacing="0.28em" textTransform="uppercase"
-              color={open ? "rgba(255,255,255,0.75)" : MUTED} mb={2}
-              style={{ transition: "color 0.2s" }}
-            >Our process</Text>
+            <Cap>Our process</Cap>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
               fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
-              lineHeight="1.05"
-              color={open ? "white" : TEXT}
-              style={{ transition: "color 0.2s" }}
+              lineHeight="1.05" color={TEXT} mt={3}
             >
               How it <em>works.</em>
             </Heading>
           </Box>
-          <Box as="span" flexShrink={0}
-            fontFamily="'Playfair Display', serif"
-            fontSize={{ base: "44px", md: "64px" }}
-            color={open ? "white" : "#F28B75"}
-            style={{
-              transform: open ? "rotate(45deg)" : "rotate(0deg)",
-              transition: "transform 0.35s ease, color 0.2s",
-              lineHeight: 1,
-            }}
-          >+</Box>
+          <Box as="button" type="button"
+            onClick={() => setOpen(o => !o)}
+            aria-expanded={open}
+            bg={open ? TEXT : "#F28B75"}
+            color="white"
+            border="none" cursor="pointer"
+            px={{ base: 8, md: 10 }} py={{ base: 4, md: 5 }}
+            fontFamily="'Raleway', sans-serif" fontSize="11px"
+            letterSpacing="0.24em" textTransform="uppercase"
+            display="inline-flex" alignItems="center" gap={3}
+            _hover={{ bg: open ? "#0d0d0d" : "#EC6F51" }}
+            style={{ transition: "background 0.2s" }}
+          >
+            <Box as="span">{open ? "Hide the steps" : "Show me the steps"}</Box>
+            <Box as="span"
+              style={{
+                display: "inline-block",
+                transform: open ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.3s ease",
+                fontSize: "14px",
+                lineHeight: 1,
+              }}
+            >↓</Box>
+          </Box>
         </Flex>
 
         <AnimatePresence initial={false}>
           {open && (
             <motion.div
-              key="process-path"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-              style={{ overflow: "hidden" }}
+              key="process-rail"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              <Box position="relative" pt={{ base: 10, md: 14 }} pb={{ base: 4, md: 8 }}>
-                {/* Vertical path line */}
-                <motion.div
-                  initial={{ scaleY: 0 }}
-                  animate={{ scaleY: 1 }}
-                  transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
-                  style={{
-                    position: "absolute",
-                    left: "19px",
-                    top: 0,
-                    bottom: 0,
-                    width: "2px",
-                    background: "#F28B75",
-                    transformOrigin: "top",
+              <FullBleed>
+                <Box
+                  overflowX="auto" overflowY="hidden"
+                  px={{ base: 6, md: 12 }} pt={{ base: 4, md: 6 }} pb={{ base: 8, md: 12 }}
+                  css={{
+                    "&::-webkit-scrollbar": { height: "6px" },
+                    "&::-webkit-scrollbar-track": { background: BORDER },
+                    "&::-webkit-scrollbar-thumb": { background: "#F28B75", borderRadius: "3px" },
+                    "scrollbarWidth": "thin",
+                    "scrollbarColor": `#F28B75 ${BORDER}`,
                   }}
-                />
-                <Flex direction="column" gap={{ base: 8, md: 10 }}>
-                  {process.map(({ n, title, body }, i) => (
+                >
+                  <Box position="relative" minWidth="max-content">
+                    {/* Horizontal coral path line */}
                     <motion.div
-                      key={n}
-                      initial={{ opacity: 0, x: 16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.45, delay: 0.25 + i * 0.1, ease: "easeOut" }}
-                    >
-                      <Flex gap={{ base: 6, md: 10 }} align="flex-start">
-                        <Flex flexShrink={0} width="40px" height="40px"
-                          borderRadius="50%" bg="#F28B75" color="white"
-                          align="center" justify="center"
-                          fontFamily="'Raleway', sans-serif" fontSize="11px"
-                          letterSpacing="0.1em" fontWeight="600"
-                          mt="2px"
-                          boxShadow={`0 0 0 6px ${BG}`}
-                        >{n}</Flex>
-                        <Box flex={1} pb={{ base: 1, md: 2 }}>
-                          <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-                            fontSize={{ base: "xl", md: "2xl" }} color={TEXT}
-                            lineHeight="1.2" mb={2}
-                          >{title}</Heading>
-                          <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
-                            color={MUTED} lineHeight="1.85" maxWidth="640px"
-                          >{body}</Text>
-                        </Box>
-                      </Flex>
-                    </motion.div>
-                  ))}
-                </Flex>
-              </Box>
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
+                      style={{
+                        position: "absolute",
+                        top: "20px",
+                        left: 0,
+                        right: 0,
+                        height: "2px",
+                        background: "#F28B75",
+                        transformOrigin: "left",
+                        zIndex: 0,
+                      }}
+                    />
+                    <Flex gap={{ base: 6, md: 10 }} align="flex-start" position="relative">
+                      {process.map(({ n, title, body }, i) => (
+                        <motion.div
+                          key={n}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4, delay: 0.25 + i * 0.1, ease: "easeOut" }}
+                          style={{ flexShrink: 0 }}
+                        >
+                          <Box width={{ base: "240px", md: "260px" }}>
+                            <Flex
+                              width="40px" height="40px"
+                              borderRadius="50%" bg="#F28B75" color="white"
+                              align="center" justify="center"
+                              fontFamily="'Raleway', sans-serif" fontSize="11px"
+                              letterSpacing="0.1em" fontWeight="600"
+                              boxShadow={`0 0 0 6px ${BG}`}
+                              mb={5}
+                              position="relative" zIndex={1}
+                            >{n}</Flex>
+                            <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
+                              fontSize={{ base: "lg", md: "xl" }} color={TEXT}
+                              lineHeight="1.2" mb={3}
+                            >{title}</Heading>
+                            <Text fontFamily="'Raleway', sans-serif" fontSize="14px"
+                              color={MUTED} lineHeight="1.75"
+                            >{body}</Text>
+                          </Box>
+                        </motion.div>
+                      ))}
+                    </Flex>
+                  </Box>
+                </Box>
+              </FullBleed>
             </motion.div>
           )}
         </AnimatePresence>
