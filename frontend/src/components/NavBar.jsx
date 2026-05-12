@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import logo2 from "../assets/logo2.png";
 
@@ -37,11 +37,20 @@ export default function MkNavbar() {
         bg="#FDF6EE"
       >
         {/* Logo */}
-        <Box as={RouterLink} to="/" textDecoration="none">
-          <Box as="img" src={logo2} alt="Vaya" height={{ base: "64px", md: "120px" }} display="block" />
+        <Box as={RouterLink} to="/" textDecoration="none" flexShrink={0}>
+          <Box as="img" src={logo2} alt="Vaya"
+            height="120px" display={{ base: "none", md: "block" }}
+          />
+          <Box display={{ base: "block", md: "none" }}
+            fontFamily="'Playfair Display', serif"
+            fontSize="26px" lineHeight={1}
+            color="#0d0d0d" letterSpacing="0.02em"
+          >Vaya</Box>
         </Box>
 
-        <HStack gap={8}>
+        <Flex gap={{ base: 4, md: 8 }} rowGap={2} wrap="wrap"
+          justify="flex-end" align="center"
+        >
           {[
             ["Home",         "/"],
             ["About",        "/about"],
@@ -53,20 +62,21 @@ export default function MkNavbar() {
               key={label}
               as={RouterLink}
               to={href}
-              fontSize="10px"
-              letterSpacing="0.22em"
+              fontSize={{ base: "9px", md: "10px" }}
+              letterSpacing={{ base: "0.16em", md: "0.22em" }}
               textTransform="uppercase"
               fontFamily="'Raleway', sans-serif"
               fontWeight="500"
               color="#403631"
               textDecoration="none"
+              whiteSpace="nowrap"
               _hover={{ color: "#F28B75" }}
               style={{ transition: "color 0.2s" }}
             >
               {label}
             </Box>
           ))}
-        </HStack>
+        </Flex>
       </Flex>
     </Box>
   );

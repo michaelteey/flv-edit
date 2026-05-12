@@ -214,18 +214,25 @@ function WhyVayaSection() {
 
 function OfferingsSection() {
   const [active, setActive] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const current = offerings[active];
+
+  const handleTileClick = (i) => {
+    setActive(i);
+    setMobileOpen(true);
+  };
+
   return (
     <Box id="offerings" style={{ scrollMarginTop: "80px" }}>
       <Rule />
       <Box py={{ base: 10, md: 14 }}>
         <Cap>What we offer</Cap>
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 4, md: 6 }} mt={6}>
+        <SimpleGrid columns={3} gap={{ base: 3, md: 6 }} mt={6}>
           {offerings.map(({ num, title, img }, i) => {
             const isActive = active === i;
             return (
               <Box key={num}
-                onClick={() => setActive(i)}
+                onClick={() => handleTileClick(i)}
                 cursor="pointer"
                 position="relative"
                 overflow="hidden"
@@ -245,13 +252,14 @@ function OfferingsSection() {
                   style={{ transition: "background 0.3s ease" }}
                 />
                 <Flex position="absolute" inset={0} direction="column"
-                  justify="space-between" p={{ base: 5, md: 6 }} color="white"
+                  justify="space-between" p={{ base: 3, md: 6 }} color="white"
                 >
-                  <Text fontFamily="'Raleway', sans-serif" fontSize="10px"
+                  <Text fontFamily="'Raleway', sans-serif"
+                    fontSize={{ base: "9px", md: "10px" }}
                     letterSpacing="0.24em" color="rgba(255,255,255,0.75)"
                   >{num}</Text>
                   <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-                    fontSize={{ base: "xl", md: "2xl" }} lineHeight="1.15"
+                    fontSize={{ base: "13px", md: "2xl" }} lineHeight="1.15"
                   >{title}</Heading>
                 </Flex>
                 {isActive && (
@@ -262,40 +270,117 @@ function OfferingsSection() {
           })}
         </SimpleGrid>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current.num}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-          >
-            <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
-              gap={{ base: 6, md: 16 }}
-              mt={{ base: 8, md: 10 }}
-              borderTop={`1px solid ${BORDER}`}
-              pt={{ base: 8, md: 10 }}
+        {/* Desktop inline details panel */}
+        <Box display={{ base: "none", md: "block" }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.num}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
             >
-              <Cap>Details</Cap>
-              <Box>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
-                  color={MUTED} lineHeight="1.9" mb={6}
-                >{current.desc}</Text>
-                <Flex wrap="wrap" gap={2}>
-                  {current.includes.map((item) => (
-                    <Box key={item}
-                      fontFamily="'Raleway', sans-serif" fontSize="9px"
-                      letterSpacing="0.12em" textTransform="uppercase"
-                      color={MUTED} border={`1px solid ${BORDER}`}
-                      px={3} py="6px"
-                    >{item}</Box>
-                  ))}
-                </Flex>
-              </Box>
-            </Grid>
-          </motion.div>
-        </AnimatePresence>
+              <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
+                gap={{ base: 6, md: 16 }}
+                mt={{ base: 8, md: 10 }}
+                borderTop={`1px solid ${BORDER}`}
+                pt={{ base: 8, md: 10 }}
+              >
+                <Cap>Details</Cap>
+                <Box>
+                  <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
+                    color={MUTED} lineHeight="1.9" mb={6}
+                  >{current.desc}</Text>
+                  <Flex wrap="wrap" gap={2}>
+                    {current.includes.map((item) => (
+                      <Box key={item}
+                        fontFamily="'Raleway', sans-serif" fontSize="9px"
+                        letterSpacing="0.12em" textTransform="uppercase"
+                        color={MUTED} border={`1px solid ${BORDER}`}
+                        px={3} py="6px"
+                      >{item}</Box>
+                    ))}
+                  </Flex>
+                </Box>
+              </Grid>
+            </motion.div>
+          </AnimatePresence>
+        </Box>
       </Box>
+
+      {/* Mobile tap-to-reveal overlay sheet */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            key="offering-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setMobileOpen(false)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(42,30,26,0.55)",
+              zIndex: 50,
+              display: "flex",
+              alignItems: "flex-end",
+            }}
+          >
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%",
+                background: "#F28B75",
+                color: "white",
+                padding: "32px 24px 40px",
+                maxHeight: "85vh",
+                overflowY: "auto",
+              }}
+            >
+              <Flex justify="space-between" align="flex-start" mb={6} gap={4}>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="10px"
+                  letterSpacing="0.24em" color="rgba(255,255,255,0.75)"
+                >
+                  {current.num} / {String(offerings.length).padStart(2, "0")}
+                </Text>
+                <Box as="button" type="button"
+                  onClick={() => setMobileOpen(false)}
+                  background="transparent" border="none" color="white"
+                  cursor="pointer"
+                  fontFamily="'Raleway', sans-serif" fontSize="22px"
+                  style={{ lineHeight: 1, padding: 0 }}
+                  aria-label="Close"
+                >×</Box>
+              </Flex>
+              <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
+                fontSize="2xl" lineHeight="1.2" mb={4}
+              >
+                {current.title}
+              </Heading>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="14px"
+                color="rgba(255,255,255,0.9)" lineHeight="1.75" mb={6}
+              >
+                {current.desc}
+              </Text>
+              <Flex wrap="wrap" gap={2}>
+                {current.includes.map((item) => (
+                  <Box key={item}
+                    fontFamily="'Raleway', sans-serif" fontSize="9px"
+                    letterSpacing="0.12em" textTransform="uppercase"
+                    color="white" border="1px solid rgba(255,255,255,0.5)"
+                    px={3} py="6px"
+                  >{item}</Box>
+                ))}
+              </Flex>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Box>
   );
 }
