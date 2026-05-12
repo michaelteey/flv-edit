@@ -623,8 +623,8 @@ export default function ForBrands() {
         <WhyVayaSection />
         <PartnersSection />
         <OfferingsSection />
-        <BrandVoicesSection />
         <ProcessSection />
+        <BrandVoicesSection />
         <CTASection />
       </Box>
       <Footer />
