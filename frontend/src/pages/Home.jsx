@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
 import logo2 from "../assets/logo2.png";
@@ -654,46 +654,87 @@ const testimonials = [
 ];
 
 function TestimonialsSection() {
+  const [index, setIndex] = useState(0);
+  const total = testimonials.length;
+  const current = testimonials[index];
+  const goPrev = () => setIndex((i) => (i - 1 + total) % total);
+  const goNext = () => setIndex((i) => (i + 1) % total);
+
   return (
     <motion.div {...fade(0)}>
       <Rule />
-      <Grid templateColumns={{ base: "1fr", md: "180px 1fr" }}
-        gap={{ base: 6, md: 16 }} py={{ base: 12, md: 16 }}
-      >
-        <Cap>Kind words</Cap>
-        <Box
-          display="flex" gap={8} overflowX="auto" pb={5}
-          style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
-          css={{
-            "&::-webkit-scrollbar": { height: "6px" },
-            "&::-webkit-scrollbar-track": { background: BORDER },
-            "&::-webkit-scrollbar-thumb": { background: "#F28B75", borderRadius: "3px" },
-            "scrollbarWidth": "thin",
-            "scrollbarColor": `#F28B75 ${BORDER}`,
-          }}
-        >
-          {testimonials.map((t, i) => (
-            <Box key={i} flexShrink={0} width={{ base: "85vw", md: "440px" }}
-              borderTop={`2px solid ${BORDER}`} pt={6}
-              style={{ scrollSnapAlign: "start" }}
+      <Box py={{ base: 14, md: 20 }}>
+        <Flex align="center" justify="space-between" mb={{ base: 8, md: 10 }} gap={4}>
+          <Cap>Kind words</Cap>
+          <Text fontFamily="'Raleway', sans-serif" fontSize="11px"
+            letterSpacing="0.22em" color={MUTED}
+          >
+            {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </Text>
+        </Flex>
+
+        <Box minHeight={{ base: "260px", md: "220px" }} position="relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.source}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              <Text
-                fontFamily="'Playfair Display', serif" fontStyle="italic"
-                fontSize={{ base: "15px", md: "17px" }}
-                color={TEXT} lineHeight="1.8" mb={5}
-              >
-                "{t.quote}"
-              </Text>
-              <Text
-                fontFamily="'Raleway', sans-serif" fontSize="9px"
-                letterSpacing="0.22em" textTransform="uppercase" color={MUTED}
-              >
-                — {t.source}
-              </Text>
-            </Box>
-          ))}
+              <Box maxWidth="820px">
+                <Box as="span" fontFamily="'Playfair Display', serif"
+                  fontSize={{ base: "80px", md: "120px" }} color="#F28B75"
+                  lineHeight="0.6" display="block" mb={2}
+                >“</Box>
+                <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+                  fontSize={{ base: "xl", md: "3xl" }} color={TEXT}
+                  lineHeight="1.4" mb={8}
+                >
+                  {current.quote}
+                </Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="11px"
+                  letterSpacing="0.24em" textTransform="uppercase" color={MUTED}
+                >
+                  — {current.source}
+                </Text>
+              </Box>
+            </motion.div>
+          </AnimatePresence>
         </Box>
-      </Grid>
+
+        <Flex align="center" gap={4} mt={{ base: 8, md: 10 }}>
+          <Box as="button" type="button" onClick={goPrev} aria-label="Previous testimonial"
+            width="48px" height="48px" border={`1px solid ${BORDER}`}
+            background="transparent" color={TEXT} cursor="pointer"
+            display="inline-flex" alignItems="center" justifyContent="center"
+            fontFamily="'Raleway', sans-serif" fontSize="20px"
+            _hover={{ bg: "#F28B75", color: "white", borderColor: "#F28B75" }}
+            style={{ transition: "background 0.2s, color 0.2s, border-color 0.2s" }}
+          >←</Box>
+          <Box as="button" type="button" onClick={goNext} aria-label="Next testimonial"
+            width="48px" height="48px" border={`1px solid ${BORDER}`}
+            background="transparent" color={TEXT} cursor="pointer"
+            display="inline-flex" alignItems="center" justifyContent="center"
+            fontFamily="'Raleway', sans-serif" fontSize="20px"
+            _hover={{ bg: "#F28B75", color: "white", borderColor: "#F28B75" }}
+            style={{ transition: "background 0.2s, color 0.2s, border-color 0.2s" }}
+          >→</Box>
+
+          <Flex gap={2} ml={{ base: 4, md: 6 }}>
+            {testimonials.map((t, i) => (
+              <Box key={t.source} as="button" type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Testimonial ${i + 1}`}
+                width="28px" height="2px" border="none"
+                bg={i === index ? "#F28B75" : BORDER}
+                cursor="pointer" padding={0}
+                style={{ transition: "background 0.2s" }}
+              />
+            ))}
+          </Flex>
+        </Flex>
+      </Box>
     </motion.div>
   );
 }
