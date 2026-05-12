@@ -211,7 +211,8 @@ function ValuesSection() {
         <Box>
           {values.map(({ title, body }, i) => (
             <motion.div key={title} {...fade(i * 0.07)}>
-              <Flex borderBottom={`1px solid ${BORDER}`} py={5} px={4} mx={-4} gap={8}
+              <Flex borderBottom={`1px solid ${BORDER}`} py={{ base: 4, md: 5 }} px={4} mx={-4}
+                gap={{ base: 2, md: 8 }}
                 align={{ base: "flex-start", md: "center" }}
                 direction={{ base: "column", md: "row" }}
                 _first={{ borderTop: `1px solid ${BORDER}` }}

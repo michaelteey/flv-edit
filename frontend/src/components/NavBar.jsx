@@ -8,9 +8,9 @@ export default function MkNavbar() {
   return (
     <Box>
       {/* Announcement bar */}
-      <Box bg="#F28B75" py="12px" textAlign="center">
+      <Box bg="#F28B75" py={{ base: "6px", md: "12px" }} textAlign="center">
         <Text
-          fontSize="10px"
+          fontSize={{ base: "9px", md: "10px" }}
           fontFamily="'Raleway', sans-serif"
           letterSpacing="0.22em"
           textTransform="uppercase"
@@ -38,7 +38,7 @@ export default function MkNavbar() {
       >
         {/* Logo */}
         <Box as={RouterLink} to="/" textDecoration="none">
-          <Box as="img" src={logo2} alt="Vaya" height="120px" display="block" />
+          <Box as="img" src={logo2} alt="Vaya" height={{ base: "64px", md: "120px" }} display="block" />
         </Box>
 
         <HStack gap={8}>
