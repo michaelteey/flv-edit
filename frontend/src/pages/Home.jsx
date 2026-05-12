@@ -310,9 +310,6 @@ const services = [
 
 function ServicesSection() {
   const [hovered, setHovered] = useState(null);
-  const [activeMobile, setActiveMobile] = useState(null);
-  const activeService = activeMobile != null ? services[activeMobile] : null;
-
   return (
     <motion.div {...fade(0)}>
       <Rule />
@@ -321,29 +318,21 @@ function ServicesSection() {
           {services.map(({ name, desc }, i) => (
             <Flex
               key={name}
-              as="button"
-              type="button"
-              width="100%"
-              textAlign="left"
               borderBottom={`1px solid ${BORDER}`}
-              py={{ base: 3, md: 5 }} px={4} align="center" justify="space-between"
-              gap={4}
-              border="none"
-              background="transparent"
-              cursor="pointer"
+              py={5} px={4} align="center" justify="space-between"
+              gap={6}
               _first={{ borderTop: `1px solid ${BORDER}` }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              onClick={() => setActiveMobile(i)}
               bg={hovered === i ? "#F28B75" : "transparent"}
               style={{ transition: "background 0.2s, color 0.2s" }}
             >
-              <Flex align="baseline" gap={{ base: 3, md: 5 }} flex={1}>
+              <Flex align="baseline" gap={5} flex={1}>
                 <Text
                   fontFamily="'Raleway', sans-serif"
-                  fontSize={{ base: "8px", md: "9px" }}
+                  fontSize="9px"
                   color={hovered === i ? "white" : MUTED}
-                  letterSpacing="0.2em" minWidth={{ base: "16px", md: "20px" }} flexShrink={0}
+                  letterSpacing="0.2em" minWidth="20px" flexShrink={0}
                   style={{ transition: "color 0.2s" }}
                 >
                   {String(i + 1).padStart(2, "0")}
@@ -351,7 +340,7 @@ function ServicesSection() {
                 <Box>
                   <Text
                     fontFamily="'Playfair Display', serif"
-                    fontSize={{ base: "sm", md: "lg" }} mb="2px"
+                    fontSize={{ base: "md", md: "lg" }} mb="2px"
                     color={hovered === i ? "white" : TEXT}
                     style={{ transition: "color 0.2s" }}
                   >
@@ -368,79 +357,10 @@ function ServicesSection() {
                   </Text>
                 </Box>
               </Flex>
-              <Box as="span" display={{ base: "inline", md: "none" }}
-                fontFamily="'Raleway', sans-serif" fontSize="18px"
-                color={hovered === i ? "white" : MUTED}
-                style={{ transition: "color 0.2s", lineHeight: 1 }}
-                flexShrink={0}
-              >+</Box>
             </Flex>
           ))}
         </Box>
       </Row>
-
-      <AnimatePresence>
-        {activeService && (
-          <motion.div
-            key="service-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={() => setActiveMobile(null)}
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(42,30,26,0.55)",
-              zIndex: 50,
-              display: "flex",
-              alignItems: "flex-end",
-            }}
-          >
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "100%",
-                background: "#F28B75",
-                color: "white",
-                padding: "32px 24px 40px",
-                borderTopLeftRadius: "4px",
-                borderTopRightRadius: "4px",
-              }}
-            >
-              <Flex justify="space-between" align="flex-start" mb={6} gap={4}>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
-                  letterSpacing="0.24em" color="rgba(255,255,255,0.7)"
-                >
-                  {String(activeMobile + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
-                </Text>
-                <Box as="button" type="button"
-                  onClick={() => setActiveMobile(null)}
-                  background="transparent" border="none" color="white"
-                  cursor="pointer"
-                  fontFamily="'Raleway', sans-serif" fontSize="20px"
-                  style={{ lineHeight: 1, padding: 0 }}
-                  aria-label="Close"
-                >×</Box>
-              </Flex>
-              <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-                fontSize="2xl" lineHeight="1.2" mb={4}
-              >
-                {activeService.name}
-              </Heading>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
-                color="rgba(255,255,255,0.9)" lineHeight="1.7"
-              >
-                {activeService.desc}
-              </Text>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }
