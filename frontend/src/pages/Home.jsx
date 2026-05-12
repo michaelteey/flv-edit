@@ -165,19 +165,10 @@ function HeroSection() {
           <Text
             fontFamily="'Raleway', sans-serif"
             fontSize="15px" color={MUTED} lineHeight="1.85"
-            maxWidth="420px" mb={4}
-          >
-            Sensory-led events that help you reconnect with your body,
-            your mind and others.
-          </Text>
-          <Text
-            fontFamily="'Raleway', sans-serif"
-            fontSize="15px" color={MUTED} lineHeight="1.85"
             maxWidth="420px" mb={10}
           >
-            Vaya integrates the physical with the mental, emotional and
-            spiritual wellbeing, focusing on creating experiences that are
-            truly allowing you to disconnect.
+            Sensory-led events designed to slow you down, soften the noise,
+            and bring you home to your body.
           </Text>
           <Flex gap={8} align="center" wrap="wrap">
             <TextLink href={EB}>Book an event</TextLink>
@@ -463,11 +454,11 @@ function EventsSection() {
                     >Past</Text>
                   ) : link ? (
                     <Box as="a" href={link} target="_blank"
-                      fontFamily="'Raleway', sans-serif" fontSize="9px"
-                      letterSpacing="0.2em" textTransform="uppercase"
-                      bg={ACCENT} color="white" px={3} py="5px"
-                      textDecoration="none"
-                      _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
+                      fontFamily="'Raleway', sans-serif" fontSize="10px"
+                      letterSpacing="0.22em" textTransform="uppercase"
+                      color={TEXT} textDecoration="none"
+                      borderBottom={`1px solid ${TEXT}`} pb="2px"
+                      _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
                     >Book now</Box>
                   ) : (
                     <Text fontFamily="'Raleway', sans-serif" fontSize="9px"
@@ -802,9 +793,9 @@ function Footer() {
             <Box as={RouterLink} to="/contact#newsletter"
               fontFamily="'Raleway', sans-serif" fontSize="9px"
               letterSpacing="0.22em" textTransform="uppercase"
-              bg={ACCENT} color="white"
-              px={4} py="8px" textDecoration="none"
-              _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
+              color={TEXT} textDecoration="none"
+              borderBottom={`1px solid ${TEXT}`} pb="2px"
+              _hover={{ opacity: 0.6 }} style={{ transition: "opacity 0.2s" }}
             >
               Join newsletter
             </Box>
