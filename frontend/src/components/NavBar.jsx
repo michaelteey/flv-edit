@@ -41,14 +41,8 @@ export default function MkNavbar() {
         {/* Logo */}
         <Box as={RouterLink} to="/" textDecoration="none" flexShrink={0}>
           <Box as="img" src={logo2} alt="Vaya"
-            height="120px" display={{ base: "none", md: "block" }}
+            height={{ base: "64px", md: "120px" }} display="block"
           />
-          <Box display={{ base: "block", md: "none" }}
-            fontFamily="'Playfair Display', serif"
-            fontSize="24px" lineHeight={1}
-            color="#0d0d0d" letterSpacing="0.02em"
-            textAlign="center"
-          >Vaya</Box>
         </Box>
 
         <Flex
