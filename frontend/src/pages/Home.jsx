@@ -372,7 +372,7 @@ const events = [
   { date: "08 Mar 2026", name: "Red Light Immersion",           type: "Sound + Red Light Therapy",           past: true,  link: null },
   { date: "29 Mar 2026", name: "Scent meets Sound",             type: "Aromatherapy + Sound Healing",        past: true,  link: null },
   { date: "10 Apr 2026", name: "Stillness after Dark",          type: "Sound Healing + Live Vocals",         past: true,  link: null },
-  { date: "23 May 2026", name: "Move & Groove",                 type: "Yoga + Music",                        past: false, link: EB_MOVE_GROOVE },
+  { date: "23 May 2026", name: "Move & Groove",                 type: "Yoga + Music",                        past: true,  link: null },
   { date: "TBC",         name: "A Moment With Me with NILA M.", type: "Soundbath, journalling & breathwork", past: false, link: EB_HER_SPRING_RESET },
 ];
 
@@ -782,9 +782,6 @@ function Footer() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={6}>
-          <Box as={RouterLink} to="/" textDecoration="none">
-            <Box as="img" src={logo2} alt="Vaya" height="72px" display="block" />
-          </Box>
           <Flex gap={8} wrap="wrap" align="center">
             {[["Instagram", LINKTREE], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
               <Box
