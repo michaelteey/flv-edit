@@ -139,14 +139,14 @@ function NewsletterSection() {
                   <input type="hidden" name="anticsrf" value="true" />
                   <Box as="button" type="submit"
                     disabled={status === "submitting"}
-                    bg={CORAL} color="white"
+                    bg={ACCENT} color="white"
                     px={10} py="14px"
                     fontFamily="'Raleway', sans-serif" fontSize="10px"
                     letterSpacing="0.22em" textTransform="uppercase"
                     border="none" cursor="pointer"
                     flexShrink={0}
                     opacity={status === "submitting" ? 0.6 : 1}
-                    _hover={{ bg: ACCENT }} style={{ transition: "background 0.2s" }}
+                    _hover={{ bg: "#D85F44" }} style={{ transition: "background 0.2s" }}
                   >
                     {status === "submitting" ? "Joining…" : "Subscribe"}
                   </Box>
@@ -345,7 +345,7 @@ export default function Contact() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Flex gap={8} wrap="wrap">
+          <Flex gap={8} wrap="wrap" align="center">
             {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["About", "/about"]].map(([label, href]) => (
               <Box key={label}
                 as={href.startsWith("http") ? "a" : RouterLink}
@@ -356,6 +356,13 @@ export default function Contact() {
                 _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
               >{label}</Box>
             ))}
+            <Box as={RouterLink} to="#newsletter"
+              fontFamily="'Raleway', sans-serif" fontSize="9px"
+              letterSpacing="0.22em" textTransform="uppercase"
+              bg={ACCENT} color="white"
+              px={4} py="8px" textDecoration="none"
+              _hover={{ bg: "#D85F44" }} style={{ transition: "background 0.2s" }}
+            >Join newsletter</Box>
           </Flex>
           <Cap>London · Est. 2025</Cap>
         </Flex>

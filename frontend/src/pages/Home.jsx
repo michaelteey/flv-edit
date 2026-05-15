@@ -798,7 +798,7 @@ function Footer() {
               letterSpacing="0.22em" textTransform="uppercase"
               bg={ACCENT} color="white"
               px={4} py="8px" textDecoration="none"
-              _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
+              _hover={{ bg: "#D85F44" }} style={{ transition: "background 0.2s" }}
             >
               Join newsletter
             </Box>
