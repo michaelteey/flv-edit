@@ -369,7 +369,7 @@ const events = [
   { date: "29 Mar 2026", name: "Scent meets Sound",             type: "Aromatherapy + Sound Healing",        past: true,  link: null },
   { date: "10 Apr 2026", name: "Stillness after Dark",          type: "Sound Healing + Live Vocals",         past: true,  link: null },
   { date: "23 May 2026", name: "Move & Groove",                 type: "Yoga + Music",                        past: true,  link: null },
-  { date: "TBC",         name: "A Moment With Me with NILA M.", type: "Soundbath, journalling & breathwork", past: false, link: EB_HER_SPRING_RESET },
+  { date: "30 May 2026", name: "A Moment With Me with NILA M.", type: "Sound bath, journaling & meditation — women only", past: false, link: EB_HER_SPRING_RESET },
 ];
 
 function EventsSection() {

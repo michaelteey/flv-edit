@@ -79,12 +79,12 @@ function Row({ label, children, py = 16 }) {
 const upcomingEvents = [
   {
     num: "01",
-    name: "Her Spring Reset with NILA M.",
+    name: "A Moment With Me with NILA M.",
     type: "Sound bath, journaling & meditation retreat — women only",
-    date: "TBC",
-    time: "TBC",
-    location: "London",
-    desc: "A women-only retreat with NILA M. — a slow, intentional reset combining sound bath, guided journaling and meditation. Step into spring softer, clearer, and more connected to yourself.",
+    date: "30 May 2026",
+    time: "1:00 PM – 3:00 PM",
+    location: "Self Retreat Space, Camden, 49 Kentish Town Road, London NW1 8NX",
+    desc: "A two-hour women-only retreat with NILA M. Guided journaling, meditation and a deeply restorative sound bath, paired with founder storytelling from the skincare brand NILA M. Welcome drinks, a curated wellness goodie bag, yoga mats and bolsters provided.",
     img: IMG.spring,
     link: EB_HER_SPRING_RESET,
   },
