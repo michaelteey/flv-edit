@@ -10,6 +10,7 @@ import imgStillnessAfterDark from "../assets/stillness-after-dark.jpg";
 import imgRedLight from "../assets/red-light-immersion.jpg";
 import imgFlowIntoStillness from "../assets/flow-into-stillness.jpg";
 import imgHerAutumnReset from "../assets/her-autumn-reset.jpg";
+import imgNilaM from "../assets/nila-m.jpg";
 
 const BG     = "#FDF6EE";
 const DARK   = "#2a1e1a";
@@ -29,7 +30,7 @@ const IMG = {
   yoga:    "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=1200",
   bowls:   "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=1200",
   candles: "https://images.pexels.com/photos/7795755/pexels-photo-7795755.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  spring:  "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1183024177%2F567922715237%2F1%2Foriginal.20260425-125938?crop=focalpoint&fit=crop&w=1600&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.546&fp-y=0.522&s=8327df67894b98331dffe08994c60f4c",
+  spring:  imgNilaM,
 };
 
 const fade = (delay = 0) => ({
