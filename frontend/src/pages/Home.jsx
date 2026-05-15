@@ -250,17 +250,13 @@ function AboutSection() {
                 fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
                 color="#1a1410" lineHeight="1.2" mb={5}
               >
-                Founded on the belief that
+                Built for the in-between —
                 <br />
-                <ScrollTypewriter
-                  as={Box}
-                  display="inline"
-                  text="self-care is a journey,"
-                  fontStyle="italic"
-                  color={ACCENT}
-                />
+                <Box as="span" fontStyle="italic" color={ACCENT}>
+                  the pause, the breath,
+                </Box>
                 <br />
-                not a destination.
+                the coming back to yourself.
               </Heading>
               <Text
                 fontFamily="'Raleway', sans-serif"
@@ -688,9 +684,9 @@ function TestimonialsSection() {
                   fontSize={{ base: "80px", md: "120px" }} color="#F28B75"
                   lineHeight="0.6" display="block" mb={2}
                 >“</Box>
-                <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
-                  fontSize={{ base: "xl", md: "3xl" }} color={TEXT}
-                  lineHeight="1.4" mb={8}
+                <Text fontFamily="'Raleway', sans-serif" fontWeight="300"
+                  fontSize={{ base: "lg", md: "2xl" }} color={TEXT}
+                  lineHeight="1.6" mb={8}
                 >
                   {current.quote}
                 </Text>
