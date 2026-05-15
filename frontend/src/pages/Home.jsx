@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import MkNavBar from "../components/NavBar";
+import NewsletterButton from "../components/NewsletterModal";
 import logo2 from "../assets/logo2.png";
 import imgMoveGroove from "../assets/move-and-groove.jpg";
 import imgScentMeetsSound from "../assets/scent-meets-sound.jpg";
@@ -793,15 +794,7 @@ function Footer() {
                 {label}
               </Box>
             ))}
-            <Box as={RouterLink} to="/contact#newsletter"
-              fontFamily="'Raleway', sans-serif" fontSize="9px"
-              letterSpacing="0.22em" textTransform="uppercase"
-              bg={ACCENT} color="white"
-              px={4} py="8px" textDecoration="none"
-              _hover={{ bg: "#D85F44" }} style={{ transition: "background 0.2s" }}
-            >
-              Join newsletter
-            </Box>
+            <NewsletterButton />
           </Flex>
           <Cap>London · Est. 2025</Cap>
         </Flex>
