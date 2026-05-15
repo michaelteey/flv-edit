@@ -196,8 +196,8 @@ function UpcomingSection() {
                       viewport={{ once: true }} transition={{ duration: 1.2, ease: "easeOut" }}
                     >
                       <Box as="img" src={img} alt={name}
-                        width="100%" height={{ base: "60vw", md: "320px" }}
-                        objectFit="cover" display="block"
+                        width="100%" display="block"
+                        style={{ aspectRatio: "2 / 1", objectFit: "cover", objectPosition: "center" }}
                       />
                     </motion.div>
                   </Box>

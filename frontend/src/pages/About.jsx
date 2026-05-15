@@ -244,13 +244,13 @@ function QuoteSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <Box py={{ base: 16, md: 24 }} textAlign="center">
-        <Text fontFamily="'Lora', serif"
-          fontStyle="italic" fontWeight="500"
-          fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
-          color={TEXT} lineHeight="1.55" maxWidth="680px" mx="auto"
+        <Text fontFamily="'Caveat', cursive"
+          fontWeight="500"
+          fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+          color={TEXT} lineHeight="1.25" maxWidth="780px" mx="auto"
         >
-          "Every experience we create is a reminder that you deserve
-          to feel good — not someday, but now."
+          Every experience we create is a reminder that you deserve
+          to feel good — not someday, but now.
         </Text>
       </Box>
     </motion.div>

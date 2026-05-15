@@ -684,10 +684,10 @@ function TestimonialsSection() {
                   fontSize={{ base: "80px", md: "120px" }} color="#F28B75"
                   lineHeight="0.6" display="block" mb={2}
                 >“</Box>
-                <Text fontFamily="'Lora', serif"
-                  fontStyle="italic" fontWeight="500"
-                  fontSize={{ base: "lg", md: "2xl" }} color={TEXT}
-                  lineHeight="1.55" mb={8}
+                <Text fontFamily="'Caveat', cursive"
+                  fontWeight="500"
+                  fontSize={{ base: "3xl", md: "5xl" }} color={TEXT}
+                  lineHeight="1.25" mb={8}
                 >
                   {current.quote}
                 </Text>

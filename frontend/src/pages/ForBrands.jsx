@@ -135,11 +135,13 @@ function HeroSection() {
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }}>
         <Cap>For Brands</Cap>
         <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
-          fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
-          color={TEXT} lineHeight="1.05" mt={4} mb={8} maxWidth="680px"
+          fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
+          color={TEXT} lineHeight="1.1" mt={4} mb={8}
         >
-          Where conscious brands
-          <br /><em>show up <Box as="span" color={ACCENT}>{typed}</Box></em>
+          <Box as="span" display="block">Where conscious brands</Box>
+          <Box as="span" display="block" fontStyle="italic">
+            show up <Box as="span" color={ACCENT}>{typed}</Box>
+          </Box>
         </Heading>
       </motion.div>
       <motion.div {...fade(0.4)}>
