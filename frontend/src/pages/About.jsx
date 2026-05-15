@@ -242,15 +242,14 @@ function ValuesSection() {
 function QuoteSection() {
   return (
     <motion.div {...fade(0)}>
-      <Rule />
       <Box py={{ base: 16, md: 24 }} textAlign="center">
-        <Text fontFamily="'Lora', serif"
-          fontStyle="italic" fontWeight="500"
-          fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
-          color={TEXT} lineHeight="1.55" maxWidth="680px" mx="auto"
+        <Text fontFamily="'Caveat', cursive"
+          fontWeight="500"
+          fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+          color={TEXT} lineHeight="1.25" maxWidth="780px" mx="auto"
         >
-          "Every experience we create is a reminder that you deserve
-          to feel good — not someday, but now."
+          Every experience we create is a reminder that you deserve
+          to feel good — not someday, but now.
         </Text>
       </Box>
     </motion.div>
@@ -295,7 +294,7 @@ function Footer() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Flex gap={8} wrap="wrap">
+          <Flex gap={8} wrap="wrap" align="center">
             {[["Instagram", LINKTREE], ["Events", "/events"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
               <Box key={label}
                 as={href.startsWith("http") ? "a" : RouterLink}
@@ -306,6 +305,13 @@ function Footer() {
                 _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
               >{label}</Box>
             ))}
+            <Box as={RouterLink} to="/contact#newsletter"
+              fontFamily="'Raleway', sans-serif" fontSize="9px"
+              letterSpacing="0.22em" textTransform="uppercase"
+              bg={ACCENT} color="white"
+              px={4} py="8px" textDecoration="none"
+              _hover={{ bg: "#D85F44" }} style={{ transition: "background 0.2s" }}
+            >Join newsletter</Box>
           </Flex>
           <Cap>London · Est. 2025</Cap>
         </Flex>

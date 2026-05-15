@@ -684,10 +684,10 @@ function TestimonialsSection() {
                   fontSize={{ base: "80px", md: "120px" }} color="#F28B75"
                   lineHeight="0.6" display="block" mb={2}
                 >“</Box>
-                <Text fontFamily="'Lora', serif"
-                  fontStyle="italic" fontWeight="500"
-                  fontSize={{ base: "lg", md: "2xl" }} color={TEXT}
-                  lineHeight="1.55" mb={8}
+                <Text fontFamily="'Caveat', cursive"
+                  fontWeight="500"
+                  fontSize={{ base: "3xl", md: "5xl" }} color={TEXT}
+                  lineHeight="1.25" mb={8}
                 >
                   {current.quote}
                 </Text>
@@ -798,7 +798,7 @@ function Footer() {
               letterSpacing="0.22em" textTransform="uppercase"
               bg={ACCENT} color="white"
               px={4} py="8px" textDecoration="none"
-              _hover={{ bg: "#F28B75" }} style={{ transition: "background 0.2s" }}
+              _hover={{ bg: "#D85F44" }} style={{ transition: "background 0.2s" }}
             >
               Join newsletter
             </Box>

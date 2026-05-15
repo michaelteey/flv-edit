@@ -196,8 +196,8 @@ function UpcomingSection() {
                       viewport={{ once: true }} transition={{ duration: 1.2, ease: "easeOut" }}
                     >
                       <Box as="img" src={img} alt={name}
-                        width="100%" height={{ base: "60vw", md: "320px" }}
-                        objectFit="cover" display="block"
+                        width="100%" display="block"
+                        style={{ aspectRatio: "2 / 1", objectFit: "cover", objectPosition: "center" }}
                       />
                     </motion.div>
                   </Box>
@@ -319,7 +319,7 @@ function Footer() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Flex gap={8} wrap="wrap">
+          <Flex gap={8} wrap="wrap" align="center">
             {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
               <Box key={label}
                 as={href.startsWith("http") ? "a" : RouterLink}
@@ -330,6 +330,13 @@ function Footer() {
                 _hover={{ color: TEXT }} style={{ transition: "color 0.2s" }}
               >{label}</Box>
             ))}
+            <Box as={RouterLink} to="/contact#newsletter"
+              fontFamily="'Raleway', sans-serif" fontSize="9px"
+              letterSpacing="0.22em" textTransform="uppercase"
+              bg={ACCENT} color="white"
+              px={4} py="8px" textDecoration="none"
+              _hover={{ bg: "#D85F44" }} style={{ transition: "background 0.2s" }}
+            >Join newsletter</Box>
           </Flex>
           <Cap>London · Est. 2025</Cap>
         </Flex>
