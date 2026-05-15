@@ -78,7 +78,7 @@ function HeroSection() {
           </Heading>
         </motion.div>
         <motion.div {...fade(0.35)}>
-          <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED}
+          <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED}
             lineHeight="1.85" maxWidth="420px"
           >
             Vaya was born from a true love for wellness and creating experiences
@@ -121,11 +121,11 @@ function FounderSection() {
               Flavia
             </Heading>
             <Box borderTop={`1px solid ${BORDER}`} pt={6}>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.9" mb={4}>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.9" mb={4}>
                 Founded by Flavia and driven by her own path to wellbeing, Vaya aims to be your
                 travel companion as you figure out what works best for you.
               </Text>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.9" mb={4}>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.9" mb={4}>
                 What began as a personal journey into self-care evolved into a clear mission: to create
                 moments where people can disconnect so they can reconnect with what truly matters —
                 themselves, those around them and the present moment.
@@ -176,13 +176,13 @@ function TeamSection() {
               Tudor
             </Heading>
             <Box borderTop={`1px solid ${BORDER}`} pt={6}>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.9" mb={4}>
+              <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.9" mb={4}>
                 Tudor's passion lies in creating experiences that bring people together in meaningful ways.
                 With a background in event management and hands-on experience delivering everything from
                 large-scale conferences to intimate community gatherings, he brings structure, creativity,
                 and intention to every Vaya experience.
               </Text>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.9">
+              <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.9">
                 He believes that wellness should be accessible, inviting, and rooted in genuine connection.
                 In a world that moves quickly, Tudor is committed to creating spaces where people can pause,
                 breathe, and simply be.
@@ -226,7 +226,7 @@ function ValuesSection() {
                   color={hovered === i ? "white" : TEXT} minWidth="200px"
                   style={{ transition: "color 0.2s" }}
                 >{title}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+                <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
                   color={hovered === i ? "rgba(255,255,255,0.75)" : MUTED} lineHeight="1.8"
                   style={{ transition: "color 0.2s" }}
                 >{body}</Text>
@@ -268,7 +268,7 @@ function CollaborateSection() {
       <Rule />
       <Row label="Work with us">
         <Box>
-          <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED}
+          <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED}
             lineHeight="1.9" maxWidth="480px" mb={10}
           >
             We're always open to meaningful collaborations. If you share our
@@ -278,7 +278,7 @@ function CollaborateSection() {
             <motion.div key={title} {...fade(i * 0.1)}>
               <Box borderTop={`1px solid ${BORDER}`} py={7} _last={{ borderBottom: `1px solid ${BORDER}` }}>
                 <Text fontFamily="'Playfair Display', serif" fontSize="xl" color={TEXT} mb={3}>{title}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.9" maxWidth="520px">{body}</Text>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.9" maxWidth="520px">{body}</Text>
               </Box>
             </motion.div>
           ))}

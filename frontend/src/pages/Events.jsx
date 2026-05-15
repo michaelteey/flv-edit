@@ -114,7 +114,7 @@ function HeroSection() {
           </Heading>
         </motion.div>
         <motion.div {...fade(0.35)}>
-          <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED}
+          <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED}
             lineHeight="1.85" maxWidth="420px" mb={10}
           >
             Intimate, curated wellness experiences across London and beyond.
@@ -165,7 +165,7 @@ function UpcomingSection() {
                       fontSize={{ base: "2xl", md: "3xl" }} color={TEXT} lineHeight="1.2" mb={2}
                     >{name}</Heading>
                     <Text fontFamily="'Raleway', sans-serif" fontSize="xs" color={MUTED} mb={6}>{type}</Text>
-                    <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.9" mb={8}>{desc}</Text>
+                    <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.9" mb={8}>{desc}</Text>
 
                     <Flex direction="column" gap={2} mb={8}>
                       {[["Date", date], ["Time", time], ["Location", location]].map(([k, v]) => (

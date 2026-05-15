@@ -260,7 +260,7 @@ function AboutSection() {
               </Heading>
               <Text
                 fontFamily="'Raleway', sans-serif"
-                fontSize="17px" color={MUTED} lineHeight="1.9" mb={5}
+                fontSize="15px" color={MUTED} lineHeight="1.9" mb={5}
               >
                 Vaya was created from a deep passion for wellness and
                 meaningful connection. Every experience is carefully curated
