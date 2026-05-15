@@ -79,17 +79,6 @@ function Row({ label, children, py = 16 }) {
 const upcomingEvents = [
   {
     num: "01",
-    name: "Move & Groove",
-    type: "Yoga + Music",
-    date: "23 May 2026",
-    time: "11:15 AM – 1:15 PM",
-    location: "London",
-    desc: "A feel-good morning of movement and music. Flow through a yoga practice set to uplifting sounds — energising, joyful, and designed to get you out of your head and into your body.",
-    img: imgMoveGroove,
-    link: EB_MOVE_GROOVE,
-  },
-  {
-    num: "02",
     name: "Her Spring Reset with NILA M.",
     type: "Sound bath, journaling & meditation retreat — women only",
     date: "TBC",
@@ -107,6 +96,7 @@ const pastEvents = [
   { name: "Red Light Immersion",  type: "Sound + Red Light Therapy",    date: "08 Mar 2026", img: imgRedLight },
   { name: "Scent meets Sound",    type: "Aromatherapy + Sound Healing",  date: "29 Mar 2026", img: imgScentMeetsSound },
   { name: "Stillness after Dark", type: "Sound Healing + Live Vocals",   date: "10 Apr 2026", img: imgStillnessAfterDark },
+  { name: "Move & Groove",        type: "Yoga + Music",                  date: "23 May 2026", img: imgMoveGroove },
 ];
 
 // ─── Sections ─────────────────────────────────────────────────────────────────
@@ -328,9 +318,6 @@ function Footer() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Box as={RouterLink} to="/" textDecoration="none">
-            <Box as="img" src={logo} alt="Vaya" height="72px" display="block" />
-          </Box>
           <Flex gap={8} wrap="wrap">
             {[["Instagram", LINKTREE], ["About", "/about"], ["For Brands", "/brands"], ["Contact", CONTACT]].map(([label, href]) => (
               <Box key={label}

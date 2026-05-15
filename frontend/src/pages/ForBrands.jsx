@@ -677,9 +677,6 @@ function Footer() {
       <Box borderTop={`1px solid ${BORDER}`} />
       <Box px={{ base: 6, md: 12 }} py={10}>
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-          <Box as={RouterLink} to="/" textDecoration="none">
-            <Box as="img" src={logo} alt="Vaya" height="86px" display="block" />
-          </Box>
           <Flex gap={8} wrap="wrap">
             {[["Home", "/"], ["Events", "/events"], ["About", "/about"], ["Contact", CONTACT]].map(([label, href]) => (
               <Box key={label}
