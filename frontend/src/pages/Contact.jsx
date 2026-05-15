@@ -210,7 +210,7 @@ export default function Contact() {
             </Heading>
           </motion.div>
           <motion.div {...fade(0.35)}>
-            <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED}
+            <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED}
               lineHeight="1.85" maxWidth="420px"
             >
               Whether you're a brand, a business, or someone who just wants
@@ -235,7 +235,7 @@ export default function Contact() {
                 >
                   Thank you.
                 </Heading>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm" color={MUTED} lineHeight="1.85" mb={8}>
+                <Text fontFamily="'Raleway', sans-serif" fontSize="15px" color={MUTED} lineHeight="1.85" mb={8}>
                   We've received your message and will be in touch soon.
                 </Text>
                 <Box as={RouterLink} to="/"

@@ -143,7 +143,7 @@ function HeroSection() {
         </Heading>
       </motion.div>
       <motion.div {...fade(0.4)}>
-        <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+        <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
           color={MUTED} lineHeight="1.9" maxWidth="420px" mb={10}
         >
           Our audience is health-conscious, engaged and seeking experiences
@@ -199,7 +199,7 @@ function WhyVayaSection() {
                   minWidth={{ md: "220px" }} flexShrink={0}
                   style={{ transition: "color 0.2s" }}
                 >{title}</Text>
-                <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+                <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
                   color={hovered === i ? "rgba(255,255,255,0.75)" : MUTED} lineHeight="1.85"
                   style={{ transition: "color 0.2s" }}
                 >{body}</Text>
@@ -641,7 +641,7 @@ function CTASection() {
               </Heading>
             </Box>
             <Box>
-              <Text fontFamily="'Raleway', sans-serif" fontSize="sm"
+              <Text fontFamily="'Raleway', sans-serif" fontSize="15px"
                 color="rgba(253,246,238,0.85)" lineHeight="1.9" mb={8}
               >
                 Tell us about your brand and what you're imagining. We'll come back with a concept — no obligation, no templates. Just a real conversation.
