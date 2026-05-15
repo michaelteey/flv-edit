@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import logo2 from "../assets/logo2.png";
+import NewsletterButton from "./NewsletterModal";
 
 const CONTACT = "/contact";
 
@@ -76,6 +77,11 @@ export default function MkNavbar() {
             </Box>
           ))}
         </Flex>
+
+        {/* Mobile-only Join newsletter CTA */}
+        <Box display={{ base: "block", md: "none" }} mt={1}>
+          <NewsletterButton />
+        </Box>
       </Flex>
     </Box>
   );
