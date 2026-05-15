@@ -169,7 +169,7 @@ function TeamSection() {
           >
             <Text fontFamily="'Raleway', sans-serif" fontSize="14px"
               letterSpacing="0.28em" textTransform="uppercase" color={MUTED}
-            >Head of Partnerships</Text>
+            >Head of Partnerships and Events</Text>
             <Heading fontFamily="'Playfair Display', serif" fontWeight="400"
               fontSize={{ base: "3xl", md: "4xl" }} color={ACCENT} lineHeight="1.15"
             >
@@ -244,9 +244,9 @@ function QuoteSection() {
     <motion.div {...fade(0)}>
       <Rule />
       <Box py={{ base: 16, md: 24 }} textAlign="center">
-        <Text fontFamily="'Playfair Display', serif" fontStyle="italic"
+        <Text fontFamily="'Raleway', sans-serif" fontWeight="300"
           fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
-          color={TEXT} lineHeight="1.4" maxWidth="640px" mx="auto"
+          color={TEXT} lineHeight="1.6" maxWidth="640px" mx="auto"
         >
           "Every experience we create is a reminder that you deserve
           to feel good — not someday, but now."
