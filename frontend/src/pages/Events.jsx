@@ -29,7 +29,7 @@ const IMG = {
   yoga:    "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=1200",
   bowls:   "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=1200",
   candles: "https://images.pexels.com/photos/7795755/pexels-photo-7795755.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  spring:  "https://images.pexels.com/photos/4505172/pexels-photo-4505172.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  spring:  "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1183024177%2F567922715237%2F1%2Foriginal.20260425-125938?crop=focalpoint&fit=crop&w=1600&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.546&fp-y=0.522&s=8327df67894b98331dffe08994c60f4c",
 };
 
 const fade = (delay = 0) => ({
