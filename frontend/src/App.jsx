@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import FlaviaHome from "./pages/FlaviaHome";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
@@ -36,7 +37,8 @@ export default function App() {
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/"        element={<Home />} />
+        <Route path="/"        element={<FlaviaHome />} />
+        <Route path="/vaya"    element={<Home />} />
         <Route path="/about"   element={<About />} />
         <Route path="/events"  element={<Events />} />
         <Route path="/brands"  element={<ForBrands />} />
