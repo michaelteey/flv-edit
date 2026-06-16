@@ -131,11 +131,14 @@ function Header() {
           </Text>
         </Box>
         <Flex gap={{ base: 5, md: 9 }} align="center">
-          <Box as="a" href="#index" textDecoration="none">
-            <Mono color={INK}>Index</Mono>
-          </Box>
           <Box as="a" href="#about" textDecoration="none">
             <Mono color={INK}>Practice</Mono>
+          </Box>
+          <Box as="a" href="#offering" textDecoration="none">
+            <Mono color={INK}>Offering</Mono>
+          </Box>
+          <Box as="a" href="#index" textDecoration="none">
+            <Mono color={INK}>Index</Mono>
           </Box>
           <Box as="a" href="#contact" textDecoration="none">
             <Mono color={INK}>Enquire</Mono>
@@ -446,7 +449,7 @@ function IndexContents() {
         wrap="wrap" gap={6} pt={{ base: 12, md: 18 }} mb={{ base: 10, md: 14 }}
       >
         <motion.div {...reveal(0)}>
-          <Mono>§ II · Index of Engagements</Mono>
+          <Mono>§ III · Index of Engagements</Mono>
         </motion.div>
         <motion.div {...reveal(0.1)}>
           <Mono>Selected · Four Entries</Mono>
@@ -507,7 +510,7 @@ function CaseStudy({ cs, index }) {
         <Flex justify="space-between" wrap="wrap" gap={4}
           pb={{ base: 8, md: 12 }}
         >
-          <Mono>{`§ III·${cs.num}  ·  ${cs.client}`}</Mono>
+          <Mono>{`§ IV·${cs.num}  ·  ${cs.client}`}</Mono>
           <Mono>{cs.span}</Mono>
         </Flex>
 
@@ -612,10 +615,56 @@ function CaseStudy({ cs, index }) {
   );
 }
 
-// ─── Disciplines — woven, not gridded ────────────────────────────────────────
-function Disciplines() {
+// ─── Offering — two pillars, four engagement shapes, the working process ───
+const shapes = [
+  {
+    num:   "I.",
+    title: "The named producer",
+    body:  "A single, decisive event — owned end-to-end from concept to command on the day. Most common shape for flagship moments.",
+  },
+  {
+    num:   "II.",
+    title: "Interim leadership",
+    body:  "Three to six months as the named head of an in-house events function, holding scope while a permanent role is found.",
+  },
+  {
+    num:   "III.",
+    title: "Long-form advisory",
+    body:  "Retained support for an in-house team building its events practice — strategy, frameworks, supplier maps, hire briefs.",
+  },
+  {
+    num:   "IV.",
+    title: "Partnership programme",
+    body:  "A curated season of brand-to-community moments — partnerships sourced and shaped, audience grown in trust over time.",
+  },
+];
+
+const process = [
+  {
+    num:   "I.",
+    title: "Conversation",
+    body:  "A long, unhurried first call. What the room is for, who it's for, what success would feel like in the body.",
+  },
+  {
+    num:   "II.",
+    title: "Brief & plan",
+    body:  "A written brief returned within the week — concept, format, scope, budget shape, the roles we'll need around us.",
+  },
+  {
+    num:   "III.",
+    title: "Build & execute",
+    body:  "Supplier sourcing, run-of-show, rehearsal, on-the-day command. Calm in the room, even when the room is large.",
+  },
+  {
+    num:   "IV.",
+    title: "Reflect & retain",
+    body:  "A post-event review — what worked, what to retain into the next engagement, what to put down.",
+  },
+];
+
+function Offering() {
   return (
-    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
+    <Box id="offering" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
       <Hairline />
       <Grid templateColumns={{ base: "1fr", md: "1fr 4fr 1fr" }}
         gap={{ base: 8, md: 14 }}
@@ -623,15 +672,16 @@ function Disciplines() {
       >
         <Box>
           <motion.div {...reveal(0)}>
-            <Mono>§ IV</Mono>
+            <Mono>§ II</Mono>
           </motion.div>
         </Box>
 
         <Box>
           <motion.div {...reveal(0.05)}>
-            <Mono>On Discipline</Mono>
+            <Mono>The Offering · Two pillars, four shapes</Mono>
           </motion.div>
 
+          {/* Lede headline — the two-sentence thesis */}
           <motion.div {...reveal(0.15)}>
             <Heading as="h2"
               fontFamily={SERIF} fontWeight="400"
@@ -657,8 +707,11 @@ function Disciplines() {
             </Heading>
           </motion.div>
 
+          {/* The two pillars */}
           <motion.div {...reveal(0.25)}>
-            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={{ base: 8, md: 14 }} mb={10}>
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={{ base: 8, md: 14 }}
+              mb={{ base: 16, md: 24 }}
+            >
               <Box borderTop={`1px solid ${HAIR}`} pt={6}>
                 <Mono>One.</Mono>
                 <Text fontFamily={SERIF} fontStyle="italic"
@@ -700,18 +753,130 @@ function Disciplines() {
             </Grid>
           </motion.div>
 
-          <motion.div {...reveal(0.35)}>
-            <Text fontFamily={SANS}
-              fontSize={{ base: "16px", md: "17px" }}
-              fontWeight="300" color={MUTED}
-              lineHeight="1.85"
-              maxWidth="640px"
-              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+          {/* Engagement shapes — "how we could work" */}
+          <motion.div {...reveal(0)}>
+            <Box pt={{ base: 6, md: 8 }} borderTop={`1px solid ${HAIR}`}>
+              <Mono>How we could work · Four shapes</Mono>
+              <Heading as="h3"
+                fontFamily={SERIF} fontWeight="400"
+                fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+                color={INK} lineHeight="1.1"
+                letterSpacing="-0.018em"
+                mt={6} mb={{ base: 10, md: 12 }}
+                maxWidth="780px"
+                style={{
+                  fontVariationSettings: FRA_TITLE,
+                  textWrap: "balance",
+                }}
+              >
+                Four{" "}
+                <Box as="span" fontStyle="italic">shapes an engagement</Box>{" "}
+                tends to take — pick the one that fits the room.
+              </Heading>
+            </Box>
+
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+              gap={{ base: 6, md: 10 }}
+              mb={{ base: 16, md: 24 }}
             >
-              Engagements are bespoke. Most begin as a single conversation
-              and grow into a retainer. References, press notes and a
-              capability deck are available on request.
-            </Text>
+              {shapes.map(({ num, title, body }, i) => (
+                <motion.div key={num} {...reveal(i * 0.05)}>
+                  <Box borderTop={`1px solid ${HAIR}`} pt={6}>
+                    <Flex gap={4} mb={3} align="baseline">
+                      <Mono>{num}</Mono>
+                      <Text fontFamily={SERIF} fontStyle="italic"
+                        fontSize={{ base: "lg", md: "xl" }}
+                        color={INK} lineHeight="1.25"
+                        style={{ fontVariationSettings: FRA_LEDE }}
+                      >{title}.</Text>
+                    </Flex>
+                    <Text fontFamily={SANS} fontSize="14px"
+                      fontWeight="300" color={MUTED} lineHeight="1.75"
+                      style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+                    >{body}</Text>
+                  </Box>
+                </motion.div>
+              ))}
+            </Grid>
+          </motion.div>
+
+          {/* The working process — "what you can expect" */}
+          <motion.div {...reveal(0)}>
+            <Box pt={{ base: 6, md: 8 }} borderTop={`1px solid ${HAIR}`}>
+              <Mono>What to expect · The working process</Mono>
+              <Heading as="h3"
+                fontFamily={SERIF} fontWeight="400"
+                fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+                color={INK} lineHeight="1.1"
+                letterSpacing="-0.018em"
+                mt={6} mb={{ base: 4, md: 6 }}
+                maxWidth="780px"
+                style={{
+                  fontVariationSettings: FRA_TITLE,
+                  textWrap: "balance",
+                }}
+              >
+                Every engagement begins{" "}
+                <Box as="span" fontStyle="italic">the same way.</Box>
+              </Heading>
+              <Text fontFamily={SANS}
+                fontSize={{ base: "15px", md: "16px" }}
+                fontWeight="300" color={MUTED}
+                lineHeight="1.85"
+                maxWidth="600px"
+                mb={{ base: 10, md: 14 }}
+                style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+              >
+                A long, unhurried first conversation. From there, every
+                programme follows a quiet four-step rhythm — kept small
+                enough to stay accountable, large enough to make room
+                for the unexpected.
+              </Text>
+            </Box>
+
+            <Box>
+              {process.map(({ num, title, body }, i) => (
+                <motion.div key={num} {...reveal(i * 0.05)}>
+                  <Grid templateColumns={{ base: "1fr", md: "60px 200px 1fr" }}
+                    gap={{ base: 3, md: 10 }}
+                    py={{ base: 6, md: 8 }}
+                    borderBottom={`1px solid ${HAIR}`}
+                    _first={{ borderTop: `1px solid ${HAIR}` }}
+                    alignItems="baseline"
+                  >
+                    <Mono>{num}</Mono>
+                    <Text fontFamily={SERIF} fontStyle="italic"
+                      fontSize={{ base: "xl", md: "2xl" }}
+                      color={INK} lineHeight="1.2"
+                      style={{ fontVariationSettings: FRA_LEDE }}
+                    >{title}.</Text>
+                    <Text fontFamily={SANS} fontSize="14px"
+                      fontWeight="300" color={MUTED} lineHeight="1.75"
+                      maxWidth="520px"
+                      style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+                    >{body}</Text>
+                  </Grid>
+                </motion.div>
+              ))}
+            </Box>
+
+            <motion.div {...reveal(0.2)}>
+              <Box mt={{ base: 10, md: 14 }}>
+                <Text fontFamily={SANS}
+                  fontSize={{ base: "15px", md: "16px" }}
+                  fontWeight="300" color={MUTED}
+                  lineHeight="1.85"
+                  maxWidth="600px"
+                  mb={6}
+                  style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+                >
+                  Engagements are bespoke; the structure above is a guide,
+                  not a template. References, press notes and a capability
+                  deck are available on request.
+                </Text>
+                <Underlink href="#contact">Begin a Conversation</Underlink>
+              </Box>
+            </motion.div>
           </motion.div>
         </Box>
 
@@ -747,7 +912,7 @@ function Index() {
       >
         <Box>
           <motion.div {...reveal(0)}>
-            <Mono>§ V</Mono>
+            <Mono>§ IV</Mono>
           </motion.div>
         </Box>
 
@@ -823,7 +988,7 @@ function Contact() {
     >
       <Box maxWidth="1400px" mx="auto">
         <motion.div {...reveal(0)}>
-          <Mono>§ VI · Enquiries</Mono>
+          <Mono>§ V · Enquiries</Mono>
         </motion.div>
 
         <motion.div {...reveal(0.1)}>
@@ -939,7 +1104,7 @@ function Colophon() {
         <Box>
           <Mono light>Index</Mono>
           <Box mt={3}>
-            {[["Practice", "#about"], ["Engagements", "#index"], ["Enquire", "#contact"]].map(([l, h]) => (
+            {[["Practice", "#about"], ["Offering", "#offering"], ["Engagements", "#index"], ["Enquire", "#contact"]].map(([l, h]) => (
               <Box key={l} as="a" href={h} display="block" mb={1}
                 fontFamily={MONO} fontSize="11px" letterSpacing="0.04em"
                 color="rgba(242,237,227,0.75)" textDecoration="none"
@@ -967,6 +1132,10 @@ export default function FlaviaHome() {
       <Hero />
       <Plate />
       <Introduction />
+
+      {/* Offer comes BEFORE the engagements — the practice, then the receipts */}
+      <Offering />
+
       <IndexContents />
 
       {/* Case studies — COLLINS pattern, each with intro slab + full-bleed image */}
@@ -974,7 +1143,6 @@ export default function FlaviaHome() {
         <CaseStudy key={cs.num} cs={cs} index={i} />
       ))}
 
-      <Disciplines />
       <Index />
       <Contact />
       <Colophon />
