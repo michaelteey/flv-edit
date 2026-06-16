@@ -370,7 +370,7 @@ function Introduction() {
               style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
             >
               Outside the corporate calendar she founded{" "}
-              <Box as="span" fontStyle="italic" color={INK}>FIRE</Box> — a
+              <Box as="span" fontStyle="italic" color={INK}>Vaya</Box> — a
               London women's community for wellness and brand-led gathering
               — running a sold-out programme of events with conscious
               wellness brands as partners on curation and product.
@@ -414,12 +414,12 @@ const caseStudies = [
   },
   {
     num:    "III.",
-    client: "FIRE",
+    client: "Vaya",
     title:  "A women's community for wellness and brand-led gathering — sold out, run alongside.",
     role:   "Founder",
     span:   "2025 — 2026",
     place:  "London",
-    body:   "Founded FIRE as a community-first wellness programme for women in London — securing partnerships with conscious wellness brands for curation, product and goodie bags, and selling out the calendar of events through the year. A working model for connecting brand to community without the marketing-deck flatness — community-builder first, sponsor wrangler second.",
+    body:   "Founded Vaya as a community-first wellness programme for women in London — securing partnerships with conscious wellness brands for curation, product and goodie bags, and selling out the calendar of events through the year. A working model for connecting brand to community without the marketing-deck flatness — community-builder first, sponsor wrangler second.",
     stat:   { value: "Sold-out", label: "12-month programme" },
     img:    IMG.vaya,
     footnote: "Founded by Flavia in parallel with her CME role. Paused as a public programme in 2026 as she returns to independent client work.",
@@ -724,7 +724,7 @@ function Disciplines() {
 // ─── Index of Engagements — full timeline ────────────────────────────────────
 const experience = [
   { date: "Jun. 2026 —",         role: "Interim Head of Events",                 org: "CoreView · London"   },
-  { date: "Aug. 2025 — Jun. 2026", role: "Founder",                              org: "FIRE · women's community, London" },
+  { date: "Aug. 2025 — Jun. 2026", role: "Founder",                              org: "Vaya · women's community, London" },
   { date: "Oct. 2023 — Jun. 2026", role: "Senior Corporate Marketing & Events",  org: "CME Group · London"  },
   { date: "Mar. 2023 — Oct. 2023", role: "Events Delivery Manager, EMEA",        org: "OpenExchange · London"},
   { date: "Jun. 2022 — Mar. 2023", role: "Senior Project Manager, EMEA",         org: "OpenExchange · London"},
