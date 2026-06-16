@@ -1,484 +1,759 @@
-import { Box, Flex, Text, Heading, Grid, SimpleGrid } from "@chakra-ui/react";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { Box, Flex, Text, Heading, Grid } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
-// ─── Design Tokens ────────────────────────────────────────────────────────────
-const BG       = "#F4EFE5";  // warm cream
-const TEXT     = "#1A1410";  // near-black, slight warmth
-const MUTED    = "#7A6B5E";  // taupe
-const SOFT     = "#A39588";  // softer taupe
-const BORDER   = "#E0D8CC";  // subtle warm border
-const ACCENT   = "#3D2F22";  // deep espresso (rare use)
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+const PAPER   = "#F2EDE3";    // warm paper (close to Jacquemus Spring Wood)
+const SURFACE = "#EAE3D5";    // deeper variant for surfaces
+const INK     = "#15110D";    // soft black, warm
+const MUTED   = "#6B6358";    // mid-tone, AA on PAPER at body sizes
+const SOFT    = "#A89B8C";    // captions, eyebrows
+const HAIR    = "rgba(21, 17, 13, 0.10)";
+const UMBER   = "#5C4A2F";    // rare accent
 
-const SERIF    = "'EB Garamond', 'Playfair Display', serif";
-const SANS     = "'Inter', 'Raleway', sans-serif";
+// Font stacks
+const SERIF = "'Fraunces', 'EB Garamond', Georgia, serif";
+const SANS  = "'Inter', system-ui, sans-serif";
+const MONO  = "'JetBrains Mono', ui-monospace, SFMono-Regular, monospace";
 
-const EMAIL    = "hello@flaviadanes.com";
-const INSTA    = "https://www.instagram.com/wearevaya_/";
+// Variation strings for variable Fraunces axes
+const FRA_DISPLAY = '"opsz" 144, "SOFT" 30, "wght" 360';
+const FRA_DISPLAY_ITALIC = '"opsz" 144, "SOFT" 30, "wght" 320';
+const FRA_TITLE   = '"opsz" 72, "SOFT" 30, "wght" 360';
+const FRA_LEDE    = '"opsz" 32, "SOFT" 30, "wght" 360';
 
-// ─── Primitives ───────────────────────────────────────────────────────────────
-const fade = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
+const EMAIL = "hello@flaviadanes.com";
+const INSTA = "https://www.instagram.com/wearevaya_/";
+
+// ─── Motion ───────────────────────────────────────────────────────────────────
+const reveal = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.9, delay, ease: [0.22, 0.61, 0.36, 1] },
+  viewport: { once: true, amount: 0.15 },
+  transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
-function Eyebrow({ children, light = false }) {
+const slowFade = (delay = 0) => ({
+  initial: { opacity: 0 },
+  whileInView: { opacity: 1 },
+  viewport: { once: true, amount: 0.15 },
+  transition: { duration: 1.4, delay, ease: [0.22, 1, 0.36, 1] },
+});
+
+const imgReveal = {
+  initial: { opacity: 0, scale: 1.06 },
+  whileInView: { opacity: 1, scale: 1 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] },
+};
+
+// ─── Primitives ───────────────────────────────────────────────────────────────
+function Mono({ children, light = false, color, ...rest }) {
   return (
-    <Text fontFamily={SANS} fontSize="11px"
-      letterSpacing="0.3em" textTransform="uppercase"
-      color={light ? "rgba(244,239,229,0.55)" : SOFT}
+    <Text
+      fontFamily={MONO} fontSize="10px"
+      letterSpacing="0.18em" textTransform="uppercase"
+      color={color || (light ? "rgba(242,237,227,0.55)" : SOFT)}
       fontWeight="400"
+      {...rest}
     >{children}</Text>
   );
 }
 
-function Rule({ light = false }) {
-  return <Box borderTop={`1px solid ${light ? "rgba(244,239,229,0.18)" : BORDER}`} />;
+function Hairline({ light = false }) {
+  return (
+    <Box borderTop={`1px solid ${light ? "rgba(242,237,227,0.12)" : HAIR}`} />
+  );
 }
 
-function FullBleed({ children }) {
-  return <Box mx={{ base: -6, md: -10, lg: -16 }}>{children}</Box>;
+function FullBleed({ children, mx }) {
+  return (
+    <Box mx={mx ?? { base: -6, md: -10, lg: -16 }}>
+      {children}
+    </Box>
+  );
 }
 
-function TextLink({ href, children, dark = false }) {
-  const col = dark ? "#F4EFE5" : TEXT;
+function Underlink({ href, children, dark = false }) {
+  const col = dark ? "#F2EDE3" : INK;
   const isExternal = href?.startsWith("http") || href?.startsWith("mailto");
   return (
     <Box as={isExternal ? "a" : RouterLink}
       {...(isExternal ? { href, target: href.startsWith("mailto") ? undefined : "_blank" } : { to: href })}
-      fontFamily={SANS} fontSize="11px" letterSpacing="0.24em"
+      fontFamily={MONO} fontSize="11px" letterSpacing="0.2em"
       textTransform="uppercase" color={col} textDecoration="none"
-      borderBottom={`1px solid ${col}`} pb="3px"
+      borderBottom={`1px solid ${col}`} pb="4px"
       display="inline-flex" alignItems="center"
-      _hover={{ opacity: 0.55 }} style={{ transition: "opacity 0.3s" }}
+      _hover={{ opacity: 0.5 }} style={{ transition: "opacity 0.4s" }}
     >{children}</Box>
   );
 }
 
 // ─── Imagery ──────────────────────────────────────────────────────────────────
 const IMG = {
-  portrait:    "https://images.pexels.com/photos/3756168/pexels-photo-3756168.jpeg?auto=compress&cs=tinysrgb&w=1400",
-  coreview1:   "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  coreview2:   "https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  cme1:        "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  cme2:        "https://images.pexels.com/photos/2467506/pexels-photo-2467506.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  vaya1:       "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  vaya2:       "https://images.pexels.com/photos/11889669/pexels-photo-11889669.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  detail:      "https://images.pexels.com/photos/31359311/pexels-photo-31359311.jpeg?auto=compress&cs=tinysrgb&w=1800",
+  plate:    "https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=2400",
+  coreview: "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=2400",
+  cme:      "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=2400",
+  vaya:     "https://images.pexels.com/photos/8436622/pexels-photo-8436622.jpeg?auto=compress&cs=tinysrgb&w=2400",
+  openex:   "https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=2400",
 };
 
 // ─── Header ───────────────────────────────────────────────────────────────────
-function MinimalHeader() {
+function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <Box position="absolute" top={0} left={0} right={0} zIndex={10}
-      px={{ base: 6, md: 10, lg: 16 }} py={{ base: 7, md: 9 }}
+    <Box position="fixed" top={0} left={0} right={0} zIndex={20}
+      px={{ base: 6, md: 10, lg: 16 }}
+      py={{ base: 5, md: 6 }}
+      bg={scrolled ? "rgba(242,237,227,0.88)" : "transparent"}
+      style={{
+        transition: "background 0.5s ease, backdrop-filter 0.5s",
+        backdropFilter: scrolled ? "saturate(140%) blur(16px)" : "none",
+        WebkitBackdropFilter: scrolled ? "saturate(140%) blur(16px)" : "none",
+      }}
     >
       <Flex justify="space-between" align="center">
-        <Box as={RouterLink} to="/" textDecoration="none">
+        <Box as="a" href="#top" textDecoration="none">
           <Text fontFamily={SERIF} fontWeight="400"
-            fontSize={{ base: "18px", md: "20px" }} letterSpacing="0.02em"
-            color={TEXT}
-          >Flavia Danes</Text>
+            fontSize={{ base: "15px", md: "16px" }}
+            color={INK}
+            style={{ fontVariationSettings: '"opsz" 14, "SOFT" 30, "wght" 400' }}
+          >
+            Flavia Danes
+          </Text>
         </Box>
-        <Flex gap={{ base: 6, md: 10 }} align="center">
-          {[
-            ["Work",     "#work"],
-            ["About",    "#about"],
-            ["Contact",  "#contact"],
-          ].map(([label, href]) => (
-            <Box key={label} as="a" href={href}
-              fontFamily={SANS} fontSize="11px"
-              letterSpacing="0.24em" textTransform="uppercase"
-              color={TEXT} textDecoration="none" fontWeight="400"
-              _hover={{ opacity: 0.55 }} style={{ transition: "opacity 0.3s" }}
-            >{label}</Box>
-          ))}
+        <Flex gap={{ base: 5, md: 9 }} align="center">
+          <Box as="a" href="#index" textDecoration="none">
+            <Mono color={INK}>Index</Mono>
+          </Box>
+          <Box as="a" href="#about" textDecoration="none">
+            <Mono color={INK}>Practice</Mono>
+          </Box>
+          <Box as="a" href="#contact" textDecoration="none">
+            <Mono color={INK}>Enquire</Mono>
+          </Box>
         </Flex>
       </Flex>
     </Box>
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// ─── Hero — negative space, type-only (Phoebe Philo / Margiela doctrine) ─────
 function Hero() {
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
+  const y = useTransform(scrollY, [0, 500], [0, 80]);
+
   return (
-    <Box minHeight={{ base: "92vh", md: "100vh" }} position="relative"
-      display="flex" alignItems="center"
+    <Box id="top" position="relative"
+      minHeight={{ base: "100vh", md: "100vh" }}
       px={{ base: 6, md: 10, lg: 16 }}
-      pt={{ base: 28, md: 32 }} pb={{ base: 16, md: 20 }}
+      display="flex" flexDirection="column"
+      justifyContent="space-between"
+      pt={{ base: 28, md: 32 }} pb={{ base: 8, md: 10 }}
     >
-      <Box maxWidth="1000px">
-        <motion.div {...fade(0.1)}>
-          <Eyebrow>Event Strategy & Production · London</Eyebrow>
-        </motion.div>
-
-        <motion.div {...fade(0.25)}>
-          <Heading as="h1"
-            fontFamily={SERIF} fontWeight="400"
-            fontSize={{ base: "5xl", md: "8xl", lg: "9xl" }}
-            color={TEXT} lineHeight="0.95"
-            letterSpacing="-0.01em"
-            mt={{ base: 8, md: 10 }}
-            mb={{ base: 10, md: 14 }}
-          >
-            Flavia<br />
-            <Box as="span" fontStyle="italic" fontWeight="400">Danes</Box>
-          </Heading>
-        </motion.div>
-
-        <motion.div {...fade(0.45)}>
-          <Text fontFamily={SERIF} fontStyle="italic" fontWeight="400"
-            fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
-            color={MUTED} lineHeight="1.4"
-            maxWidth="640px" mb={{ base: 10, md: 12 }}
-          >
-            An independent producer of considered events —
-            building moments that feel inevitable, not orchestrated.
-          </Text>
-        </motion.div>
-
-        <motion.div {...fade(0.6)}>
-          <Flex gap={8} wrap="wrap" align="center">
-            <TextLink href="#work">Selected Work</TextLink>
-            <TextLink href="#contact">Get in Touch</TextLink>
-          </Flex>
+      {/* Top-right edge marker */}
+      <Box position="absolute" top={{ base: 24, md: 28 }} right={{ base: 6, md: 10, lg: 16 }}>
+        <motion.div {...slowFade(0.4)}>
+          <Mono>Vol. 01 · Spring</Mono>
         </motion.div>
       </Box>
 
-      <Box position="absolute" bottom={{ base: 6, md: 10 }} right={{ base: 6, md: 10, lg: 16 }}>
-        <motion.div {...fade(1.0)}>
-          <Eyebrow>Est. London</Eyebrow>
-        </motion.div>
-      </Box>
-    </Box>
-  );
-}
-
-// ─── Introduction ─────────────────────────────────────────────────────────────
-function Introduction() {
-  return (
-    <Box id="about" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 40 }}>
-      <Rule />
-      <Grid templateColumns={{ base: "1fr", md: "1fr 1.4fr" }}
-        gap={{ base: 12, md: 24 }} pt={{ base: 14, md: 24 }}
-      >
-        <motion.div {...fade(0)}>
-          <Box overflow="hidden">
-            <Box as="img" src={IMG.portrait} alt="Flavia Danes"
-              width="100%" display="block"
-              style={{ aspectRatio: "4 / 5", objectFit: "cover" }}
-            />
-          </Box>
-        </motion.div>
-
-        <Box pt={{ md: 4 }}>
-          <motion.div {...fade(0.1)}>
-            <Eyebrow>A Note</Eyebrow>
+      <motion.div style={{ opacity, y }}>
+        <Box mt={{ base: 16, md: 24 }}>
+          <motion.div {...reveal(0.1)}>
+            <Mono>An Independent Practice · London · Est. 2020</Mono>
           </motion.div>
 
-          <motion.div {...fade(0.2)}>
-            <Heading as="h2"
+          {/* The wordmark */}
+          <motion.div {...reveal(0.3)}>
+            <Heading as="h1"
               fontFamily={SERIF} fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-              color={TEXT} lineHeight="1.15"
-              mt={6} mb={{ base: 8, md: 12 }} maxWidth="640px"
+              fontSize={{ base: "23vw", md: "17vw", lg: "14.5vw" }}
+              color={INK}
+              lineHeight="0.86"
+              letterSpacing="-0.035em"
+              mt={{ base: 10, md: 14 }}
+              mb={{ base: 0, md: 0 }}
+              style={{
+                fontVariationSettings: FRA_DISPLAY,
+                textWrap: "balance",
+                fontFeatureSettings: '"ss01", "dlig", "kern", "liga"',
+              }}
             >
-              I produce events that move
-              quietly — and land precisely.
+              Flavia
+            </Heading>
+            <Heading as="span"
+              display="block"
+              fontFamily={SERIF}
+              fontStyle="italic" fontWeight="400"
+              fontSize={{ base: "23vw", md: "17vw", lg: "14.5vw" }}
+              color={INK}
+              lineHeight="0.86"
+              letterSpacing="-0.03em"
+              pl={{ base: 0, md: "0.04em" }}
+              style={{
+                fontVariationSettings: FRA_DISPLAY_ITALIC,
+                textWrap: "balance",
+                fontFeatureSettings: '"ss01", "dlig", "kern", "liga"',
+              }}
+            >
+              Danes.
             </Heading>
           </motion.div>
-
-          <motion.div {...fade(0.3)}>
-            <Text fontFamily={SANS} fontSize={{ base: "15px", md: "17px" }}
-              fontWeight="300" color={TEXT} lineHeight="1.75"
-              maxWidth="540px" mb={6}
-            >
-              Six years of producing corporate, financial and lifestyle
-              events across EMEA — most recently as Senior Global Marketing
-              Events Manager at <Box as="span" fontStyle="italic">CoreView</Box>,
-              previously leading the EMEA programme at <Box as="span" fontStyle="italic">CME Group</Box>,
-              and in parallel as founder of the wellness studio
-              <Box as="span" fontStyle="italic"> Vaya</Box>.
-            </Text>
-            <Text fontFamily={SANS} fontSize={{ base: "15px", md: "17px" }}
-              fontWeight="300" color={MUTED} lineHeight="1.75"
-              maxWidth="540px" mb={10}
-            >
-              My work spans strategy, production and creative direction —
-              from 300-person investor days to intimate brand activations.
-              I take long retainers, considered commissions and the occasional
-              ambitious one-off. Every project starts with a conversation.
-            </Text>
-            <TextLink href="#contact">Start a Conversation</TextLink>
-          </motion.div>
         </Box>
-      </Grid>
+      </motion.div>
+
+      {/* Footer meta row — four micro-cards */}
+      <motion.div {...slowFade(0.7)}>
+        <Box pt={{ base: 16, md: 14 }}>
+          <Hairline />
+          <Grid templateColumns={{ base: "1fr 1fr", md: "1fr 1fr 1fr 1fr" }}
+            gap={{ base: 8, md: 10 }} pt={{ base: 8, md: 10 }}
+          >
+            <Box>
+              <Mono>Practice</Mono>
+              <Text fontFamily={SERIF} mt={3}
+                fontSize={{ base: "lg", md: "xl" }}
+                color={INK} lineHeight="1.3"
+                style={{ fontVariationSettings: FRA_LEDE, fontStyle: "italic" }}
+              >
+                Event strategy<br />&amp; production.
+              </Text>
+            </Box>
+            <Box>
+              <Mono>Currently</Mono>
+              <Text fontFamily={SERIF} mt={3}
+                fontSize={{ base: "lg", md: "xl" }}
+                color={INK} lineHeight="1.3"
+                style={{ fontVariationSettings: FRA_LEDE, fontStyle: "italic" }}
+              >
+                Senior Global<br />Events, CoreView.
+              </Text>
+            </Box>
+            <Box>
+              <Mono>Studio</Mono>
+              <Text fontFamily={SERIF} mt={3}
+                fontSize={{ base: "lg", md: "xl" }}
+                color={INK} lineHeight="1.3"
+                style={{ fontVariationSettings: FRA_LEDE, fontStyle: "italic" }}
+              >
+                London,<br />by appointment.
+              </Text>
+            </Box>
+            <Box>
+              <Mono>Enquiries</Mono>
+              <Box mt={3}>
+                <Underlink href={`mailto:${EMAIL}`}>{EMAIL}</Underlink>
+              </Box>
+            </Box>
+          </Grid>
+        </Box>
+      </motion.div>
     </Box>
   );
 }
 
-// ─── Selected Work ────────────────────────────────────────────────────────────
-const caseStudies = [
-  {
-    num:    "01",
-    client: "CoreView",
-    title:  "Global marketing events programme",
-    role:   "Senior Global Marketing Events Manager · 2026 — Present",
-    body:   "Owning CoreView's global marketing events — strategy, programme architecture and end-to-end delivery across EMEA and North America. Building the practice from the ground up to support an ambitious go-to-market motion.",
-    img:    IMG.coreview1,
-    alt:    IMG.coreview2,
-    side:   "right",
-  },
-  {
-    num:    "02",
-    client: "CME Group",
-    title:  "EMEA events for the world's leading derivatives marketplace",
-    role:   "Senior Corporate Marketing & Events Manager · 2023 — 2026",
-    body:   "Led the end-to-end planning and execution of high-profile in-person, virtual and hybrid events across EMEA — 20 to 300 attendees, multi-currency budgets up to £250K. Owned executive hospitality, sponsorships and client engagement; ran post-event analysis to demonstrate measurable ROI. Acted as the global team's go-to Cvent expert.",
-    img:    IMG.cme1,
-    alt:    IMG.cme2,
-    side:   "left",
-  },
-  {
-    num:    "03",
-    client: "Vaya",
-    title:  "A wellness studio, built alongside",
-    role:   "Founder · 2025 — 2026",
-    body:   "Founded a sensory-led wellness experience agency while in a full-time role — owning event vision, concept design, venue sourcing, ticketing strategy across Eventbrite and CLIQ, and partnerships with conscious wellness brands. Now paused as a public programme while Flavia returns to independent client work.",
-    img:    IMG.vaya1,
-    alt:    IMG.vaya2,
-    side:   "right",
-    founderNote: true,
-  },
-];
-
-function CaseStudy({ num, client, title, role, body, img, alt, side, founderNote }) {
-  const reverse = side === "left";
+// ─── Plate — a single editorial photograph (Pentagram opener) ────────────────
+function Plate() {
   return (
-    <motion.div {...fade(0)}>
-      <Box py={{ base: 16, md: 28 }} px={{ base: 6, md: 10, lg: 16 }}>
-        <Grid templateColumns={{ base: "1fr", md: reverse ? "1fr 1fr" : "1fr 1fr" }}
-          gap={{ base: 10, md: 20 }} alignItems="center"
-        >
-          {/* Image side */}
-          <Box order={{ base: 1, md: reverse ? 2 : 1 }}>
-            <Box overflow="hidden">
-              <motion.div
-                initial={{ scale: 1.06 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.6, ease: [0.22, 0.61, 0.36, 1] }}
-              >
-                <Box as="img" src={img} alt={`${client} — ${title}`}
-                  width="100%" display="block"
-                  style={{ aspectRatio: "4 / 5", objectFit: "cover" }}
-                />
-              </motion.div>
-            </Box>
-          </Box>
-
-          {/* Text side */}
-          <Box order={{ base: 2, md: reverse ? 1 : 2 }} pt={{ md: 8 }}>
-            <Flex gap={4} mb={6} align="center">
-              <Text fontFamily={SANS} fontSize="11px" letterSpacing="0.24em"
-                color={SOFT}
-              >{num} —</Text>
-              <Eyebrow>{client}</Eyebrow>
-            </Flex>
-            <Heading as="h3"
-              fontFamily={SERIF} fontWeight="400"
-              fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-              color={TEXT} lineHeight="1.15"
-              mb={5} maxWidth="540px"
-            >{title}</Heading>
-            <Text fontFamily={SANS} fontSize="13px"
-              letterSpacing="0.05em" color={MUTED} mb={8}
-              fontStyle="italic" fontWeight="300"
-            >{role}</Text>
-            <Text fontFamily={SANS} fontSize={{ base: "15px", md: "16px" }}
-              fontWeight="300" color={TEXT} lineHeight="1.85"
-              maxWidth="500px" mb={founderNote ? 6 : 0}
-            >{body}</Text>
-            {founderNote && (
-              <Text fontFamily={SERIF} fontStyle="italic"
-                fontSize={{ base: "15px", md: "16px" }}
-                color={MUTED} lineHeight="1.7"
-                maxWidth="500px"
-              >
-                Founded by Flavia · paused as a public programme in 2026
-                while she returns to independent client work.
-              </Text>
-            )}
-          </Box>
-        </Grid>
-      </Box>
-    </motion.div>
-  );
-}
-
-function SelectedWork() {
-  return (
-    <Box id="work">
-      <Box px={{ base: 6, md: 10, lg: 16 }}>
-        <Rule />
-        <Flex justify="space-between" align={{ md: "flex-end" }}
-          wrap="wrap" gap={6} pt={{ base: 14, md: 20 }} mb={{ base: 4, md: 0 }}
-        >
-          <Box>
-            <motion.div {...fade(0)}>
-              <Eyebrow>Selected Work</Eyebrow>
-            </motion.div>
-            <motion.div {...fade(0.1)}>
-              <Heading as="h2"
-                fontFamily={SERIF} fontWeight="400"
-                fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
-                color={TEXT} lineHeight="1.0"
-                letterSpacing="-0.01em" mt={6}
-              >
-                A decade<br /><Box as="span" fontStyle="italic">in the room.</Box>
-              </Heading>
-            </motion.div>
-          </Box>
-          <motion.div {...fade(0.2)}>
-            <Text fontFamily={SANS} fontSize="14px" fontWeight="300"
-              color={MUTED} lineHeight="1.8" maxWidth="320px"
-            >
-              Three programmes that defined the last few years of practice.
-              Full press kit and references available on request.
-            </Text>
-          </motion.div>
+    <Box pt={{ base: 0, md: 0 }}>
+      <FullBleed mx={0}>
+        <motion.div {...imgReveal}>
+          <Box as="img" src={IMG.plate} alt="Plate"
+            width="100%" display="block"
+            style={{ aspectRatio: "16 / 9", objectFit: "cover", objectPosition: "center 30%" }}
+          />
+        </motion.div>
+      </FullBleed>
+      <Box px={{ base: 6, md: 10, lg: 16 }} pt={{ base: 4, md: 5 }}>
+        <Flex justify="space-between" wrap="wrap" gap={4}>
+          <Mono>Plate I · A room set</Mono>
+          <Mono>London, 2025 · Photography by — TBC</Mono>
         </Flex>
       </Box>
-
-      {caseStudies.map((cs) => <CaseStudy key={cs.num} {...cs} />)}
     </Box>
   );
 }
 
-// ─── Services ─────────────────────────────────────────────────────────────────
-const services = [
-  { num: "I",   title: "Event strategy",         body: "Programme design, audience strategy, format and narrative architecture for flagship moments." },
-  { num: "II",  title: "Production & delivery",  body: "End-to-end production: agency selection, run-of-show, vendor management, on-the-day command." },
-  { num: "III", title: "Creative direction",     body: "Concept development, art direction, sensory design and brand integration for considered events." },
-  { num: "IV",  title: "Long-term partnership",  body: "Retained advisory for in-house teams building an event practice from the ground up." },
-];
-
-function Services() {
-  const [hovered, setHovered] = useState(null);
+// ─── Introduction — Pentagram narrow-column prose ─────────────────────────────
+function Introduction() {
   return (
-    <Box bg={ACCENT} color="#F4EFE5" px={{ base: 6, md: 10, lg: 16 }}
-      py={{ base: 24, md: 36 }}
+    <Box id="about" px={{ base: 6, md: 10, lg: 16 }}
+      py={{ base: 28, md: 44 }}
     >
-      <motion.div {...fade(0)}>
-        <Eyebrow light>What I offer</Eyebrow>
-      </motion.div>
-      <motion.div {...fade(0.1)}>
-        <Heading as="h2"
-          fontFamily={SERIF} fontWeight="400"
-          fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
-          color="#F4EFE5" lineHeight="1.0"
-          letterSpacing="-0.01em" mt={6} mb={{ base: 14, md: 20 }}
-        >
-          Four ways<br /><Box as="span" fontStyle="italic">we might work.</Box>
-        </Heading>
-      </motion.div>
-
-      <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={0}>
-        {services.map(({ num, title, body }, i) => (
-          <motion.div key={num} {...fade(i * 0.08)}>
-            <Box
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              borderTop="1px solid rgba(244,239,229,0.18)"
-              borderBottom={{ md: i >= 2 ? "1px solid rgba(244,239,229,0.18)" : "none" }}
-              borderRight={{ md: i % 2 === 0 ? "1px solid rgba(244,239,229,0.18)" : "none" }}
-              py={{ base: 10, md: 14 }} px={{ base: 0, md: 10 }}
-              style={{ transition: "background 0.4s" }}
-              bg={hovered === i ? "rgba(244,239,229,0.04)" : "transparent"}
-            >
-              <Flex gap={6} align="baseline" mb={4}>
-                <Text fontFamily={SERIF} fontStyle="italic"
-                  fontSize="lg" color="rgba(244,239,229,0.5)"
-                >{num}</Text>
-                <Heading as="h3" fontFamily={SERIF} fontWeight="400"
-                  fontSize={{ base: "2xl", md: "3xl" }} color="#F4EFE5"
-                >{title}</Heading>
-              </Flex>
-              <Text fontFamily={SANS} fontSize="15px" fontWeight="300"
-                color="rgba(244,239,229,0.7)" lineHeight="1.8"
-                maxWidth="440px" pl={{ base: 0, md: 10 }}
-              >{body}</Text>
-            </Box>
+      <Hairline />
+      <Grid templateColumns={{ base: "1fr", md: "1fr 4fr 1fr" }}
+        gap={{ base: 8, md: 14 }}
+        pt={{ base: 14, md: 20 }}
+      >
+        <Box display={{ base: "block", md: "block" }}>
+          <motion.div {...reveal(0)}>
+            <Mono>§ I</Mono>
           </motion.div>
-        ))}
+        </Box>
+
+        <Box>
+          <motion.div {...reveal(0.05)}>
+            <Mono>On Practice</Mono>
+          </motion.div>
+
+          <motion.div {...reveal(0.15)}>
+            <Heading as="h2"
+              fontFamily={SERIF} fontWeight="400"
+              fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
+              color={INK} lineHeight="1.1"
+              letterSpacing="-0.018em"
+              mt={6} mb={{ base: 10, md: 14 }}
+              maxWidth="900px"
+              style={{
+                fontVariationSettings: FRA_TITLE,
+                textWrap: "balance",
+                hangingPunctuation: "first allow-end last",
+              }}
+            >
+              Flavia Danes is a London-based producer of considered events
+              — most recently for{" "}
+              <Box as="span" fontStyle="italic">CoreView</Box>, the global
+              derivatives marketplace{" "}
+              <Box as="span" fontStyle="italic">CME Group</Box>, and the
+              wellness studio{" "}
+              <Box as="span" fontStyle="italic">Vaya</Box>, which she founded.
+            </Heading>
+          </motion.div>
+
+          <motion.div {...reveal(0.25)}>
+            <Text fontFamily={SANS}
+              fontSize={{ base: "16px", md: "17px" }}
+              fontWeight="300" color={MUTED}
+              lineHeight="1.85"
+              maxWidth="640px"
+              mb={5}
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >
+              Her practice spans strategy, production and creative direction —
+              from three-hundred-person investor days to intimate brand
+              activations, across multi-currency budgets that have run to
+              two hundred and fifty thousand pounds.
+            </Text>
+            <Text fontFamily={SANS}
+              fontSize={{ base: "16px", md: "17px" }}
+              fontWeight="300" color={MUTED}
+              lineHeight="1.85"
+              maxWidth="640px"
+              mb={10}
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >
+              Earlier engagements include three years with{" "}
+              <Box as="span" fontStyle="italic" color={INK}>CME Group</Box> in
+              London, a progression through{" "}
+              <Box as="span" fontStyle="italic" color={INK}>OpenExchange</Box>{" "}
+              (Citi, Bank of America, London Stock Exchange Group, UBS),
+              and a parallel founder seat at Vaya — a wellness studio she
+              built alongside her corporate role and has since paused as
+              a public programme.
+            </Text>
+          </motion.div>
+
+          <motion.div {...reveal(0.35)}>
+            <Underlink href="#contact">Begin a Conversation</Underlink>
+          </motion.div>
+        </Box>
+
+        <Box />
       </Grid>
     </Box>
   );
 }
 
-// ─── Experience ───────────────────────────────────────────────────────────────
-const experience = [
-  { date: "Jun 2026 —",       role: "Senior Global Marketing Events Manager", org: "CoreView" },
-  { date: "Aug 2025 — Jun 2026", role: "Founder",                              org: "Vaya Events · alongside CME" },
-  { date: "Oct 2023 — Jun 2026", role: "Senior Corporate Marketing & Events Manager", org: "CME Group · London" },
-  { date: "Mar 2023 — Oct 2023", role: "Events Delivery Manager, EMEA",        org: "OpenExchange · London" },
-  { date: "Jun 2022 — Mar 2023", role: "Senior Project Manager, EMEA",         org: "OpenExchange · London" },
-  { date: "Feb 2021 — May 2022", role: "Project Manager, EMEA",                org: "OpenExchange · Remote" },
-  { date: "Nov 2020 — Feb 2021", role: "Associate Video Specialist",           org: "OpenExchange · Freelance" },
+// ─── Index — Stefan Beckman / COLLINS contents page ───────────────────────────
+const caseStudies = [
+  {
+    num:    "I.",
+    client: "CoreView",
+    title:  "Building a global marketing events practice from zero.",
+    role:   "Senior Global Marketing Events Manager",
+    span:   "Jun. 2026 — Present",
+    place:  "London · EMEA & North America",
+    body:   "Owning CoreView's global marketing events programme end-to-end — strategy, programme architecture and execution. Building the in-house function from the ground up to support an ambitious go-to-market motion across two continents.",
+    stat:   { value: "Global", label: "EMEA & North America" },
+    img:    IMG.coreview,
+  },
+  {
+    num:    "II.",
+    client: "CME Group",
+    title:  "Three years of EMEA programmes for the world's leading derivatives marketplace.",
+    role:   "Senior Corporate Marketing & Events Manager",
+    span:   "Oct. 2023 — Jun. 2026",
+    place:  "London · EMEA",
+    body:   "Led the end-to-end planning and execution of in-person, virtual and hybrid programmes across EMEA — sized from twenty to three hundred attendees. Owned executive hospitality, sponsorship and client engagement; managed multi-currency budgets up to £250,000; acted as the global team's reference Cvent practitioner.",
+    stat:   { value: "£250K", label: "Programme budgets" },
+    img:    IMG.cme,
+  },
+  {
+    num:    "III.",
+    client: "Vaya",
+    title:  "A wellness studio, built alongside — and gently paused.",
+    role:   "Founder",
+    span:   "Aug. 2025 — Jun. 2026",
+    place:  "London",
+    body:   "Founded a sensory-led wellness studio while in a full-time corporate role — owning concept, venue, ticketing strategy and partnerships with conscious wellness brands. Vaya remains an active concept in private; it is paused as a public programme while Flavia returns to independent client work.",
+    stat:   { value: "Founded", label: "Concept · Production · Brand" },
+    img:    IMG.vaya,
+    footnote: "A founder's note — Vaya was conceived and built by Flavia in parallel with her work at CME. It is paused as a public programme in 2026.",
+  },
+  {
+    num:    "IV.",
+    client: "OpenExchange",
+    title:  "Three-year progression delivering virtual and hybrid events for major financial institutions.",
+    role:   "Project Manager → Senior PM → Delivery Manager",
+    span:   "Nov. 2020 — Oct. 2023",
+    place:  "London · Remote",
+    body:   "Delivered AGMs, investor days, results presentations and global roadshows for Citi, Bank of America, London Stock Exchange Group, UBS and Davy. Progressed from Project Manager to Senior PM to Delivery Manager — leading a team of seven and the EMEA delivery function before moving to CME.",
+    stat:   { value: "07", label: "Project managers led" },
+    img:    IMG.openex,
+  },
 ];
 
-function Experience() {
+function IndexContents() {
+  const [hover, setHover] = useState(null);
   return (
-    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
-      <Rule />
-      <Grid templateColumns={{ base: "1fr", md: "320px 1fr" }}
-        gap={{ base: 10, md: 20 }} pt={{ base: 14, md: 20 }}
+    <Box id="index" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
+      <Hairline />
+      <Flex justify="space-between" align="flex-end"
+        wrap="wrap" gap={6} pt={{ base: 12, md: 18 }} mb={{ base: 10, md: 14 }}
       >
-        <Box>
-          <motion.div {...fade(0)}>
-            <Eyebrow>Experience</Eyebrow>
-          </motion.div>
-          <motion.div {...fade(0.1)}>
+        <motion.div {...reveal(0)}>
+          <Mono>§ II · Index of Engagements</Mono>
+        </motion.div>
+        <motion.div {...reveal(0.1)}>
+          <Mono>Selected · Four Entries</Mono>
+        </motion.div>
+      </Flex>
+
+      <Box>
+        {caseStudies.map((cs, i) => (
+          <motion.a key={cs.num} href={`#case-${i}`} {...reveal(i * 0.05)}
+            style={{ textDecoration: "none", display: "block" }}
+            onMouseEnter={() => setHover(i)}
+            onMouseLeave={() => setHover(null)}
+          >
+            <Grid templateColumns={{ base: "auto 1fr auto", md: "60px 1fr 1fr auto" }}
+              gap={{ base: 4, md: 10 }}
+              py={{ base: 6, md: 8 }}
+              borderBottom={`1px solid ${HAIR}`}
+              _first={{ borderTop: `1px solid ${HAIR}` }}
+              alignItems="baseline"
+              style={{ transition: "padding 0.5s" }}
+              cursor="pointer"
+            >
+              <Mono color={hover === i ? INK : SOFT}>{cs.num}</Mono>
+              <Heading as="h3"
+                fontFamily={SERIF} fontWeight="400"
+                fontStyle="italic"
+                fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+                color={hover === i ? UMBER : INK}
+                letterSpacing="-0.015em"
+                lineHeight="1.05"
+                style={{
+                  fontVariationSettings: FRA_TITLE,
+                  textWrap: "balance",
+                  transition: "color 0.5s",
+                }}
+              >
+                {cs.client}
+              </Heading>
+              <Box display={{ base: "none", md: "block" }}>
+                <Mono color={hover === i ? INK : SOFT}>{cs.role}</Mono>
+              </Box>
+              <Mono color={hover === i ? INK : SOFT}>{cs.span}</Mono>
+            </Grid>
+          </motion.a>
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
+// ─── Case Study — COLLINS pattern: typographic intro slab, then image ────────
+function CaseStudy({ cs, index }) {
+  return (
+    <Box id={`case-${index}`}>
+      <Box px={{ base: 6, md: 10, lg: 16 }}
+        py={{ base: 16, md: 28 }}
+      >
+        <Flex justify="space-between" wrap="wrap" gap={4}
+          pb={{ base: 8, md: 12 }}
+        >
+          <Mono>{`§ III·${cs.num}  ·  ${cs.client}`}</Mono>
+          <Mono>{cs.span}</Mono>
+        </Flex>
+
+        {/* Centered narrow column — Pentagram pattern */}
+        <Box maxWidth="900px" mx="auto" textAlign={{ base: "left", md: "left" }}>
+          <motion.div {...reveal(0)}>
             <Heading as="h2"
               fontFamily={SERIF} fontWeight="400"
-              fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
-              color={TEXT} lineHeight="1.0" mt={6}
+              fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
+              color={INK} lineHeight="1.08"
+              letterSpacing="-0.022em"
+              mb={{ base: 8, md: 12 }}
+              style={{
+                fontVariationSettings: FRA_TITLE,
+                textWrap: "balance",
+                hangingPunctuation: "first allow-end last",
+              }}
             >
-              The<br /><Box as="span" fontStyle="italic">trajectory.</Box>
+              {cs.title}
             </Heading>
+          </motion.div>
+
+          <motion.div {...reveal(0.15)}>
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
+              gap={{ base: 6, md: 8 }}
+              borderTop={`1px solid ${HAIR}`}
+              pt={{ base: 6, md: 8 }}
+              mb={{ base: 6, md: 8 }}
+            >
+              <Box>
+                <Mono>Role</Mono>
+                <Text fontFamily={SERIF} fontStyle="italic"
+                  fontSize={{ base: "md", md: "lg" }}
+                  color={INK} mt={2} lineHeight="1.35"
+                  style={{ fontVariationSettings: FRA_LEDE }}
+                >{cs.role}</Text>
+              </Box>
+              <Box>
+                <Mono>Where</Mono>
+                <Text fontFamily={SERIF} fontStyle="italic"
+                  fontSize={{ base: "md", md: "lg" }}
+                  color={INK} mt={2} lineHeight="1.35"
+                  style={{ fontVariationSettings: FRA_LEDE }}
+                >{cs.place}</Text>
+              </Box>
+              <Box>
+                <Mono>Scale</Mono>
+                <Text fontFamily={SERIF}
+                  fontSize={{ base: "2xl", md: "3xl" }}
+                  color={INK} mt={1} lineHeight="1"
+                  letterSpacing="-0.02em"
+                  style={{ fontVariationSettings: FRA_TITLE }}
+                >{cs.stat.value}</Text>
+                <Mono mt={1}>{cs.stat.label}</Mono>
+              </Box>
+            </Grid>
+          </motion.div>
+        </Box>
+      </Box>
+
+      {/* Full-bleed editorial image */}
+      <FullBleed mx={0}>
+        <motion.div {...imgReveal}>
+          <Box as="img" src={cs.img} alt={`${cs.client} — ${cs.title}`}
+            width="100%" display="block"
+            style={{ aspectRatio: "16 / 9", objectFit: "cover" }}
+          />
+        </motion.div>
+      </FullBleed>
+
+      {/* Narrow column body — Pentagram pattern */}
+      <Box px={{ base: 6, md: 10, lg: 16 }}
+        pt={{ base: 6, md: 8 }} pb={{ base: 14, md: 24 }}
+      >
+        <Flex justify="space-between" wrap="wrap" gap={4} mb={{ base: 10, md: 14 }}>
+          <Mono>{`Plate · ${cs.client}`}</Mono>
+          <Mono>Reportage · Photography by — TBC</Mono>
+        </Flex>
+
+        <Box maxWidth="720px" mx="auto">
+          <motion.div {...reveal(0.1)}>
+            <Text fontFamily={SANS}
+              fontSize={{ base: "16px", md: "17px" }}
+              fontWeight="300" color={INK}
+              lineHeight="1.85"
+              mb={cs.footnote ? 8 : 0}
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >{cs.body}</Text>
+            {cs.footnote && (
+              <Box borderTop={`1px solid ${HAIR}`} pt={6}>
+                <Text fontFamily={SERIF} fontStyle="italic"
+                  fontSize={{ base: "14px", md: "15px" }}
+                  color={MUTED} lineHeight="1.65"
+                  style={{ fontVariationSettings: FRA_LEDE }}
+                >{cs.footnote}</Text>
+              </Box>
+            )}
+          </motion.div>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+// ─── Disciplines — woven, not gridded ────────────────────────────────────────
+function Disciplines() {
+  return (
+    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
+      <Hairline />
+      <Grid templateColumns={{ base: "1fr", md: "1fr 4fr 1fr" }}
+        gap={{ base: 8, md: 14 }}
+        pt={{ base: 14, md: 20 }}
+      >
+        <Box>
+          <motion.div {...reveal(0)}>
+            <Mono>§ IV</Mono>
           </motion.div>
         </Box>
 
         <Box>
-          {experience.map(({ date, role, org }, i) => (
-            <motion.div key={role} {...fade(i * 0.06)}>
-              <Grid templateColumns={{ base: "1fr", md: "160px 1fr" }}
-                gap={{ base: 2, md: 8 }}
-                py={{ base: 6, md: 8 }}
-                borderBottom={`1px solid ${BORDER}`}
-                _first={{ borderTop: `1px solid ${BORDER}` }}
-              >
-                <Text fontFamily={SANS} fontSize="12px"
-                  letterSpacing="0.18em" color={SOFT}
-                  textTransform="uppercase" pt={{ md: 1 }}
-                >{date}</Text>
-                <Box>
-                  <Heading as="h3"
-                    fontFamily={SERIF} fontWeight="400"
-                    fontSize={{ base: "xl", md: "2xl" }}
-                    color={TEXT} lineHeight="1.2" mb={1}
-                  >{role}</Heading>
-                  <Text fontFamily={SANS} fontSize="14px"
-                    fontStyle="italic" fontWeight="300" color={MUTED}
-                  >{org}</Text>
-                </Box>
-              </Grid>
-            </motion.div>
-          ))}
+          <motion.div {...reveal(0.05)}>
+            <Mono>On Discipline</Mono>
+          </motion.div>
+
+          <motion.div {...reveal(0.15)}>
+            <Heading as="h2"
+              fontFamily={SERIF} fontWeight="400"
+              fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
+              color={INK} lineHeight="1.1"
+              letterSpacing="-0.018em"
+              mt={6} mb={{ base: 10, md: 14 }}
+              maxWidth="900px"
+              style={{
+                fontVariationSettings: FRA_TITLE,
+                textWrap: "balance",
+                hangingPunctuation: "first allow-end last",
+              }}
+            >
+              The practice covers{" "}
+              <Box as="span" fontStyle="italic">strategy</Box> — programme
+              design, audience and narrative architecture;{" "}
+              <Box as="span" fontStyle="italic">production</Box> — end-to-end
+              delivery, vendor selection, on-the-day command;{" "}
+              <Box as="span" fontStyle="italic">creative direction</Box> —
+              concept, format and sensory design; and a small line of{" "}
+              <Box as="span" fontStyle="italic">advisory</Box> for in-house
+              teams building an events function.
+            </Heading>
+          </motion.div>
+
+          <motion.div {...reveal(0.25)}>
+            <Text fontFamily={SANS}
+              fontSize={{ base: "16px", md: "17px" }}
+              fontWeight="300" color={MUTED}
+              lineHeight="1.85"
+              maxWidth="640px"
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >
+              Each engagement is bespoke. Most begin as a single conversation
+              and grow into a long retainer. References, press notes and a
+              detailed capability deck are available on request.
+            </Text>
+          </motion.div>
         </Box>
+
+        <Box />
+      </Grid>
+    </Box>
+  );
+}
+
+// ─── Index of Engagements — full timeline ────────────────────────────────────
+const experience = [
+  { date: "Jun. 2026 —",         role: "Senior Global Marketing Events Manager", org: "CoreView"            },
+  { date: "Aug. 2025 — Jun. 2026", role: "Founder",                              org: "Vaya Events"         },
+  { date: "Oct. 2023 — Jun. 2026", role: "Senior Corporate Marketing & Events",  org: "CME Group · London"  },
+  { date: "Mar. 2023 — Oct. 2023", role: "Events Delivery Manager, EMEA",        org: "OpenExchange · London"},
+  { date: "Jun. 2022 — Mar. 2023", role: "Senior Project Manager, EMEA",         org: "OpenExchange · London"},
+  { date: "Feb. 2021 — May. 2022", role: "Project Manager, EMEA",                org: "OpenExchange · Remote"},
+  { date: "Nov. 2020 — Feb. 2021", role: "Associate Video Specialist",           org: "OpenExchange · Freelance"},
+];
+
+const clients = [
+  "CME Group", "CoreView", "Citi", "Bank of America",
+  "London Stock Exchange Group", "UBS", "Davy", "Plato Partnerships",
+];
+
+function Index() {
+  return (
+    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
+      <Hairline />
+      <Grid templateColumns={{ base: "1fr", md: "1fr 4fr 1fr" }}
+        gap={{ base: 8, md: 14 }}
+        pt={{ base: 14, md: 20 }}
+      >
+        <Box>
+          <motion.div {...reveal(0)}>
+            <Mono>§ V</Mono>
+          </motion.div>
+        </Box>
+
+        <Box>
+          <motion.div {...reveal(0.05)}>
+            <Mono>The Trajectory · Selected Roles, 2020 — 2026</Mono>
+          </motion.div>
+
+          <Box mt={{ base: 10, md: 14 }}>
+            {experience.map(({ date, role, org }, i) => (
+              <motion.div key={role + date} {...reveal(i * 0.04)}>
+                <Grid templateColumns={{ base: "1fr", md: "220px 1fr" }}
+                  gap={{ base: 2, md: 10 }}
+                  py={{ base: 6, md: 7 }}
+                  borderBottom={`1px solid ${HAIR}`}
+                  _first={{ borderTop: `1px solid ${HAIR}` }}
+                >
+                  <Mono>{date}</Mono>
+                  <Box>
+                    <Heading as="h3"
+                      fontFamily={SERIF} fontWeight="400"
+                      fontSize={{ base: "xl", md: "2xl" }}
+                      color={INK} lineHeight="1.2" mb={1}
+                      letterSpacing="-0.01em"
+                      style={{ fontVariationSettings: FRA_LEDE, textWrap: "balance" }}
+                    >{role}</Heading>
+                    <Text fontFamily={SERIF}
+                      fontSize={{ base: "14px", md: "15px" }}
+                      fontStyle="italic" color={MUTED}
+                      style={{ fontVariationSettings: FRA_LEDE }}
+                    >{org}</Text>
+                  </Box>
+                </Grid>
+              </motion.div>
+            ))}
+          </Box>
+
+          {/* Clients in prose */}
+          <motion.div {...reveal(0.2)}>
+            <Box mt={{ base: 14, md: 20 }}>
+              <Mono>Selected Clients</Mono>
+              <Text fontFamily={SERIF} fontStyle="italic"
+                fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
+                color={INK} lineHeight="1.4"
+                mt={5} maxWidth="900px"
+                style={{
+                  fontVariationSettings: FRA_TITLE,
+                  textWrap: "balance",
+                  hangingPunctuation: "first allow-end last",
+                }}
+              >
+                {clients.map((c, i) => (
+                  <Box as="span" key={c}>
+                    {c}{i < clients.length - 1 ? ", " : "."}
+                  </Box>
+                ))}
+              </Text>
+            </Box>
+          </motion.div>
+        </Box>
+
+        <Box />
       </Grid>
     </Box>
   );
@@ -487,78 +762,143 @@ function Experience() {
 // ─── Contact ──────────────────────────────────────────────────────────────────
 function Contact() {
   return (
-    <Box id="contact" px={{ base: 6, md: 10, lg: 16 }}
-      py={{ base: 24, md: 40 }}
+    <Box id="contact" bg={SURFACE} px={{ base: 6, md: 10, lg: 16 }}
+      py={{ base: 28, md: 44 }}
     >
-      <Rule />
-      <Box pt={{ base: 14, md: 24 }} maxWidth="900px">
-        <motion.div {...fade(0)}>
-          <Eyebrow>Get in Touch</Eyebrow>
+      <Box maxWidth="1400px" mx="auto">
+        <motion.div {...reveal(0)}>
+          <Mono>§ VI · Enquiries</Mono>
         </motion.div>
 
-        <motion.div {...fade(0.1)}>
+        <motion.div {...reveal(0.1)}>
           <Heading as="h2"
             fontFamily={SERIF} fontWeight="400"
-            fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }}
-            color={TEXT} lineHeight="0.95"
-            letterSpacing="-0.01em" mt={8} mb={{ base: 10, md: 14 }}
+            fontSize={{ base: "5xl", md: "8xl", lg: "10xl" }}
+            color={INK} lineHeight="0.92"
+            letterSpacing="-0.028em"
+            mt={8} mb={{ base: 14, md: 20 }}
+            maxWidth="1200px"
+            style={{
+              fontVariationSettings: FRA_DISPLAY,
+              textWrap: "balance",
+              hangingPunctuation: "first allow-end last",
+            }}
           >
-            Let's begin<br /><Box as="span" fontStyle="italic">with a conversation.</Box>
+            Begin with{" "}
+            <Box as="span" fontStyle="italic"
+              style={{ fontVariationSettings: FRA_DISPLAY_ITALIC }}
+            >a long conversation.</Box>
           </Heading>
         </motion.div>
 
-        <motion.div {...fade(0.2)}>
-          <Text fontFamily={SANS} fontSize={{ base: "16px", md: "18px" }}
-            fontWeight="300" color={MUTED} lineHeight="1.7"
-            maxWidth="540px" mb={12}
-          >
-            Whether you're building an event practice from scratch
-            or refining a flagship moment, I'd love to hear about it.
-            A short note is plenty — I respond personally within a few days.
-          </Text>
-        </motion.div>
+        <Grid templateColumns={{ base: "1fr", md: "2fr 1fr 1fr" }}
+          gap={{ base: 12, md: 14 }}
+        >
+          <motion.div {...reveal(0.2)}>
+            <Mono>Direct</Mono>
+            <Text fontFamily={SERIF}
+              fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+              color={INK} mt={4} lineHeight="1.2"
+              style={{
+                fontVariationSettings: FRA_TITLE,
+                textWrap: "balance",
+              }}
+            >
+              <Box as="a" href={`mailto:${EMAIL}`}
+                textDecoration="none" color={INK}
+                borderBottom={`1px solid ${INK}`} pb="4px"
+                _hover={{ opacity: 0.5 }} style={{ transition: "opacity 0.4s" }}
+              >{EMAIL}</Box>
+            </Text>
+            <Text fontFamily={SANS} fontSize="14px" fontWeight="300"
+              color={MUTED} lineHeight="1.75" mt={6} maxWidth="420px"
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >
+              A short note is plenty. Replies are personal,
+              usually within a few working days.
+            </Text>
+          </motion.div>
 
-        <motion.div {...fade(0.3)}>
-          <Flex direction={{ base: "column", md: "row" }}
-            gap={{ base: 6, md: 14 }} align={{ md: "flex-end" }}
-          >
-            <Box>
-              <Eyebrow>Email</Eyebrow>
-              <Text fontFamily={SERIF} fontSize={{ base: "2xl", md: "3xl" }}
-                color={TEXT} mt={3}
-              >
-                <Box as="a" href={`mailto:${EMAIL}`}
-                  textDecoration="none" color={TEXT}
-                  borderBottom={`1px solid ${TEXT}`} pb="2px"
-                  _hover={{ opacity: 0.55 }} style={{ transition: "opacity 0.3s" }}
-                >{EMAIL}</Box>
-              </Text>
+          <motion.div {...reveal(0.3)}>
+            <Mono>Studio</Mono>
+            <Text fontFamily={SERIF} fontStyle="italic"
+              fontSize={{ base: "xl", md: "2xl" }}
+              color={INK} mt={4} lineHeight="1.4"
+              style={{ fontVariationSettings: FRA_LEDE }}
+            >
+              London,<br />by appointment.
+            </Text>
+          </motion.div>
+
+          <motion.div {...reveal(0.4)}>
+            <Mono>Elsewhere</Mono>
+            <Box mt={4}>
+              <Underlink href={INSTA}>Instagram</Underlink>
             </Box>
-            <Box>
-              <Eyebrow>Elsewhere</Eyebrow>
-              <Box mt={3}>
-                <TextLink href={INSTA}>Instagram</TextLink>
-              </Box>
-            </Box>
-          </Flex>
-        </motion.div>
+          </motion.div>
+        </Grid>
       </Box>
     </Box>
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
+// ─── Colophon ─────────────────────────────────────────────────────────────────
+function Colophon() {
   return (
-    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 8, md: 10 }}
-      borderTop={`1px solid ${BORDER}`}
+    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 10, md: 14 }}
+      bg={INK} color={PAPER}
     >
-      <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
-        <Text fontFamily={SERIF} fontSize="15px" color={TEXT}>
-          Flavia Danes
-        </Text>
-        <Eyebrow>© 2026 · London</Eyebrow>
-      </Flex>
+      <Hairline light />
+      <Grid templateColumns={{ base: "1fr", md: "2fr 1fr 1fr 1fr" }}
+        gap={{ base: 8, md: 10 }} pt={{ base: 8, md: 10 }}
+      >
+        <Box>
+          <Text fontFamily={SERIF} fontSize={{ base: "lg", md: "xl" }}
+            color={PAPER} mb={3}
+            style={{ fontVariationSettings: FRA_LEDE }}
+          >
+            Flavia Danes
+          </Text>
+          <Text fontFamily={SERIF} fontStyle="italic"
+            fontSize={{ base: "13px", md: "14px" }}
+            color="rgba(242,237,227,0.55)" lineHeight="1.6" maxWidth="380px"
+            style={{ fontVariationSettings: FRA_LEDE }}
+          >
+            An independent practice in event strategy and production —
+            in publication since 2020, in London.
+          </Text>
+        </Box>
+        <Box>
+          <Mono light>Colophon</Mono>
+          <Text fontFamily={MONO} fontSize="11px"
+            color="rgba(242,237,227,0.55)" lineHeight="1.7" mt={3}
+            letterSpacing="0.02em"
+          >
+            Set in Fraunces<br />
+            and Inter v4 ·<br />
+            Metadata in<br />
+            JetBrains Mono.
+          </Text>
+        </Box>
+        <Box>
+          <Mono light>Index</Mono>
+          <Box mt={3}>
+            {[["Practice", "#about"], ["Engagements", "#index"], ["Enquire", "#contact"]].map(([l, h]) => (
+              <Box key={l} as="a" href={h} display="block" mb={1}
+                fontFamily={MONO} fontSize="11px" letterSpacing="0.04em"
+                color="rgba(242,237,227,0.75)" textDecoration="none"
+                _hover={{ color: PAPER }} style={{ transition: "color 0.3s" }}
+              >{l}</Box>
+            ))}
+          </Box>
+        </Box>
+        <Box>
+          <Mono light>Year</Mono>
+          <Text fontFamily={MONO} fontSize="11px"
+            color="rgba(242,237,227,0.75)" mt={3}
+          >MMXXVI · London</Text>
+        </Box>
+      </Grid>
     </Box>
   );
 }
@@ -566,15 +906,22 @@ function Footer() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function FlaviaHome() {
   return (
-    <Box bg={BG} minHeight="100vh" color={TEXT}>
-      <MinimalHeader />
+    <Box bg={PAPER} minHeight="100vh" color={INK}>
+      <Header />
       <Hero />
+      <Plate />
       <Introduction />
-      <SelectedWork />
-      <Services />
-      <Experience />
+      <IndexContents />
+
+      {/* Case studies — COLLINS pattern, each with intro slab + full-bleed image */}
+      {caseStudies.map((cs, i) => (
+        <CaseStudy key={cs.num} cs={cs} index={i} />
+      ))}
+
+      <Disciplines />
+      <Index />
       <Contact />
-      <Footer />
+      <Colophon />
     </Box>
   );
 }
