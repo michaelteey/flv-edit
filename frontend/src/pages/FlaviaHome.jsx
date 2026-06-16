@@ -3,25 +3,25 @@ import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
-// ─── Tokens ───────────────────────────────────────────────────────────────────
-const PAPER   = "#F2EDE3";    // warm paper (close to Jacquemus Spring Wood)
-const SURFACE = "#EAE3D5";    // deeper variant for surfaces
-const INK     = "#15110D";    // soft black, warm
-const MUTED   = "#6B6358";    // mid-tone, AA on PAPER at body sizes
-const SOFT    = "#A89B8C";    // captions, eyebrows
-const HAIR    = "rgba(21, 17, 13, 0.10)";
-const UMBER   = "#5C4A2F";    // rare accent
+// ─── Tokens — dark editorial ─────────────────────────────────────────────────
+const PAPER   = "#0F0E0C";    // deep warm ink, primary background
+const SURFACE = "#181613";    // slightly raised surface
+const INK     = "#EDE6D7";    // warm bone — primary text on dark
+const MUTED   = "#8A8174";    // warm taupe — body secondary
+const SOFT    = "#5F594F";    // eyebrow / mono caption
+const HAIR    = "rgba(237, 230, 215, 0.12)";
+const UMBER   = "#C9A461";    // champagne — rare accent
 
 // Font stacks
-const SERIF = "'Fraunces', 'EB Garamond', Georgia, serif";
-const SANS  = "'Inter', system-ui, sans-serif";
+const SERIF = "'Instrument Serif', 'EB Garamond', Georgia, serif";
+const SANS  = "'Instrument Sans', 'Inter', system-ui, sans-serif";
 const MONO  = "'JetBrains Mono', ui-monospace, SFMono-Regular, monospace";
 
-// Variation strings for variable Fraunces axes
-const FRA_DISPLAY = '"opsz" 144, "SOFT" 30, "wght" 360';
-const FRA_DISPLAY_ITALIC = '"opsz" 144, "SOFT" 30, "wght" 320';
-const FRA_TITLE   = '"opsz" 72, "SOFT" 30, "wght" 360';
-const FRA_LEDE    = '"opsz" 32, "SOFT" 30, "wght" 360';
+// Instrument Serif is single-weight; we lean on size + italic for contrast
+const FRA_DISPLAY = '"wght" 400';
+const FRA_DISPLAY_ITALIC = '"wght" 400';
+const FRA_TITLE   = '"wght" 400';
+const FRA_LEDE    = '"wght" 400';
 
 const EMAIL = "hello@flaviadanes.com";
 const INSTA = "https://www.instagram.com/wearevaya_/";

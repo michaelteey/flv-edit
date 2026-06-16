@@ -3,20 +3,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,30;1,9..144,300..600,30&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 :root {
-  --paper: #F2EDE3;
-  --ink:   #15110D;
-  --umber: #5C4A2F;
-  --hair:  rgba(21, 17, 13, 0.10);
+  --ink:     #0F0E0C;   /* deep warm ink, primary background */
+  --surface: #181613;   /* one step lighter for contrast surfaces */
+  --bone:    #EDE6D7;   /* warm bone — primary text */
+  --muted:   #8A8174;   /* warm taupe, body secondary */
+  --soft:    #5F594F;   /* eyebrow / caption */
+  --hair:    rgba(237, 230, 215, 0.12);
+  --gold:    #C9A461;   /* champagne — rare accent */
 }
 
 html, body, #root {
   height: 100%;
   margin: 0;
-  background-color: var(--paper);
+  background-color: var(--ink);
+  color: var(--bone);
   scroll-behavior: smooth;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -27,46 +32,13 @@ html, body, #root {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--hair) var(--paper);
+  scrollbar-color: var(--hair) var(--ink);
 }
 
 a:focus-visible {
-  outline: 1px solid var(--ink);
+  outline: 1px solid var(--gold);
   outline-offset: 3px;
 }
-
-.fr-display {
-  font-family: 'Fraunces', 'EB Garamond', Georgia, serif;
-  font-variation-settings: "opsz" 96, "SOFT" 30, "wght" 360;
-  font-feature-settings: "ss01", "ss02", "dlig", "kern", "liga", "calt";
-  letter-spacing: -0.022em;
-  text-wrap: balance;
-}
-
-.fr-display-italic {
-  font-family: 'Fraunces', 'EB Garamond', Georgia, serif;
-  font-style: italic;
-  font-variation-settings: "opsz" 96, "SOFT" 30, "wght" 320;
-  font-feature-settings: "ss01", "ss02", "dlig", "kern", "liga", "calt";
-  letter-spacing: -0.02em;
-  text-wrap: balance;
-}
-
-.fr-text {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-feature-settings: "kern", "liga", "tnum", "ss01";
-  letter-spacing: -0.005em;
-  text-wrap: pretty;
-}
-
-.fr-mono {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-  font-feature-settings: "kern", "liga";
-}
-
-.fr-balance { text-wrap: balance; }
-.fr-pretty  { text-wrap: pretty; }
-.fr-hang    { hanging-punctuation: first allow-end last; }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
