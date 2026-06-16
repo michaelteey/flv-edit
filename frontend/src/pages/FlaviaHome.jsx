@@ -615,27 +615,22 @@ function CaseStudy({ cs, index }) {
   );
 }
 
-// ─── Offering — two pillars, four engagement shapes, the working process ───
+// ─── Offering — two pillars, three shapes, four steps. Tight + transformational ─
 const shapes = [
   {
     num:   "I.",
     title: "The named producer",
-    body:  "A single, decisive event — owned end-to-end from concept to command on the day. Most common shape for flagship moments.",
+    body:  "A single flagship event, owned end-to-end. Built to land, built to be remembered.",
   },
   {
     num:   "II.",
-    title: "Interim leadership",
-    body:  "Three to six months as the named head of an in-house events function, holding scope while a permanent role is found.",
+    title: "Long-form advisory",
+    body:  "Retained partnership with an in-house team — building the events function that grows the brand.",
   },
   {
     num:   "III.",
-    title: "Long-form advisory",
-    body:  "Retained support for an in-house team building its events practice — strategy, frameworks, supplier maps, hire briefs.",
-  },
-  {
-    num:   "IV.",
     title: "Partnership programme",
-    body:  "A curated season of brand-to-community moments — partnerships sourced and shaped, audience grown in trust over time.",
+    body:  "A curated season of brand-to-community moments. Community engineered into a strategic asset.",
   },
 ];
 
@@ -643,22 +638,22 @@ const process = [
   {
     num:   "I.",
     title: "Conversation",
-    body:  "A long, unhurried first call. What the room is for, who it's for, what success would feel like in the body.",
+    body:  "An unhurried first call. What the brand needs the room to do.",
   },
   {
     num:   "II.",
     title: "Brief & plan",
-    body:  "A written brief returned within the week — concept, format, scope, budget shape, the roles we'll need around us.",
+    body:  "A written brief inside the week — concept, scope, the shape of success.",
   },
   {
     num:   "III.",
     title: "Build & execute",
-    body:  "Supplier sourcing, run-of-show, rehearsal, on-the-day command. Calm in the room, even when the room is large.",
+    body:  "Suppliers, run-of-show, command in the room. Calm at scale.",
   },
   {
     num:   "IV.",
     title: "Reflect & retain",
-    body:  "A post-event review — what worked, what to retain into the next engagement, what to put down.",
+    body:  "What worked, what to take into the next engagement.",
   },
 ];
 
@@ -678,37 +673,46 @@ function Offering() {
 
         <Box>
           <motion.div {...reveal(0.05)}>
-            <Mono>The Offering · Two pillars, four shapes</Mono>
+            <Mono>The Offering · Two pillars, three shapes</Mono>
           </motion.div>
 
-          {/* Lede headline — the two-sentence thesis */}
+          {/* Lede — transformational, not modest */}
           <motion.div {...reveal(0.15)}>
             <Heading as="h2"
               fontFamily={SERIF} fontWeight="400"
-              fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
-              color={INK} lineHeight="1.1"
-              letterSpacing="-0.018em"
+              fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
+              color={INK} lineHeight="1.0"
+              letterSpacing="-0.024em"
               mt={6} mb={{ base: 10, md: 14 }}
-              maxWidth="900px"
+              maxWidth="1100px"
               style={{
                 fontVariationSettings: FRA_TITLE,
                 textWrap: "balance",
                 hangingPunctuation: "first allow-end last",
               }}
             >
-              The practice is two engagements held in one hand.{" "}
-              <Box as="span" fontStyle="italic">Event specialism</Box> — coming
-              in to execute, or co-execute, a programme end-to-end when the
-              in-house team is at capacity. And{" "}
-              <Box as="span" fontStyle="italic">brand partnerships</Box> —
-              designing and brokering the connection between brand and
-              community, with an eye for the curation that makes a
-              partnership feel inevitable rather than transactional.
+              Brand is made{" "}
+              <Box as="span" fontStyle="italic">felt</Box> in the room —
+              not seen on a deck.
             </Heading>
           </motion.div>
 
-          {/* The two pillars */}
-          <motion.div {...reveal(0.25)}>
+          <motion.div {...reveal(0.22)}>
+            <Text fontFamily={SANS}
+              fontSize={{ base: "16px", md: "17px" }}
+              fontWeight="300" color={MUTED}
+              lineHeight="1.85"
+              maxWidth="640px" mb={{ base: 12, md: 16 }}
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >
+              Two pillars to take a brand from positioning to proof —
+              events that move the room, and partnerships that turn
+              an audience into a community of return.
+            </Text>
+          </motion.div>
+
+          {/* Two pillars — punchier copy */}
+          <motion.div {...reveal(0.28)}>
             <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={{ base: 8, md: 14 }}
               mb={{ base: 16, md: 24 }}
             >
@@ -725,10 +729,9 @@ function Offering() {
                   fontWeight="300" color={MUTED} lineHeight="1.8"
                   style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
                 >
-                  Programme strategy, production, creative direction and
-                  on-the-day command — from twenty-person dinners to
-                  three-hundred-person flagship conferences. Brought in
-                  as interim head, retained advisor, or named producer.
+                  Programmes that turn brand into experience — and
+                  experience into payback. Strategy through to the live
+                  moment, owned and delivered.
                 </Text>
               </Box>
               <Box borderTop={`1px solid ${HAIR}`} pt={6}>
@@ -744,19 +747,18 @@ function Offering() {
                   fontWeight="300" color={MUTED} lineHeight="1.8"
                   style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
                 >
-                  Connecting brands to communities of trust. Designing
-                  curation moments — product, founder presence, goodie-bag
-                  craft — that read as gift, not sponsorship. Useful for
-                  brands building real audience, not impression counts.
+                  Community as a strategic asset. Brand-to-community
+                  curation that builds loyalty — moments designed to
+                  be remembered, returned to, and shared.
                 </Text>
               </Box>
             </Grid>
           </motion.div>
 
-          {/* Engagement shapes — "how we could work" */}
+          {/* Engagement shapes — three, not four */}
           <motion.div {...reveal(0)}>
             <Box pt={{ base: 6, md: 8 }} borderTop={`1px solid ${HAIR}`}>
-              <Mono>How we could work · Four shapes</Mono>
+              <Mono>How we could work · Three shapes</Mono>
               <Heading as="h3"
                 fontFamily={SERIF} fontWeight="400"
                 fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
@@ -764,18 +766,14 @@ function Offering() {
                 letterSpacing="-0.018em"
                 mt={6} mb={{ base: 10, md: 12 }}
                 maxWidth="780px"
-                style={{
-                  fontVariationSettings: FRA_TITLE,
-                  textWrap: "balance",
-                }}
+                style={{ fontVariationSettings: FRA_TITLE, textWrap: "balance" }}
               >
-                Four{" "}
-                <Box as="span" fontStyle="italic">shapes an engagement</Box>{" "}
-                tends to take — pick the one that fits the room.
+                Pick the{" "}
+                <Box as="span" fontStyle="italic">shape</Box> that fits the brief.
               </Heading>
             </Box>
 
-            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
               gap={{ base: 6, md: 10 }}
               mb={{ base: 16, md: 24 }}
             >
@@ -800,38 +798,22 @@ function Offering() {
             </Grid>
           </motion.div>
 
-          {/* The working process — "what you can expect" */}
+          {/* The working process */}
           <motion.div {...reveal(0)}>
             <Box pt={{ base: 6, md: 8 }} borderTop={`1px solid ${HAIR}`}>
-              <Mono>What to expect · The working process</Mono>
+              <Mono>What to expect · The working rhythm</Mono>
               <Heading as="h3"
                 fontFamily={SERIF} fontWeight="400"
                 fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
                 color={INK} lineHeight="1.1"
                 letterSpacing="-0.018em"
-                mt={6} mb={{ base: 4, md: 6 }}
+                mt={6} mb={{ base: 10, md: 14 }}
                 maxWidth="780px"
-                style={{
-                  fontVariationSettings: FRA_TITLE,
-                  textWrap: "balance",
-                }}
+                style={{ fontVariationSettings: FRA_TITLE, textWrap: "balance" }}
               >
-                Every engagement begins{" "}
-                <Box as="span" fontStyle="italic">the same way.</Box>
+                Four steps,{" "}
+                <Box as="span" fontStyle="italic">held lightly.</Box>
               </Heading>
-              <Text fontFamily={SANS}
-                fontSize={{ base: "15px", md: "16px" }}
-                fontWeight="300" color={MUTED}
-                lineHeight="1.85"
-                maxWidth="600px"
-                mb={{ base: 10, md: 14 }}
-                style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
-              >
-                A long, unhurried first conversation. From there, every
-                programme follows a quiet four-step rhythm — kept small
-                enough to stay accountable, large enough to make room
-                for the unexpected.
-              </Text>
             </Box>
 
             <Box>
@@ -862,18 +844,6 @@ function Offering() {
 
             <motion.div {...reveal(0.2)}>
               <Box mt={{ base: 10, md: 14 }}>
-                <Text fontFamily={SANS}
-                  fontSize={{ base: "15px", md: "16px" }}
-                  fontWeight="300" color={MUTED}
-                  lineHeight="1.85"
-                  maxWidth="600px"
-                  mb={6}
-                  style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
-                >
-                  Engagements are bespoke; the structure above is a guide,
-                  not a template. References, press notes and a capability
-                  deck are available on request.
-                </Text>
                 <Underlink href="#contact">Begin a Conversation</Underlink>
               </Box>
             </motion.div>
@@ -882,6 +852,62 @@ function Offering() {
 
         <Box />
       </Grid>
+    </Box>
+  );
+}
+
+// ─── Barrier — light interlude between the offer and the receipts ────────────
+function Barrier() {
+  return (
+    <Box bg={INK} color={PAPER}
+      px={{ base: 6, md: 10, lg: 16 }}
+      py={{ base: 28, md: 44 }}
+    >
+      <Box maxWidth="1400px" mx="auto">
+        <motion.div {...reveal(0)}>
+          <Text fontFamily={MONO} fontSize="10px"
+            letterSpacing="0.36em" textTransform="uppercase"
+            color={SOFT} fontWeight="400"
+          >
+            Interlude · From offer to outcome
+          </Text>
+        </motion.div>
+
+        <motion.div {...reveal(0.1)}>
+          <Heading as="h2"
+            fontFamily={SERIF} fontWeight="400"
+            fontSize={{ base: "5xl", md: "8xl", lg: "9xl" }}
+            color={PAPER} lineHeight="0.92"
+            letterSpacing="-0.028em"
+            mt={{ base: 8, md: 12 }} mb={{ base: 8, md: 12 }}
+            maxWidth="1200px"
+            style={{
+              fontVariationSettings: FRA_DISPLAY,
+              textWrap: "balance",
+              hangingPunctuation: "first allow-end last",
+            }}
+          >
+            Now —{" "}
+            <Box as="span" fontStyle="italic"
+              style={{ fontVariationSettings: FRA_DISPLAY_ITALIC }}
+            >the work.</Box>
+          </Heading>
+        </motion.div>
+
+        <motion.div {...reveal(0.2)}>
+          <Text fontFamily={SANS}
+            fontSize={{ base: "16px", md: "18px" }}
+            fontWeight="300" color="rgba(15,14,12,0.65)"
+            lineHeight="1.7"
+            maxWidth="640px"
+            style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+          >
+            Four engagements that put the offer into practice — across
+            corporate launches, financial conferences, executive
+            hospitality and an independent community programme.
+          </Text>
+        </motion.div>
+      </Box>
     </Box>
   );
 }
@@ -1135,6 +1161,9 @@ export default function FlaviaHome() {
 
       {/* Offer comes BEFORE the engagements — the practice, then the receipts */}
       <Offering />
+
+      {/* Light-themed barrier — chapter break from pitch to proof */}
+      <Barrier />
 
       <IndexContents />
 
