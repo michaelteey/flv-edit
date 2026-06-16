@@ -226,7 +226,7 @@ function Hero() {
                 color={INK} lineHeight="1.3"
                 style={{ fontVariationSettings: FRA_LEDE, fontStyle: "italic" }}
               >
-                Event strategy<br />&amp; production.
+                Event specialism<br />&amp; brand partnerships.
               </Text>
             </Box>
             <Box>
@@ -236,7 +236,7 @@ function Hero() {
                 color={INK} lineHeight="1.3"
                 style={{ fontVariationSettings: FRA_LEDE, fontStyle: "italic" }}
               >
-                Senior Global<br />Events, CoreView.
+                Interim Head of<br />Events, CoreView.
               </Text>
             </Box>
             <Box>
@@ -320,13 +320,13 @@ function Introduction() {
                 hangingPunctuation: "first allow-end last",
               }}
             >
-              Flavia Danes is a London-based producer of considered events
-              — most recently for{" "}
-              <Box as="span" fontStyle="italic">CoreView</Box>, the global
-              derivatives marketplace{" "}
-              <Box as="span" fontStyle="italic">CME Group</Box>, and the
-              wellness studio{" "}
-              <Box as="span" fontStyle="italic">Vaya</Box>, which she founded.
+              Flavia Danes <Box as="span" color={SOFT}>(b. 1996, Sibiu)</Box>{" "}
+              is a London-based event specialist
+              and brand partnerships consultant — most recently
+              Interim Head of Events at{" "}
+              <Box as="span" fontStyle="italic">CoreView</Box>, after three
+              years producing EMEA programmes for{" "}
+              <Box as="span" fontStyle="italic">CME Group</Box>.
             </Heading>
           </motion.div>
 
@@ -339,10 +339,27 @@ function Introduction() {
               mb={5}
               style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
             >
-              Her practice spans strategy, production and creative direction —
-              from three-hundred-person investor days to intimate brand
-              activations, across multi-currency budgets that have run to
-              two hundred and fifty thousand pounds.
+              Trained at the University of Sheffield; raised in the
+              medieval town of Sibiu, where she began programming
+              community events as a teenager. The instinct has carried —
+              an eye for detail and a capacity for the volume of
+              information a serious programme demands.
+            </Text>
+            <Text fontFamily={SANS}
+              fontSize={{ base: "16px", md: "17px" }}
+              fontWeight="300" color={MUTED}
+              lineHeight="1.85"
+              maxWidth="640px"
+              mb={5}
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >
+              Flagship work at{" "}
+              <Box as="span" fontStyle="italic" color={INK}>CME Group</Box>{" "}
+              included executive hospitality around the{" "}
+              <Box as="span" fontStyle="italic" color={INK}>Saracens Showdown</Box>{" "}
+              at Tottenham Hotspur Stadium, and the{" "}
+              <Box as="span" fontStyle="italic" color={INK}>ISLA Securities Finance &amp; Collateral Management Conference</Box>{" "}
+              in Madrid — designing and delivering CME's presence on the floor.
             </Text>
             <Text fontFamily={SANS}
               fontSize={{ base: "16px", md: "17px" }}
@@ -352,14 +369,11 @@ function Introduction() {
               mb={10}
               style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
             >
-              Earlier engagements include three years with{" "}
-              <Box as="span" fontStyle="italic" color={INK}>CME Group</Box> in
-              London, a progression through{" "}
-              <Box as="span" fontStyle="italic" color={INK}>OpenExchange</Box>{" "}
-              (Citi, Bank of America, London Stock Exchange Group, UBS),
-              and a parallel founder seat at Vaya — a wellness studio she
-              built alongside her corporate role and has since paused as
-              a public programme.
+              Outside the corporate calendar she founded{" "}
+              <Box as="span" fontStyle="italic" color={INK}>FIRE</Box> — a
+              London women's community for wellness and brand-led gathering
+              — running a sold-out programme of events with conscious
+              wellness brands as partners on curation and product.
             </Text>
           </motion.div>
 
@@ -379,45 +393,45 @@ const caseStudies = [
   {
     num:    "I.",
     client: "CoreView",
-    title:  "Building a global marketing events practice from zero.",
-    role:   "Senior Global Marketing Events Manager",
-    span:   "Jun. 2026 — Present",
+    title:  "Building a global events practice end-to-end.",
+    role:   "Interim Head of Events",
+    span:   "2026 — Present",
     place:  "London · EMEA & North America",
-    body:   "Owning CoreView's global marketing events programme end-to-end — strategy, programme architecture and execution. Building the in-house function from the ground up to support an ambitious go-to-market motion across two continents.",
-    stat:   { value: "Global", label: "EMEA & North America" },
+    body:   "Stepped in to lead CoreView's events function end-to-end — strategy, programme architecture, agency partners, on-the-day command — supporting an ambitious go-to-market motion across two continents. A short, decisive engagement.",
+    stat:   { value: "Interim", label: "Head of Events" },
     img:    IMG.coreview,
   },
   {
     num:    "II.",
     client: "CME Group",
-    title:  "Three years of EMEA programmes for the world's leading derivatives marketplace.",
+    title:  "Saracens Showdown to ISLA Madrid — three years of flagship programmes.",
     role:   "Senior Corporate Marketing & Events Manager",
     span:   "Oct. 2023 — Jun. 2026",
     place:  "London · EMEA",
-    body:   "Led the end-to-end planning and execution of in-person, virtual and hybrid programmes across EMEA — sized from twenty to three hundred attendees. Owned executive hospitality, sponsorship and client engagement; managed multi-currency budgets up to £250,000; acted as the global team's reference Cvent practitioner.",
+    body:   "Owned end-to-end execution of CME Group's EMEA events programme — from executive hospitality around the Saracens Showdown at Tottenham Hotspur Stadium, to the principal CME presence at the ISLA Securities Finance & Collateral Management Conference in Madrid. Twenty to three hundred attendees, in-person, virtual and hybrid. Multi-currency budgets to £250,000; reference Cvent practitioner for the global team.",
     stat:   { value: "£250K", label: "Programme budgets" },
     img:    IMG.cme,
   },
   {
     num:    "III.",
-    client: "Vaya",
-    title:  "A wellness studio, built alongside — and gently paused.",
+    client: "FIRE",
+    title:  "A women's community for wellness and brand-led gathering — sold out, run alongside.",
     role:   "Founder",
-    span:   "Aug. 2025 — Jun. 2026",
+    span:   "2025 — 2026",
     place:  "London",
-    body:   "Founded a sensory-led wellness studio while in a full-time corporate role — owning concept, venue, ticketing strategy and partnerships with conscious wellness brands. Vaya remains an active concept in private; it is paused as a public programme while Flavia returns to independent client work.",
-    stat:   { value: "Founded", label: "Concept · Production · Brand" },
+    body:   "Founded FIRE as a community-first wellness programme for women in London — securing partnerships with conscious wellness brands for curation, product and goodie bags, and selling out the calendar of events through the year. A working model for connecting brand to community without the marketing-deck flatness — community-builder first, sponsor wrangler second.",
+    stat:   { value: "Sold-out", label: "12-month programme" },
     img:    IMG.vaya,
-    footnote: "A founder's note — Vaya was conceived and built by Flavia in parallel with her work at CME. It is paused as a public programme in 2026.",
+    footnote: "Founded by Flavia in parallel with her CME role. Paused as a public programme in 2026 as she returns to independent client work.",
   },
   {
     num:    "IV.",
     client: "OpenExchange",
-    title:  "Three-year progression delivering virtual and hybrid events for major financial institutions.",
+    title:  "Three-year progression delivering virtual events for major financial institutions.",
     role:   "Project Manager → Senior PM → Delivery Manager",
     span:   "Nov. 2020 — Oct. 2023",
     place:  "London · Remote",
-    body:   "Delivered AGMs, investor days, results presentations and global roadshows for Citi, Bank of America, London Stock Exchange Group, UBS and Davy. Progressed from Project Manager to Senior PM to Delivery Manager — leading a team of seven and the EMEA delivery function before moving to CME.",
+    body:   "Delivered AGMs, investor days, results presentations and global roadshows for Citi, Bank of America, London Stock Exchange Group, UBS and Davy — through the virtual era of corporate communications. Progressed from Project Manager to Senior PM to Delivery Manager, leading a team of seven and the EMEA delivery function before moving to CME.",
     stat:   { value: "07", label: "Project managers led" },
     img:    IMG.openex,
   },
@@ -632,19 +646,61 @@ function Disciplines() {
                 hangingPunctuation: "first allow-end last",
               }}
             >
-              The practice covers{" "}
-              <Box as="span" fontStyle="italic">strategy</Box> — programme
-              design, audience and narrative architecture;{" "}
-              <Box as="span" fontStyle="italic">production</Box> — end-to-end
-              delivery, vendor selection, on-the-day command;{" "}
-              <Box as="span" fontStyle="italic">creative direction</Box> —
-              concept, format and sensory design; and a small line of{" "}
-              <Box as="span" fontStyle="italic">advisory</Box> for in-house
-              teams building an events function.
+              The practice is two engagements held in one hand.{" "}
+              <Box as="span" fontStyle="italic">Event specialism</Box> — coming
+              in to execute, or co-execute, a programme end-to-end when the
+              in-house team is at capacity. And{" "}
+              <Box as="span" fontStyle="italic">brand partnerships</Box> —
+              designing and brokering the connection between brand and
+              community, with an eye for the curation that makes a
+              partnership feel inevitable rather than transactional.
             </Heading>
           </motion.div>
 
           <motion.div {...reveal(0.25)}>
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={{ base: 8, md: 14 }} mb={10}>
+              <Box borderTop={`1px solid ${HAIR}`} pt={6}>
+                <Mono>One.</Mono>
+                <Text fontFamily={SERIF} fontStyle="italic"
+                  fontSize={{ base: "xl", md: "2xl" }}
+                  color={INK} lineHeight="1.25" mt={3} mb={4}
+                  style={{ fontVariationSettings: FRA_LEDE }}
+                >
+                  The event specialist.
+                </Text>
+                <Text fontFamily={SANS} fontSize="15px"
+                  fontWeight="300" color={MUTED} lineHeight="1.8"
+                  style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+                >
+                  Programme strategy, production, creative direction and
+                  on-the-day command — from twenty-person dinners to
+                  three-hundred-person flagship conferences. Brought in
+                  as interim head, retained advisor, or named producer.
+                </Text>
+              </Box>
+              <Box borderTop={`1px solid ${HAIR}`} pt={6}>
+                <Mono>Two.</Mono>
+                <Text fontFamily={SERIF} fontStyle="italic"
+                  fontSize={{ base: "xl", md: "2xl" }}
+                  color={INK} lineHeight="1.25" mt={3} mb={4}
+                  style={{ fontVariationSettings: FRA_LEDE }}
+                >
+                  The partnerships consultant.
+                </Text>
+                <Text fontFamily={SANS} fontSize="15px"
+                  fontWeight="300" color={MUTED} lineHeight="1.8"
+                  style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+                >
+                  Connecting brands to communities of trust. Designing
+                  curation moments — product, founder presence, goodie-bag
+                  craft — that read as gift, not sponsorship. Useful for
+                  brands building real audience, not impression counts.
+                </Text>
+              </Box>
+            </Grid>
+          </motion.div>
+
+          <motion.div {...reveal(0.35)}>
             <Text fontFamily={SANS}
               fontSize={{ base: "16px", md: "17px" }}
               fontWeight="300" color={MUTED}
@@ -652,9 +708,9 @@ function Disciplines() {
               maxWidth="640px"
               style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
             >
-              Each engagement is bespoke. Most begin as a single conversation
-              and grow into a long retainer. References, press notes and a
-              detailed capability deck are available on request.
+              Engagements are bespoke. Most begin as a single conversation
+              and grow into a retainer. References, press notes and a
+              capability deck are available on request.
             </Text>
           </motion.div>
         </Box>
@@ -667,8 +723,8 @@ function Disciplines() {
 
 // ─── Index of Engagements — full timeline ────────────────────────────────────
 const experience = [
-  { date: "Jun. 2026 —",         role: "Senior Global Marketing Events Manager", org: "CoreView"            },
-  { date: "Aug. 2025 — Jun. 2026", role: "Founder",                              org: "Vaya Events"         },
+  { date: "Jun. 2026 —",         role: "Interim Head of Events",                 org: "CoreView · London"   },
+  { date: "Aug. 2025 — Jun. 2026", role: "Founder",                              org: "FIRE · women's community, London" },
   { date: "Oct. 2023 — Jun. 2026", role: "Senior Corporate Marketing & Events",  org: "CME Group · London"  },
   { date: "Mar. 2023 — Oct. 2023", role: "Events Delivery Manager, EMEA",        org: "OpenExchange · London"},
   { date: "Jun. 2022 — Mar. 2023", role: "Senior Project Manager, EMEA",         org: "OpenExchange · London"},
