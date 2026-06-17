@@ -161,44 +161,130 @@ function ScrollProgressBar() {
   );
 }
 
-// ─── Floating triangles — illusion / transition vibes ──────────────────────
-function FloatingTriangles() {
-  const { scrollYProgress } = useScroll();
-  // Each triangle has its own scroll-driven transform
-  const y1 = useTransform(scrollYProgress, [0, 1], [-120, 280]);
-  const r1 = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [80, -240]);
-  const r2 = useTransform(scrollYProgress, [0, 1], [12, -45]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [-60, 360]);
-  const r3 = useTransform(scrollYProgress, [0, 1], [-20, 60]);
-  const o1 = useTransform(scrollYProgress, [0.05, 0.3, 0.6, 0.95], [0.06, 0.10, 0.08, 0.04]);
-  const o2 = useTransform(scrollYProgress, [0.15, 0.45, 0.75, 0.95], [0, 0.12, 0.18, 0.06]);
-  const o3 = useTransform(scrollYProgress, [0.3, 0.55, 0.85], [0, 0.10, 0.04]);
+// ─── Spike Frame — closed star → opens on scroll → continuous edge motion ──
+const EDGE_SPIKES = [
+  // Right edge — 5 spikes pointing left
+  { openTop: "10vh", openLeft: "97vw", rotate: -90, size: 70, delay: 0.00, swingY: -22 },
+  { openTop: "24vh", openLeft: "97vw", rotate: -90, size: 54, delay: 0.05, swingY: 28 },
+  { openTop: "40vh", openLeft: "97vw", rotate: -90, size: 86, delay: 0.10, swingY: -18 },
+  { openTop: "58vh", openLeft: "97vw", rotate: -90, size: 62, delay: 0.15, swingY: 24 },
+  { openTop: "76vh", openLeft: "97vw", rotate: -90, size: 72, delay: 0.20, swingY: -16 },
+  // Top edge — 3 spikes pointing down
+  { openTop: "3vh", openLeft: "18vw", rotate: 180, size: 60, delay: 0.25, swingX: 22 },
+  { openTop: "3vh", openLeft: "50vw", rotate: 180, size: 80, delay: 0.30, swingX: -18 },
+  { openTop: "3vh", openLeft: "78vw", rotate: 180, size: 56, delay: 0.35, swingX: 24 },
+  // Bottom edge — 3 spikes pointing up
+  { openTop: "97vh", openLeft: "22vw", rotate: 0,   size: 64, delay: 0.40, swingX: -20 },
+  { openTop: "97vh", openLeft: "52vw", rotate: 0,   size: 78, delay: 0.45, swingX: 22 },
+  { openTop: "97vh", openLeft: "82vw", rotate: 0,   size: 56, delay: 0.50, swingX: -16 },
+  // Left edge — 3 spikes pointing right
+  { openTop: "20vh", openLeft: "3vw", rotate: 90, size: 56, delay: 0.55, swingY: 24 },
+  { openTop: "50vh", openLeft: "3vw", rotate: 90, size: 68, delay: 0.60, swingY: -18 },
+  { openTop: "78vh", openLeft: "3vw", rotate: 90, size: 60, delay: 0.65, swingY: 22 },
+];
 
-  const Tri = ({ size = 320, color = VELVET, style }) => (
-    <motion.svg
-      width={size} height={size} viewBox="0 0 100 100"
-      style={{ position: "absolute", ...style }}
-    >
-      <polygon points="50,0 100,100 0,100" fill={color} />
-    </motion.svg>
-  );
+function Spike({ openTop, openLeft, rotate, size, delay, swingX = 0, swingY = 0, opened, scrollProgress }) {
+  const oX = useTransform(scrollProgress, [0, 1], [0, swingX]);
+  const oY = useTransform(scrollProgress, [0, 1], [0, swingY]);
 
   return (
-    <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}
+    <motion.div
+      initial={{
+        top: "50vh", left: "50vw",
+        xPercent: -50, yPercent: -50,
+        opacity: 0.85, scale: 0.18, rotate: rotate - 270,
+      }}
+      animate={opened ? {
+        top: openTop, left: openLeft,
+        opacity: 0.42, scale: 1, rotate,
+      } : {}}
+      transition={{ duration: 1.6, delay: 0.4 + delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{ position: "absolute" }}
+    >
+      <motion.div style={{ x: oX, y: oY }}>
+        <svg width={size} height={size * 1.5} viewBox="0 0 100 150"
+          style={{ display: "block" }}
+        >
+          <polygon points="50,0 100,150 0,150" fill={VELVET} />
+        </svg>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function SpikeFrame() {
+  const { scrollYProgress } = useScroll();
+  const [opened, setOpened] = useState(false);
+
+  // Open on first scroll, OR auto-open after 2 seconds as a fallback
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 20) setOpened(true);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    const t = setTimeout(() => setOpened(true), 2000);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(t);
+    };
+  }, []);
+
+  // Continuous scroll-tied motion — always moving as you scroll
+  const cornerRotate = useTransform(scrollYProgress, [0, 1], [0, 540]);
+  const sidebarY     = useTransform(scrollYProgress, [0, 1], [0, -220]);
+  const bottomBarX   = useTransform(scrollYProgress, [0, 1], [-40, 200]);
+
+  return (
+    <Box position="fixed" inset={0} pointerEvents="none" zIndex={3}
       style={{ overflow: "hidden" }}
     >
-      {/* Top-left, large, slow rotate */}
-      <motion.div style={{ position: "absolute", top: "12vh", left: "-8vw", y: y1, rotate: r1, opacity: o1 }}>
-        <Tri size={420} />
+      {EDGE_SPIKES.map((s, i) => (
+        <Spike key={i} {...s} opened={opened} scrollProgress={scrollYProgress} />
+      ))}
+
+      {/* Continuously rotating corner spinner — top right */}
+      <motion.div style={{
+        position: "absolute",
+        top: "calc(3vh + 18px)", right: "calc(3vw + 18px)",
+        rotate: cornerRotate,
+        opacity: opened ? 0.32 : 0,
+        transition: "opacity 1s ease 0.9s",
+      }}>
+        <svg width={56} height={56} viewBox="0 0 100 100"
+          style={{ display: "block" }}
+        >
+          <polygon points="50,4 96,96 4,96" fill={VELVET} />
+        </svg>
       </motion.div>
-      {/* Bottom-right, medium, counter-rotate */}
-      <motion.div style={{ position: "absolute", bottom: "8vh", right: "-6vw", y: y2, rotate: r2, opacity: o2 }}>
-        <Tri size={360} />
+
+      {/* Vertical sidebar drift — left edge column moves up with scroll */}
+      <motion.div style={{
+        position: "absolute",
+        top: "10vh", left: "1.4vw",
+        y: sidebarY,
+        opacity: opened ? 0.18 : 0,
+        transition: "opacity 1s ease 1.2s",
+      }}>
+        <svg width={28} height={340} viewBox="0 0 28 340"
+          style={{ display: "block" }}
+        >
+          <polygon points="14,0 28,340 0,340" fill={VELVET} />
+        </svg>
       </motion.div>
-      {/* Middle-right, smaller, late entry */}
-      <motion.div style={{ position: "absolute", top: "55vh", right: "10vw", y: y3, rotate: r3, opacity: o3 }}>
-        <Tri size={220} />
+
+      {/* Horizontal bottom drift — slides across with scroll */}
+      <motion.div style={{
+        position: "absolute",
+        bottom: "2vh", left: "10vw",
+        x: bottomBarX,
+        opacity: opened ? 0.16 : 0,
+        transition: "opacity 1s ease 1.4s",
+      }}>
+        <svg width={320} height={20} viewBox="0 0 320 20"
+          style={{ display: "block" }}
+        >
+          <polygon points="0,20 160,0 320,20" fill={VELVET} />
+        </svg>
       </motion.div>
     </Box>
   );
@@ -1294,7 +1380,7 @@ export default function FlaviaHome() {
   return (
     <Box bg={PAPER} minHeight="100vh" color={INK} position="relative">
       <ScrollProgressBar />
-      <FloatingTriangles />
+      <SpikeFrame />
       <Header />
       <Hero />
       <Plate />
