@@ -8,20 +8,21 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 :root {
-  --ink:     #0F0E0C;   /* deep warm ink, primary background */
-  --surface: #181613;   /* one step lighter for contrast surfaces */
-  --bone:    #EDE6D7;   /* warm bone — primary text */
-  --muted:   #8A8174;   /* warm taupe, body secondary */
-  --soft:    #5F594F;   /* eyebrow / caption */
-  --hair:    rgba(237, 230, 215, 0.12);
-  --gold:    #C9A461;   /* champagne — rare accent */
+  --paper:   #EFEAE0;   /* warm bone — page background */
+  --surface: #E6DFD2;   /* slightly deeper variant */
+  --ink:     #1A1F1B;   /* near-black with green undertone */
+  --muted:   #5E665E;   /* sage-gray */
+  --soft:    #8F8E80;   /* light caption gray */
+  --hair:    rgba(26, 31, 27, 0.10);
+  --velvet:  #22443A;   /* signature velvet green accent */
+  --bone:    #EFEAE0;   /* alias for text on dark panels */
 }
 
 html, body, #root {
   height: 100%;
   margin: 0;
-  background-color: var(--ink);
-  color: var(--bone);
+  background-color: var(--paper);
+  color: var(--ink);
   scroll-behavior: smooth;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -32,11 +33,11 @@ html, body, #root {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--hair) var(--ink);
+  scrollbar-color: var(--hair) var(--paper);
 }
 
 a:focus-visible {
-  outline: 1px solid var(--gold);
+  outline: 1px solid var(--velvet);
   outline-offset: 3px;
 }
 
