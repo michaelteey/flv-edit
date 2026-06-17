@@ -164,41 +164,69 @@ function ScrollProgressBar() {
 // ─── Floating triangles — illusion / transition vibes ──────────────────────
 function FloatingTriangles() {
   const { scrollYProgress } = useScroll();
-  // Each triangle has its own scroll-driven transform
-  const y1 = useTransform(scrollYProgress, [0, 1], [-120, 280]);
-  const r1 = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [80, -240]);
-  const r2 = useTransform(scrollYProgress, [0, 1], [12, -45]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [-60, 360]);
-  const r3 = useTransform(scrollYProgress, [0, 1], [-20, 60]);
-  const o1 = useTransform(scrollYProgress, [0.05, 0.3, 0.6, 0.95], [0.06, 0.10, 0.08, 0.04]);
-  const o2 = useTransform(scrollYProgress, [0.15, 0.45, 0.75, 0.95], [0, 0.12, 0.18, 0.06]);
-  const o3 = useTransform(scrollYProgress, [0.3, 0.55, 0.85], [0, 0.10, 0.04]);
 
-  const Tri = ({ size = 320, color = VELVET, style }) => (
-    <motion.svg
-      width={size} height={size} viewBox="0 0 100 100"
-      style={{ position: "absolute", ...style }}
+  // Triangle 1 — top-left, large, slow rotate
+  const y1 = useTransform(scrollYProgress, [0, 1], [-60, 360]);
+  const r1 = useTransform(scrollYProgress, [0, 1], [-8, 90]);
+  const o1 = useTransform(scrollYProgress, [0.02, 0.18, 0.42, 0.55], [0.42, 0.32, 0.20, 0]);
+
+  // Triangle 2 — bottom-right, medium, counter-rotate
+  const y2 = useTransform(scrollYProgress, [0, 1], [120, -320]);
+  const r2 = useTransform(scrollYProgress, [0, 1], [25, -55]);
+  const o2 = useTransform(scrollYProgress, [0.12, 0.32, 0.55, 0.7], [0, 0.34, 0.24, 0]);
+
+  // Triangle 3 — mid-right, smaller, late entry (after the velvet barrier)
+  const y3 = useTransform(scrollYProgress, [0, 1], [180, -360]);
+  const r3 = useTransform(scrollYProgress, [0, 1], [-30, 60]);
+  const o3 = useTransform(scrollYProgress, [0.55, 0.7, 0.92], [0, 0.30, 0.20]);
+
+  // Triangle 4 — top-right, tiny accent
+  const y4 = useTransform(scrollYProgress, [0, 1], [-30, 240]);
+  const r4 = useTransform(scrollYProgress, [0, 1], [180, 260]);
+  const o4 = useTransform(scrollYProgress, [0.6, 0.78, 0.95], [0, 0.28, 0.18]);
+
+  const Tri = ({ size = 320 }) => (
+    <svg width={size} height={size} viewBox="0 0 100 100"
+      style={{ display: "block" }}
     >
-      <polygon points="50,0 100,100 0,100" fill={color} />
-    </motion.svg>
+      <polygon points="50,4 96,96 4,96" fill={VELVET} />
+    </svg>
   );
 
   return (
-    <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}
+    <Box position="fixed" inset={0} pointerEvents="none" zIndex={2}
       style={{ overflow: "hidden" }}
     >
-      {/* Top-left, large, slow rotate */}
-      <motion.div style={{ position: "absolute", top: "12vh", left: "-8vw", y: y1, rotate: r1, opacity: o1 }}>
+      {/* Top-left, large, slow rotate downward */}
+      <motion.div style={{
+        position: "absolute", top: "8vh", left: "-4vw",
+        y: y1, rotate: r1, opacity: o1,
+      }}>
+        <Tri size={520} />
+      </motion.div>
+
+      {/* Bottom-right, medium, drifting up */}
+      <motion.div style={{
+        position: "absolute", bottom: "6vh", right: "-3vw",
+        y: y2, rotate: r2, opacity: o2,
+      }}>
         <Tri size={420} />
       </motion.div>
-      {/* Bottom-right, medium, counter-rotate */}
-      <motion.div style={{ position: "absolute", bottom: "8vh", right: "-6vw", y: y2, rotate: r2, opacity: o2 }}>
-        <Tri size={360} />
+
+      {/* Mid-left, small, drifting up — appears after the velvet barrier */}
+      <motion.div style={{
+        position: "absolute", top: "40vh", left: "6vw",
+        y: y3, rotate: r3, opacity: o3,
+      }}>
+        <Tri size={240} />
       </motion.div>
-      {/* Middle-right, smaller, late entry */}
-      <motion.div style={{ position: "absolute", top: "55vh", right: "10vw", y: y3, rotate: r3, opacity: o3 }}>
-        <Tri size={220} />
+
+      {/* Top-right, tiny accent — late entry */}
+      <motion.div style={{
+        position: "absolute", top: "18vh", right: "8vw",
+        y: y4, rotate: r4, opacity: o4,
+      }}>
+        <Tri size={180} />
       </motion.div>
     </Box>
   );
