@@ -1011,28 +1011,27 @@ function Barrier() {
             </Text>
           </motion.div>
 
-          <Box overflow="hidden" mt={{ base: 8, md: 12 }} mb={{ base: 10, md: 14 }}>
-            <motion.div
-              initial={{ y: "100%" }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{ marginTop: 48, marginBottom: 56 }}
+          >
+            <Heading as="h2"
+              fontFamily={SERIF} fontWeight="400" fontStyle="italic"
+              fontSize={{ base: "6xl", md: "9xl", lg: "11xl" }}
+              color={PAPER} lineHeight="0.92"
+              letterSpacing="-0.03em"
+              maxWidth="1400px"
+              style={{
+                fontVariationSettings: FRA_DISPLAY,
+                textWrap: "balance",
+              }}
             >
-              <Heading as="h2"
-                fontFamily={SERIF} fontWeight="400" fontStyle="italic"
-                fontSize={{ base: "6xl", md: "9xl", lg: "11xl" }}
-                color={PAPER} lineHeight="0.92"
-                letterSpacing="-0.03em"
-                maxWidth="1400px"
-                style={{
-                  fontVariationSettings: FRA_DISPLAY,
-                  textWrap: "balance",
-                }}
-              >
-                Now — the work.
-              </Heading>
-            </motion.div>
-          </Box>
+              Now — the work.
+            </Heading>
+          </motion.div>
 
           <motion.div {...reveal(0.25)}>
             <Text fontFamily={SANS}
