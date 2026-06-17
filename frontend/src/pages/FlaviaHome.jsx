@@ -88,50 +88,117 @@ function AnimatedHairline({ light = false, delay = 0 }) {
 }
 
 // Big chapter title — used at the top of every section
-function SectionOpener({ num, title, caption, light = false, dark = false }) {
-  const titleColor = light ? PAPER : (dark ? PAPER : INK);
+function SectionOpener({ num, title, caption, light = false }) {
+  const titleColor = light ? PAPER : INK;
   const captionColor = light ? "rgba(239,234,224,0.55)" : SOFT;
 
   return (
-    <Box pt={{ base: 12, md: 16 }} pb={{ base: 8, md: 12 }}>
+    <Box pt={{ base: 12, md: 16 }} pb={{ base: 10, md: 14 }}>
       <AnimatedHairline light={light} />
       <Flex justify="space-between" wrap="wrap" gap={4}
-        pt={{ base: 6, md: 8 }} pb={{ base: 10, md: 14 }}
+        pt={{ base: 6, md: 8 }} pb={{ base: 8, md: 10 }}
       >
-        <motion.div {...reveal(0)}>
-          <Text fontFamily={MONO} fontSize="10px"
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Text fontFamily={MONO} fontSize="11px"
             letterSpacing="0.36em" textTransform="uppercase"
             color={captionColor} fontWeight="400"
           >{num}</Text>
         </motion.div>
-        <motion.div {...reveal(0.05)}>
-          <Text fontFamily={MONO} fontSize="10px"
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Text fontFamily={MONO} fontSize="11px"
             letterSpacing="0.36em" textTransform="uppercase"
             color={captionColor} fontWeight="400"
           >{caption}</Text>
         </motion.div>
       </Flex>
 
-      <motion.div {...reveal(0.1)}>
-        <Box overflow="hidden">
-          <motion.div
-            initial={{ y: "100%" }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Heading as="h2"
-              fontFamily={SERIF} fontWeight="400" fontStyle="italic"
-              fontSize={{ base: "6xl", md: "9xl", lg: "10xl" }}
-              color={titleColor} lineHeight="0.92"
-              letterSpacing="-0.03em"
-              style={{
-                fontVariationSettings: FRA_DISPLAY,
-                textWrap: "balance",
-              }}
-            >{title}</Heading>
-          </motion.div>
-        </Box>
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0 }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Heading as="h2"
+          fontFamily={SERIF} fontWeight="400" fontStyle="italic"
+          fontSize={{ base: "5xl", md: "8xl", lg: "9xl" }}
+          color={titleColor} lineHeight="0.92"
+          letterSpacing="-0.03em"
+          style={{
+            fontVariationSettings: FRA_DISPLAY,
+            textWrap: "balance",
+          }}
+        >{title}</Heading>
+      </motion.div>
+    </Box>
+  );
+}
+
+// ─── Scroll progress bar — always-visible velvet strip at top of viewport ───
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  return (
+    <motion.div
+      style={{
+        position: "fixed",
+        top: 0, left: 0, right: 0,
+        height: "3px",
+        background: VELVET,
+        transformOrigin: "left",
+        scaleX: scrollYProgress,
+        zIndex: 30,
+      }}
+    />
+  );
+}
+
+// ─── Floating triangles — illusion / transition vibes ──────────────────────
+function FloatingTriangles() {
+  const { scrollYProgress } = useScroll();
+  // Each triangle has its own scroll-driven transform
+  const y1 = useTransform(scrollYProgress, [0, 1], [-120, 280]);
+  const r1 = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [80, -240]);
+  const r2 = useTransform(scrollYProgress, [0, 1], [12, -45]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [-60, 360]);
+  const r3 = useTransform(scrollYProgress, [0, 1], [-20, 60]);
+  const o1 = useTransform(scrollYProgress, [0.05, 0.3, 0.6, 0.95], [0.06, 0.10, 0.08, 0.04]);
+  const o2 = useTransform(scrollYProgress, [0.15, 0.45, 0.75, 0.95], [0, 0.12, 0.18, 0.06]);
+  const o3 = useTransform(scrollYProgress, [0.3, 0.55, 0.85], [0, 0.10, 0.04]);
+
+  const Tri = ({ size = 320, color = VELVET, style }) => (
+    <motion.svg
+      width={size} height={size} viewBox="0 0 100 100"
+      style={{ position: "absolute", ...style }}
+    >
+      <polygon points="50,0 100,100 0,100" fill={color} />
+    </motion.svg>
+  );
+
+  return (
+    <Box position="fixed" inset={0} pointerEvents="none" zIndex={1}
+      style={{ overflow: "hidden" }}
+    >
+      {/* Top-left, large, slow rotate */}
+      <motion.div style={{ position: "absolute", top: "12vh", left: "-8vw", y: y1, rotate: r1, opacity: o1 }}>
+        <Tri size={420} />
+      </motion.div>
+      {/* Bottom-right, medium, counter-rotate */}
+      <motion.div style={{ position: "absolute", bottom: "8vh", right: "-6vw", y: y2, rotate: r2, opacity: o2 }}>
+        <Tri size={360} />
+      </motion.div>
+      {/* Middle-right, smaller, late entry */}
+      <motion.div style={{ position: "absolute", top: "55vh", right: "10vw", y: y3, rotate: r3, opacity: o3 }}>
+        <Tri size={220} />
       </motion.div>
     </Box>
   );
@@ -169,10 +236,9 @@ const IMG = {
   openex:   "https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=2400",
 };
 
-// ─── Header (with scroll progress bar) ──────────────────────────────────────
+// ─── Header ─────────────────────────────────────────────────────────────────
 function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -182,7 +248,7 @@ function Header() {
   }, []);
 
   return (
-    <Box position="fixed" top={0} left={0} right={0} zIndex={20}
+    <Box position="fixed" top="3px" left={0} right={0} zIndex={20}
       px={{ base: 6, md: 10, lg: 16 }}
       py={{ base: 5, md: 6 }}
       bg={scrolled ? "rgba(239,234,224,0.86)" : "transparent"}
@@ -192,19 +258,6 @@ function Header() {
         WebkitBackdropFilter: scrolled ? "saturate(140%) blur(16px)" : "none",
       }}
     >
-      {/* Scroll progress bar — a velvet hairline beneath the nav */}
-      <motion.div
-        style={{
-          position: "absolute",
-          left: 0, right: 0, bottom: 0,
-          height: "1px",
-          background: VELVET,
-          transformOrigin: "left",
-          scaleX: scrollYProgress,
-          opacity: scrolled ? 1 : 0,
-          transition: "opacity 0.4s",
-        }}
-      />
       <Flex justify="space-between" align="center">
         <Box as="a" href="#top" textDecoration="none">
           <Text fontFamily={SERIF} fontWeight="400"
@@ -284,7 +337,7 @@ function Hero() {
               fontFamily={SERIF}
               fontStyle="italic" fontWeight="400"
               fontSize={{ base: "23vw", md: "17vw", lg: "14.5vw" }}
-              color={INK}
+              color={VELVET}
               lineHeight="0.86"
               letterSpacing="-0.03em"
               pl={{ base: 0, md: "0.04em" }}
@@ -408,9 +461,9 @@ function Introduction() {
               is a London-based event specialist
               and brand partnerships consultant — most recently
               Interim Head of Events at{" "}
-              <Box as="span" fontStyle="italic">CoreView</Box>, after three
+              <Box as="span" fontStyle="italic" color={VELVET}>CoreView</Box>, after three
               years producing EMEA programmes for{" "}
-              <Box as="span" fontStyle="italic">CME Group</Box>.
+              <Box as="span" fontStyle="italic" color={VELVET}>CME Group</Box>.
             </Heading>
           </motion.div>
 
@@ -635,7 +688,7 @@ function CaseStudy({ cs, index }) {
                 <Mono>Scale</Mono>
                 <Text fontFamily={SERIF}
                   fontSize={{ base: "2xl", md: "3xl" }}
-                  color={INK} mt={1} lineHeight="1"
+                  color={VELVET} mt={1} lineHeight="1"
                   letterSpacing="-0.02em"
                   style={{ fontVariationSettings: FRA_TITLE }}
                 >{cs.stat.value}</Text>
@@ -791,7 +844,7 @@ function Offering() {
                 <Mono>One.</Mono>
                 <Text fontFamily={SERIF} fontStyle="italic"
                   fontSize={{ base: "xl", md: "2xl" }}
-                  color={INK} lineHeight="1.25" mt={3} mb={4}
+                  color={VELVET} lineHeight="1.25" mt={3} mb={4}
                   style={{ fontVariationSettings: FRA_LEDE }}
                 >
                   The event specialist.
@@ -809,7 +862,7 @@ function Offering() {
                 <Mono>Two.</Mono>
                 <Text fontFamily={SERIF} fontStyle="italic"
                   fontSize={{ base: "xl", md: "2xl" }}
-                  color={INK} lineHeight="1.25" mt={3} mb={4}
+                  color={VELVET} lineHeight="1.25" mt={3} mb={4}
                   style={{ fontVariationSettings: FRA_LEDE }}
                 >
                   The partnerships consultant.
@@ -840,7 +893,7 @@ function Offering() {
                 style={{ fontVariationSettings: FRA_TITLE, textWrap: "balance" }}
               >
                 Pick the{" "}
-                <Box as="span" fontStyle="italic">shape</Box> that fits the brief.
+                <Box as="span" fontStyle="italic" color={VELVET}>shape</Box> that fits the brief.
               </Heading>
             </Box>
 
@@ -883,7 +936,7 @@ function Offering() {
                 style={{ fontVariationSettings: FRA_TITLE, textWrap: "balance" }}
               >
                 Four steps,{" "}
-                <Box as="span" fontStyle="italic">held lightly.</Box>
+                <Box as="span" fontStyle="italic" color={VELVET}>held lightly.</Box>
               </Heading>
             </Box>
 
@@ -1240,7 +1293,9 @@ function Colophon() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function FlaviaHome() {
   return (
-    <Box bg={PAPER} minHeight="100vh" color={INK}>
+    <Box bg={PAPER} minHeight="100vh" color={INK} position="relative">
+      <ScrollProgressBar />
+      <FloatingTriangles />
       <Header />
       <Hero />
       <Plate />
