@@ -1435,7 +1435,6 @@ export default function FlaviaHome() {
   return (
     <Box bg={PAPER} minHeight="100vh" color={INK} position="relative">
       <ScrollProgressBar />
-      <ScrollAccents />
       <Curtain />
       <Header />
       <Hero />
