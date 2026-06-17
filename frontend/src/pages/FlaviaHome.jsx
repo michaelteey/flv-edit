@@ -3,14 +3,15 @@ import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
-// ─── Tokens — dark editorial ─────────────────────────────────────────────────
-const PAPER   = "#0F0E0C";    // deep warm ink, primary background
-const SURFACE = "#181613";    // slightly raised surface
-const INK     = "#EDE6D7";    // warm bone — primary text on dark
-const MUTED   = "#8A8174";    // warm taupe — body secondary
-const SOFT    = "#5F594F";    // eyebrow / mono caption
-const HAIR    = "rgba(237, 230, 215, 0.12)";
-const UMBER   = "#C9A461";    // champagne — rare accent
+// ─── Tokens — light bone + velvet green ──────────────────────────────────────
+const PAPER   = "#EFEAE0";    // warm bone — page background
+const SURFACE = "#E6DFD2";    // slightly deeper variant for raised surfaces
+const INK     = "#1A1F1B";    // near-black, green undertone — primary text
+const MUTED   = "#5E665E";    // sage-gray — body secondary
+const SOFT    = "#8F8E80";    // light caption gray — eyebrows
+const HAIR    = "rgba(26, 31, 27, 0.10)";
+const UMBER   = "#22443A";    // VELVET — signature accent (Barrier bg, hover, italic accents)
+const VELVET  = "#22443A";    // alias
 
 // Font stacks
 const SERIF = "'Instrument Serif', 'EB Garamond', Georgia, serif";
@@ -63,7 +64,76 @@ function Mono({ children, light = false, color, ...rest }) {
 
 function Hairline({ light = false }) {
   return (
-    <Box borderTop={`1px solid ${light ? "rgba(242,237,227,0.12)" : HAIR}`} />
+    <Box borderTop={`1px solid ${light ? "rgba(239,234,224,0.18)" : HAIR}`} />
+  );
+}
+
+// Animated hairline that draws in on scroll (scaleX 0 → 1, expo-out)
+function AnimatedHairline({ light = false, delay = 0 }) {
+  return (
+    <Box overflow="hidden">
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 1.4, delay, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          height: "1px",
+          background: light ? "rgba(239,234,224,0.25)" : HAIR,
+          transformOrigin: "left",
+        }}
+      />
+    </Box>
+  );
+}
+
+// Big chapter title — used at the top of every section
+function SectionOpener({ num, title, caption, light = false, dark = false }) {
+  const titleColor = light ? PAPER : (dark ? PAPER : INK);
+  const captionColor = light ? "rgba(239,234,224,0.55)" : SOFT;
+
+  return (
+    <Box pt={{ base: 12, md: 16 }} pb={{ base: 8, md: 12 }}>
+      <AnimatedHairline light={light} />
+      <Flex justify="space-between" wrap="wrap" gap={4}
+        pt={{ base: 6, md: 8 }} pb={{ base: 10, md: 14 }}
+      >
+        <motion.div {...reveal(0)}>
+          <Text fontFamily={MONO} fontSize="10px"
+            letterSpacing="0.36em" textTransform="uppercase"
+            color={captionColor} fontWeight="400"
+          >{num}</Text>
+        </motion.div>
+        <motion.div {...reveal(0.05)}>
+          <Text fontFamily={MONO} fontSize="10px"
+            letterSpacing="0.36em" textTransform="uppercase"
+            color={captionColor} fontWeight="400"
+          >{caption}</Text>
+        </motion.div>
+      </Flex>
+
+      <motion.div {...reveal(0.1)}>
+        <Box overflow="hidden">
+          <motion.div
+            initial={{ y: "100%" }}
+            whileInView={{ y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Heading as="h2"
+              fontFamily={SERIF} fontWeight="400" fontStyle="italic"
+              fontSize={{ base: "6xl", md: "9xl", lg: "10xl" }}
+              color={titleColor} lineHeight="0.92"
+              letterSpacing="-0.03em"
+              style={{
+                fontVariationSettings: FRA_DISPLAY,
+                textWrap: "balance",
+              }}
+            >{title}</Heading>
+          </motion.div>
+        </Box>
+      </motion.div>
+    </Box>
   );
 }
 
@@ -99,9 +169,11 @@ const IMG = {
   openex:   "https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=2400",
 };
 
-// ─── Header ───────────────────────────────────────────────────────────────────
+// ─── Header (with scroll progress bar) ──────────────────────────────────────
 function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const { scrollYProgress } = useScroll();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -113,13 +185,26 @@ function Header() {
     <Box position="fixed" top={0} left={0} right={0} zIndex={20}
       px={{ base: 6, md: 10, lg: 16 }}
       py={{ base: 5, md: 6 }}
-      bg={scrolled ? "rgba(242,237,227,0.88)" : "transparent"}
+      bg={scrolled ? "rgba(239,234,224,0.86)" : "transparent"}
       style={{
         transition: "background 0.5s ease, backdrop-filter 0.5s",
         backdropFilter: scrolled ? "saturate(140%) blur(16px)" : "none",
         WebkitBackdropFilter: scrolled ? "saturate(140%) blur(16px)" : "none",
       }}
     >
+      {/* Scroll progress bar — a velvet hairline beneath the nav */}
+      <motion.div
+        style={{
+          position: "absolute",
+          left: 0, right: 0, bottom: 0,
+          height: "1px",
+          background: VELVET,
+          transformOrigin: "left",
+          scaleX: scrollYProgress,
+          opacity: scrolled ? 1 : 0,
+          transition: "opacity 0.4s",
+        }}
+      />
       <Flex justify="space-between" align="center">
         <Box as="a" href="#top" textDecoration="none">
           <Text fontFamily={SERIF} fontWeight="400"
@@ -291,24 +376,20 @@ function Plate() {
 function Introduction() {
   return (
     <Box id="about" px={{ base: 6, md: 10, lg: 16 }}
-      py={{ base: 28, md: 44 }}
+      py={{ base: 16, md: 28 }}
     >
-      <Hairline />
-      <Grid templateColumns={{ base: "1fr", md: "1fr 4fr 1fr" }}
+      <SectionOpener
+        num="§ I"
+        title="On Practice."
+        caption="A note from London"
+      />
+
+      <Grid templateColumns={{ base: "1fr", md: "1fr 3fr 1fr" }}
         gap={{ base: 8, md: 14 }}
-        pt={{ base: 14, md: 20 }}
       >
-        <Box display={{ base: "block", md: "block" }}>
-          <motion.div {...reveal(0)}>
-            <Mono>§ I</Mono>
-          </motion.div>
-        </Box>
+        <Box display={{ base: "none", md: "block" }} />
 
         <Box>
-          <motion.div {...reveal(0.05)}>
-            <Mono>On Practice</Mono>
-          </motion.div>
-
           <motion.div {...reveal(0.15)}>
             <Heading as="h2"
               fontFamily={SERIF} fontWeight="400"
@@ -443,18 +524,12 @@ const caseStudies = [
 function IndexContents() {
   const [hover, setHover] = useState(null);
   return (
-    <Box id="index" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
-      <Hairline />
-      <Flex justify="space-between" align="flex-end"
-        wrap="wrap" gap={6} pt={{ base: 12, md: 18 }} mb={{ base: 10, md: 14 }}
-      >
-        <motion.div {...reveal(0)}>
-          <Mono>§ III · Index of Engagements</Mono>
-        </motion.div>
-        <motion.div {...reveal(0.1)}>
-          <Mono>Selected · Four Entries</Mono>
-        </motion.div>
-      </Flex>
+    <Box id="index" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 16, md: 28 }}>
+      <SectionOpener
+        num="§ III"
+        title="The Receipts."
+        caption="Selected · Four Engagements"
+      />
 
       <Box>
         {caseStudies.map((cs, i) => (
@@ -659,31 +734,27 @@ const process = [
 
 function Offering() {
   return (
-    <Box id="offering" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
-      <Hairline />
-      <Grid templateColumns={{ base: "1fr", md: "1fr 4fr 1fr" }}
+    <Box id="offering" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 16, md: 28 }}>
+      <SectionOpener
+        num="§ II"
+        title="The Offering."
+        caption="Two pillars · Three shapes · Four steps"
+      />
+
+      <Grid templateColumns={{ base: "1fr", md: "1fr 3fr 1fr" }}
         gap={{ base: 8, md: 14 }}
-        pt={{ base: 14, md: 20 }}
       >
-        <Box>
-          <motion.div {...reveal(0)}>
-            <Mono>§ II</Mono>
-          </motion.div>
-        </Box>
+        <Box display={{ base: "none", md: "block" }} />
 
         <Box>
-          <motion.div {...reveal(0.05)}>
-            <Mono>The Offering · Two pillars, three shapes</Mono>
-          </motion.div>
-
           {/* Lede — transformational, not modest */}
           <motion.div {...reveal(0.15)}>
-            <Heading as="h2"
+            <Heading as="h3"
               fontFamily={SERIF} fontWeight="400"
               fontSize={{ base: "4xl", md: "6xl", lg: "7xl" }}
               color={INK} lineHeight="1.0"
               letterSpacing="-0.024em"
-              mt={6} mb={{ base: 10, md: 14 }}
+              mt={0} mb={{ base: 10, md: 14 }}
               maxWidth="1100px"
               style={{
                 fontVariationSettings: FRA_TITLE,
@@ -692,8 +763,8 @@ function Offering() {
               }}
             >
               Brand is made{" "}
-              <Box as="span" fontStyle="italic">felt</Box> in the room —
-              not seen on a deck.
+              <Box as="span" fontStyle="italic" color={VELVET}>to be felt</Box>{" "}
+              in the room — not seen on a deck.
             </Heading>
           </motion.div>
 
@@ -856,56 +927,73 @@ function Offering() {
   );
 }
 
-// ─── Barrier — light interlude between the offer and the receipts ────────────
+// ─── Barrier — velvet interlude between offer and receipts ───────────────────
 function Barrier() {
+  const { scrollYProgress } = useScroll();
+  // Subtle parallax — only on this panel
+  const y = useTransform(scrollYProgress, [0.25, 0.55], [40, -40]);
+
   return (
-    <Box bg={INK} color={PAPER}
+    <Box bg={VELVET} color={PAPER}
       px={{ base: 6, md: 10, lg: 16 }}
-      py={{ base: 28, md: 44 }}
+      py={{ base: 32, md: 48 }}
+      position="relative" overflow="hidden"
     >
-      <Box maxWidth="1400px" mx="auto">
-        <motion.div {...reveal(0)}>
-          <Text fontFamily={MONO} fontSize="10px"
-            letterSpacing="0.36em" textTransform="uppercase"
-            color={SOFT} fontWeight="400"
-          >
-            Interlude · From offer to outcome
-          </Text>
-        </motion.div>
+      {/* Subtle texture — a soft gradient drift to mimic velvet */}
+      <Box position="absolute" inset={0}
+        style={{
+          background: "radial-gradient(ellipse at top right, rgba(80,120,100,0.18), transparent 60%)",
+          pointerEvents: "none",
+        }}
+      />
 
-        <motion.div {...reveal(0.1)}>
-          <Heading as="h2"
-            fontFamily={SERIF} fontWeight="400"
-            fontSize={{ base: "5xl", md: "8xl", lg: "9xl" }}
-            color={PAPER} lineHeight="0.92"
-            letterSpacing="-0.028em"
-            mt={{ base: 8, md: 12 }} mb={{ base: 8, md: 12 }}
-            maxWidth="1200px"
-            style={{
-              fontVariationSettings: FRA_DISPLAY,
-              textWrap: "balance",
-              hangingPunctuation: "first allow-end last",
-            }}
-          >
-            Now —{" "}
-            <Box as="span" fontStyle="italic"
-              style={{ fontVariationSettings: FRA_DISPLAY_ITALIC }}
-            >the work.</Box>
-          </Heading>
-        </motion.div>
+      <Box maxWidth="1400px" mx="auto" position="relative">
+        <motion.div style={{ y }}>
+          <motion.div {...reveal(0)}>
+            <Text fontFamily={MONO} fontSize="11px"
+              letterSpacing="0.36em" textTransform="uppercase"
+              color="rgba(239,234,224,0.5)" fontWeight="400"
+            >
+              Interlude · From offer to outcome
+            </Text>
+          </motion.div>
 
-        <motion.div {...reveal(0.2)}>
-          <Text fontFamily={SANS}
-            fontSize={{ base: "16px", md: "18px" }}
-            fontWeight="300" color="rgba(15,14,12,0.65)"
-            lineHeight="1.7"
-            maxWidth="640px"
-            style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
-          >
-            Four engagements that put the offer into practice — across
-            corporate launches, financial conferences, executive
-            hospitality and an independent community programme.
-          </Text>
+          <Box overflow="hidden" mt={{ base: 8, md: 12 }} mb={{ base: 10, md: 14 }}>
+            <motion.div
+              initial={{ y: "100%" }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Heading as="h2"
+                fontFamily={SERIF} fontWeight="400" fontStyle="italic"
+                fontSize={{ base: "6xl", md: "9xl", lg: "11xl" }}
+                color={PAPER} lineHeight="0.92"
+                letterSpacing="-0.03em"
+                maxWidth="1400px"
+                style={{
+                  fontVariationSettings: FRA_DISPLAY,
+                  textWrap: "balance",
+                }}
+              >
+                Now — the work.
+              </Heading>
+            </motion.div>
+          </Box>
+
+          <motion.div {...reveal(0.25)}>
+            <Text fontFamily={SANS}
+              fontSize={{ base: "17px", md: "20px" }}
+              fontWeight="300" color="rgba(239,234,224,0.75)"
+              lineHeight="1.6"
+              maxWidth="720px"
+              style={{ textWrap: "pretty", letterSpacing: "-0.005em" }}
+            >
+              Four engagements that put the offer into practice — across
+              corporate launches, financial conferences, executive
+              hospitality and an independent community programme.
+            </Text>
+          </motion.div>
         </motion.div>
       </Box>
     </Box>
@@ -930,22 +1018,19 @@ const clients = [
 
 function Index() {
   return (
-    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 24, md: 36 }}>
-      <Hairline />
-      <Grid templateColumns={{ base: "1fr", md: "1fr 4fr 1fr" }}
+    <Box px={{ base: 6, md: 10, lg: 16 }} py={{ base: 16, md: 28 }}>
+      <SectionOpener
+        num="§ IV"
+        title="The Trajectory."
+        caption="Selected Roles · 2020 — 2026"
+      />
+
+      <Grid templateColumns={{ base: "1fr", md: "1fr 3fr 1fr" }}
         gap={{ base: 8, md: 14 }}
-        pt={{ base: 14, md: 20 }}
       >
-        <Box>
-          <motion.div {...reveal(0)}>
-            <Mono>§ IV</Mono>
-          </motion.div>
-        </Box>
+        <Box display={{ base: "none", md: "block" }} />
 
         <Box>
-          <motion.div {...reveal(0.05)}>
-            <Mono>The Trajectory · Selected Roles, 2020 — 2026</Mono>
-          </motion.div>
 
           <Box mt={{ base: 10, md: 14 }}>
             {experience.map(({ date, role, org }, i) => (
@@ -1010,20 +1095,22 @@ function Index() {
 function Contact() {
   return (
     <Box id="contact" bg={SURFACE} px={{ base: 6, md: 10, lg: 16 }}
-      py={{ base: 28, md: 44 }}
+      py={{ base: 16, md: 28 }}
     >
       <Box maxWidth="1400px" mx="auto">
-        <motion.div {...reveal(0)}>
-          <Mono>§ V · Enquiries</Mono>
-        </motion.div>
+        <SectionOpener
+          num="§ V"
+          title="Enquiries."
+          caption="A first conversation — London"
+        />
 
         <motion.div {...reveal(0.1)}>
-          <Heading as="h2"
+          <Heading as="h3"
             fontFamily={SERIF} fontWeight="400"
-            fontSize={{ base: "5xl", md: "8xl", lg: "10xl" }}
+            fontSize={{ base: "4xl", md: "7xl", lg: "8xl" }}
             color={INK} lineHeight="0.92"
             letterSpacing="-0.028em"
-            mt={8} mb={{ base: 14, md: 20 }}
+            mt={0} mb={{ base: 14, md: 20 }}
             maxWidth="1200px"
             style={{
               fontVariationSettings: FRA_DISPLAY,
@@ -1032,7 +1119,7 @@ function Contact() {
             }}
           >
             Begin with{" "}
-            <Box as="span" fontStyle="italic"
+            <Box as="span" fontStyle="italic" color={VELVET}
               style={{ fontVariationSettings: FRA_DISPLAY_ITALIC }}
             >a long conversation.</Box>
           </Heading>
