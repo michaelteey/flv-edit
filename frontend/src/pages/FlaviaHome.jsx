@@ -161,75 +161,146 @@ function ScrollProgressBar() {
   );
 }
 
-// ─── Spike Frame — closed star → opens on scroll → continuous edge motion ──
-const EDGE_SPIKES = [
-  // Right edge — 5 spikes pointing left
-  { openTop: "10vh", openLeft: "97vw", rotate: -90, size: 70, delay: 0.00, swingY: -22 },
-  { openTop: "24vh", openLeft: "97vw", rotate: -90, size: 54, delay: 0.05, swingY: 28 },
-  { openTop: "40vh", openLeft: "97vw", rotate: -90, size: 86, delay: 0.10, swingY: -18 },
-  { openTop: "58vh", openLeft: "97vw", rotate: -90, size: 62, delay: 0.15, swingY: 24 },
-  { openTop: "76vh", openLeft: "97vw", rotate: -90, size: 72, delay: 0.20, swingY: -16 },
-  // Top edge — 3 spikes pointing down
-  { openTop: "3vh", openLeft: "18vw", rotate: 180, size: 60, delay: 0.25, swingX: 22 },
-  { openTop: "3vh", openLeft: "50vw", rotate: 180, size: 80, delay: 0.30, swingX: -18 },
-  { openTop: "3vh", openLeft: "78vw", rotate: 180, size: 56, delay: 0.35, swingX: 24 },
-  // Bottom edge — 3 spikes pointing up
-  { openTop: "97vh", openLeft: "22vw", rotate: 0,   size: 64, delay: 0.40, swingX: -20 },
-  { openTop: "97vh", openLeft: "52vw", rotate: 0,   size: 78, delay: 0.45, swingX: 22 },
-  { openTop: "97vh", openLeft: "82vw", rotate: 0,   size: 56, delay: 0.50, swingX: -16 },
-  // Left edge — 3 spikes pointing right
-  { openTop: "20vh", openLeft: "3vw", rotate: 90, size: 56, delay: 0.55, swingY: 24 },
-  { openTop: "50vh", openLeft: "3vw", rotate: 90, size: 68, delay: 0.60, swingY: -18 },
-  { openTop: "78vh", openLeft: "3vw", rotate: 90, size: 60, delay: 0.65, swingY: 22 },
-];
-
-function Spike({ openTop, openLeft, rotate, size, delay, swingX = 0, swingY = 0, opened, scrollProgress }) {
-  const oX = useTransform(scrollProgress, [0, 1], [0, swingX]);
-  const oY = useTransform(scrollProgress, [0, 1], [0, swingY]);
-
-  return (
-    <motion.div
-      initial={{
-        top: "50vh", left: "50vw",
-        xPercent: -50, yPercent: -50,
-        opacity: 0.85, scale: 0.18, rotate: rotate - 270,
-      }}
-      animate={opened ? {
-        top: openTop, left: openLeft,
-        opacity: 0.42, scale: 1, rotate,
-      } : {}}
-      transition={{ duration: 1.6, delay: 0.4 + delay, ease: [0.22, 1, 0.36, 1] }}
-      style={{ position: "absolute" }}
-    >
-      <motion.div style={{ x: oX, y: oY }}>
-        <svg width={size} height={size * 1.5} viewBox="0 0 100 150"
-          style={{ display: "block" }}
-        >
-          <polygon points="50,0 100,150 0,150" fill={VELVET} />
-        </svg>
-      </motion.div>
-    </motion.div>
-  );
+// ─── Curtain — two velvet panels with interlocking triangular teeth ─────────
+function leftPanelClip(teeth = 20) {
+  const pts = ["0% 0%", "88% 0%"];
+  for (let i = 0; i < teeth; i++) {
+    const mid = ((i + 0.5) / teeth) * 100;
+    const end = ((i + 1) / teeth) * 100;
+    pts.push(`100% ${mid.toFixed(2)}%`);
+    pts.push(`88% ${end.toFixed(2)}%`);
+  }
+  pts.push("0% 100%");
+  return `polygon(${pts.join(", ")})`;
 }
 
-function SpikeFrame() {
-  const { scrollYProgress } = useScroll();
+function rightPanelClip(teeth = 20) {
+  const pts = ["100% 0%", "12% 0%"];
+  for (let i = 0; i < teeth; i++) {
+    const mid = ((i + 0.5) / teeth) * 100;
+    const end = ((i + 1) / teeth) * 100;
+    pts.push(`0% ${mid.toFixed(2)}%`);
+    pts.push(`12% ${end.toFixed(2)}%`);
+  }
+  pts.push("100% 100%");
+  return `polygon(${pts.join(", ")})`;
+}
+
+function Curtain() {
   const [opened, setOpened] = useState(false);
 
-  // Open on first scroll, OR auto-open after 2 seconds as a fallback
   useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 20) setOpened(true);
+    const onScroll = () => { if (window.scrollY > 16) setOpened(true); };
+    const onWheel  = () => setOpened(true);
+    const onTouch  = () => setOpened(true);
+    const onKey    = (e) => {
+      if (["ArrowDown", "PageDown", "Space", " ", "Enter"].includes(e.key)) setOpened(true);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    const t = setTimeout(() => setOpened(true), 2000);
+    window.addEventListener("wheel", onWheel, { passive: true, once: true });
+    window.addEventListener("touchstart", onTouch, { passive: true, once: true });
+    window.addEventListener("keydown", onKey);
+    const t = setTimeout(() => setOpened(true), 5000);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("keydown", onKey);
       clearTimeout(t);
     };
   }, []);
 
-  // Continuous scroll-tied motion — always moving as you scroll
+  const leftClip  = leftPanelClip(20);
+  const rightClip = rightPanelClip(20);
+
+  return (
+    <Box position="fixed" inset={0} zIndex={50}
+      pointerEvents={opened ? "none" : "auto"}
+    >
+      {/* Brand text + scroll cue, centred on the curtain */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{
+          opacity: opened ? 0 : 1,
+          y: opened ? -24 : 0,
+        }}
+        transition={{
+          duration: opened ? 0.5 : 1.2,
+          delay: opened ? 0 : 0.4,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 4,
+          pointerEvents: "none",
+          padding: "0 24px",
+        }}
+      >
+        <Text fontFamily={MONO} fontSize="11px"
+          letterSpacing="0.36em" textTransform="uppercase"
+          color="rgba(239,234,224,0.55)" mb={{ base: 4, md: 6 }}
+        >
+          Flavia Danes · MMXXVI
+        </Text>
+        <Text fontFamily={SERIF} fontStyle="italic"
+          fontSize={{ base: "8xl", md: "12xl", lg: "13xl" }}
+          color={PAPER} lineHeight="1"
+          letterSpacing="-0.04em"
+          style={{ fontVariationSettings: FRA_DISPLAY_ITALIC }}
+        >
+          Danes.
+        </Text>
+        <Text fontFamily={MONO} fontSize="10px"
+          letterSpacing="0.36em" textTransform="uppercase"
+          color="rgba(239,234,224,0.4)" mt={{ base: 8, md: 12 }}
+        >
+          Scroll to enter
+        </Text>
+      </motion.div>
+
+      {/* Left panel — jagged right edge, exits left */}
+      <motion.div
+        initial={{ x: 0 }}
+        animate={{ x: opened ? "-110%" : "0%" }}
+        transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
+        style={{
+          position: "absolute",
+          top: 0, left: 0, bottom: 0,
+          width: "56vw",
+          background: VELVET,
+          clipPath: leftClip,
+          WebkitClipPath: leftClip,
+          zIndex: 2,
+        }}
+      />
+
+      {/* Right panel — jagged left edge, exits right */}
+      <motion.div
+        initial={{ x: 0 }}
+        animate={{ x: opened ? "110%" : "0%" }}
+        transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
+        style={{
+          position: "absolute",
+          top: 0, right: 0, bottom: 0,
+          width: "56vw",
+          background: VELVET,
+          clipPath: rightClip,
+          WebkitClipPath: rightClip,
+          zIndex: 2,
+        }}
+      />
+    </Box>
+  );
+}
+
+// ─── Continuous scroll accents — corner spinner + sidebar + bottom drift ────
+function ScrollAccents() {
+  const { scrollYProgress } = useScroll();
   const cornerRotate = useTransform(scrollYProgress, [0, 1], [0, 540]);
   const sidebarY     = useTransform(scrollYProgress, [0, 1], [0, -220]);
   const bottomBarX   = useTransform(scrollYProgress, [0, 1], [-40, 200]);
@@ -238,51 +309,35 @@ function SpikeFrame() {
     <Box position="fixed" inset={0} pointerEvents="none" zIndex={3}
       style={{ overflow: "hidden" }}
     >
-      {EDGE_SPIKES.map((s, i) => (
-        <Spike key={i} {...s} opened={opened} scrollProgress={scrollYProgress} />
-      ))}
-
-      {/* Continuously rotating corner spinner — top right */}
       <motion.div style={{
         position: "absolute",
         top: "calc(3vh + 18px)", right: "calc(3vw + 18px)",
         rotate: cornerRotate,
-        opacity: opened ? 0.32 : 0,
-        transition: "opacity 1s ease 0.9s",
+        opacity: 0.32,
       }}>
-        <svg width={56} height={56} viewBox="0 0 100 100"
-          style={{ display: "block" }}
-        >
+        <svg width={56} height={56} viewBox="0 0 100 100" style={{ display: "block" }}>
           <polygon points="50,4 96,96 4,96" fill={VELVET} />
         </svg>
       </motion.div>
 
-      {/* Vertical sidebar drift — left edge column moves up with scroll */}
       <motion.div style={{
         position: "absolute",
         top: "10vh", left: "1.4vw",
         y: sidebarY,
-        opacity: opened ? 0.18 : 0,
-        transition: "opacity 1s ease 1.2s",
+        opacity: 0.18,
       }}>
-        <svg width={28} height={340} viewBox="0 0 28 340"
-          style={{ display: "block" }}
-        >
+        <svg width={28} height={340} viewBox="0 0 28 340" style={{ display: "block" }}>
           <polygon points="14,0 28,340 0,340" fill={VELVET} />
         </svg>
       </motion.div>
 
-      {/* Horizontal bottom drift — slides across with scroll */}
       <motion.div style={{
         position: "absolute",
         bottom: "2vh", left: "10vw",
         x: bottomBarX,
-        opacity: opened ? 0.16 : 0,
-        transition: "opacity 1s ease 1.4s",
+        opacity: 0.16,
       }}>
-        <svg width={320} height={20} viewBox="0 0 320 20"
-          style={{ display: "block" }}
-        >
+        <svg width={320} height={20} viewBox="0 0 320 20" style={{ display: "block" }}>
           <polygon points="0,20 160,0 320,20" fill={VELVET} />
         </svg>
       </motion.div>
