@@ -5,6 +5,13 @@ import { BrowserRouter,} from "react-router-dom";
 import './index.css'
 import App from './App.jsx'
 
+// Disable browser scroll restoration BEFORE React mounts — otherwise
+// the browser can replay a saved scroll position from a previous visit.
+if ('scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 
 const config = defineConfig({
     theme : {
