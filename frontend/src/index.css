@@ -31,21 +31,10 @@ html, body, #root {
   font-feature-settings: "kern", "liga", "calt";
 }
 
-/* Snap so flick-scrolls don't bypass the section gates.
-   Apply to both html and body — different browsers use different scroll roots. */
-html, body {
-  scroll-snap-type: y mandatory;
-}
-
-.flv-gate {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-/* Also snap to the hero section so the page opens at the wordmark */
-.flv-snap-start {
-  scroll-snap-align: start;
-}
+/* Note: scroll-snap-type: mandatory was causing the page to jump to a gate
+   on initial load (since the gates are the only declared snap points).
+   Disabled for now — engagement will come from the visual gate itself,
+   not from forced snap. */
 
 * {
   scrollbar-width: thin;
