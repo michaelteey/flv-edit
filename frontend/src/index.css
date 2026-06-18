@@ -31,6 +31,17 @@ html, body, #root {
   font-feature-settings: "kern", "liga", "calt";
 }
 
+/* Snap so flick-scrolls don't bypass the section gates.
+   Proximity = only snaps when user is near the snap point. */
+html {
+  scroll-snap-type: y proximity;
+}
+
+.flv-gate {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--hair) var(--paper);

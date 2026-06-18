@@ -306,26 +306,28 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     offset: ["start start", "end start"],
   });
 
-  // Gate is 200vh tall, sticky child is 100vh — sticky is pinned for 0 → 0.5.
-  // All animations therefore fit inside 0 → 0.5 of scrollYProgress.
+  // Gate is 180vh tall, sticky child is 100vh — sticky is pinned for 0 → 0.444.
+  // All animations therefore fit inside 0 → 0.44 of scrollYProgress.
 
   // Phase A — rise: panels translateY 100vh → 0vh (below viewport → flush)
   const panelY = useTransform(scrollYProgress, [0, 0.20], ["100vh", "0vh"]);
 
   // Phase B — title visible while curtain is fully closed
-  const titleOpacity = useTransform(scrollYProgress, [0.20, 0.26, 0.34, 0.42], [0, 1, 1, 0]);
-  const titleY       = useTransform(scrollYProgress, [0.20, 0.45], [40, -50]);
+  const titleOpacity = useTransform(scrollYProgress, [0.20, 0.26, 0.30, 0.36], [0, 1, 1, 0]);
+  const titleY       = useTransform(scrollYProgress, [0.20, 0.40], [40, -50]);
 
-  // Phase C — explode: panels translateX 0 → ±60vw (off-screen) in 10% of scroll
-  const leftX  = useTransform(scrollYProgress, [0.36, 0.46], ["0vw", "-60vw"]);
-  const rightX = useTransform(scrollYProgress, [0.36, 0.46], ["0vw",  "60vw"]);
+  // Phase C — explode: panels translateX 0 → ±60vw in 8% of scroll. Snappy.
+  const leftX  = useTransform(scrollYProgress, [0.32, 0.40], ["0vw", "-60vw"]);
+  const rightX = useTransform(scrollYProgress, [0.32, 0.40], ["0vw",  "60vw"]);
 
   const leftClip  = leftPanelClip(20);
   const rightClip = rightPanelClip(20);
 
   return (
-    <Box ref={ref} position="relative" height="200vh">
-      <Box position="sticky" top={0} height="100vh"
+    <Box ref={ref} position="relative" height="180vh"
+      className="flv-gate"
+    >
+      <Box position="sticky" top={0} height="100vh" zIndex={10}
         style={{ overflow: "hidden" }}
       >
         {/* Title overlay — visible while curtain is fully closed */}
@@ -1550,11 +1552,15 @@ export default function FlaviaHome() {
 
       {/* Scroll-gated curtain — reveals "The Offering." then opens with scroll */}
       <SectionGate num="§ II" title="The Offering." caption="Keep scrolling" />
-      <Offering />
+      <Box style={{ marginTop: "-100vh", position: "relative", zIndex: 1 }}>
+        <Offering />
+      </Box>
 
       {/* Scroll-gated curtain — reveals "The Receipts." then opens with scroll */}
       <SectionGate num="§ III" title="The Receipts." caption="Keep scrolling — now, the work" />
-      <IndexContents />
+      <Box style={{ marginTop: "-100vh", position: "relative", zIndex: 1 }}>
+        <IndexContents />
+      </Box>
 
       {/* Case studies — COLLINS pattern, each with intro slab + full-bleed image */}
       {caseStudies.map((cs, i) => (
