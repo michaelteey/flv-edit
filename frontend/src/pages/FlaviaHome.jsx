@@ -189,56 +189,25 @@ function rightPanelClip(teeth = 20) {
 function Curtain() {
   const [opened, setOpened] = useState(false);
 
-  // HARD scroll lock while the curtain is closed.
-  // overflow: hidden alone doesn't stop wheel momentum on iOS Safari or
-  // Chrome. We use position: fixed on body + preventDefault on wheel and
-  // touchmove events to fully halt page scroll.
+  // Scroll lock while the curtain is closed. preventDefault on wheel +
+  // touchmove halts wheel/touch scroll. overflow: hidden as belt-and-
+  // suspenders. NO scrollTo in cleanup — that was causing random jumps
+  // back to top after the curtain opened.
   useEffect(() => {
     if (opened) return;
 
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-
-    // Start at top, ignore any saved scroll
-    window.scrollTo(0, 0);
-
-    // Capture original styles so we can restore them
-    const body = document.body;
-    const html = document.documentElement;
-    const prev = {
-      bodyPosition: body.style.position,
-      bodyTop: body.style.top,
-      bodyLeft: body.style.left,
-      bodyRight: body.style.right,
-      bodyWidth: body.style.width,
-      bodyOverflow: body.style.overflow,
-      htmlOverflow: html.style.overflow,
-    };
-
-    body.style.position = "fixed";
-    body.style.top = "0";
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
-    body.style.overflow = "hidden";
-    html.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     const block = (e) => e.preventDefault();
     window.addEventListener("wheel", block, { passive: false });
     window.addEventListener("touchmove", block, { passive: false });
 
     return () => {
-      body.style.position = prev.bodyPosition;
-      body.style.top = prev.bodyTop;
-      body.style.left = prev.bodyLeft;
-      body.style.right = prev.bodyRight;
-      body.style.width = prev.bodyWidth;
-      body.style.overflow = prev.bodyOverflow;
-      html.style.overflow = prev.htmlOverflow;
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
       window.removeEventListener("wheel", block);
       window.removeEventListener("touchmove", block);
-      window.scrollTo(0, 0);
     };
   }, [opened]);
 
@@ -365,38 +334,6 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     target: ref,
     offset: ["start start", "end start"],
   });
-
-  // Lock body scroll briefly when the user first crosses into the gate.
-  // Stops momentum scrolls from blowing straight past.
-  useEffect(() => {
-    if (!ref.current) return;
-    let hasLocked = false;
-    let unlockTimer;
-    const onScroll = () => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      // User has just crossed the top of the gate
-      if (rect.top <= 0 && rect.top > -40 && !hasLocked) {
-        hasLocked = true;
-        document.body.style.overflow = "hidden";
-        document.documentElement.style.overflow = "hidden";
-        clearTimeout(unlockTimer);
-        unlockTimer = setTimeout(() => {
-          document.body.style.overflow = "";
-          document.documentElement.style.overflow = "";
-        }, 700);
-      }
-      // Reset the lock state when user scrolls back above the gate
-      if (rect.top > 50) hasLocked = false;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      clearTimeout(unlockTimer);
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, []);
 
   // Overlay opacity — visible from the very first pixel of the gate.
   // We snap opacity to 1 at progress 0.001 so there's no fade-in delay.
