@@ -298,7 +298,7 @@ function Curtain() {
   );
 }
 
-// ─── Section Gate — pinned curtain panel that opens as you scroll through it ─
+// ─── Section Gate — velvet rises bottom-up, then explodes apart ─────────────
 function SectionGate({ num, title, caption = "Keep scrolling" }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -306,22 +306,26 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     offset: ["start start", "end start"],
   });
 
-  // Curtain stays closed for the first ~45% of the gate, then splits 45–92%.
-  const leftX  = useTransform(scrollYProgress, [0.45, 0.92], ["0%",  "-110%"]);
-  const rightX = useTransform(scrollYProgress, [0.45, 0.92], ["0%",   "110%"]);
-  // Title shows during the closed phase, then fades out as the curtain opens.
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.12, 0.45, 0.6], [0, 1, 1, 0]);
-  const titleY       = useTransform(scrollYProgress, [0, 0.6], [40, -60]);
+  // Phase A — both panels rise together from below the viewport (0 → 0.22)
+  const panelY = useTransform(scrollYProgress, [0, 0.22], ["100%", "0%"]);
+
+  // Phase B — title appears once the cover is full (0.20 → 0.46)
+  const titleOpacity = useTransform(scrollYProgress, [0.20, 0.28, 0.42, 0.52], [0, 1, 1, 0]);
+  const titleY       = useTransform(scrollYProgress, [0.20, 0.55], [40, -50]);
+
+  // Phase C — explode: panels split horizontally with a tight scroll range (0.46 → 0.56)
+  const leftX  = useTransform(scrollYProgress, [0.46, 0.56], ["0%", "-110%"]);
+  const rightX = useTransform(scrollYProgress, [0.46, 0.56], ["0%",  "110%"]);
 
   const leftClip  = leftPanelClip(20);
   const rightClip = rightPanelClip(20);
 
   return (
-    <Box ref={ref} position="relative" height="200vh">
+    <Box ref={ref} position="relative" height="260vh">
       <Box position="sticky" top={0} height="100vh"
-        style={{ overflow: "hidden" }}
+        style={{ overflow: "hidden", pointerEvents: "none" }}
       >
-        {/* Title overlay — centred on the closed curtain */}
+        {/* Title overlay — appears once panels have fully risen */}
         <motion.div
           style={{
             position: "absolute",
@@ -332,7 +336,6 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
             justifyContent: "center",
             padding: "0 24px",
             zIndex: 4,
-            pointerEvents: "none",
             opacity: titleOpacity,
             y: titleY,
           }}
@@ -354,7 +357,7 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
           >{caption}</Text>
         </motion.div>
 
-        {/* Left curtain panel — splits to the left as you scroll */}
+        {/* Left curtain panel */}
         <motion.div
           style={{
             position: "absolute",
@@ -364,11 +367,12 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
             clipPath: leftClip,
             WebkitClipPath: leftClip,
             zIndex: 2,
+            y: panelY,
             x: leftX,
           }}
         />
 
-        {/* Right curtain panel — splits to the right as you scroll */}
+        {/* Right curtain panel */}
         <motion.div
           style={{
             position: "absolute",
@@ -378,6 +382,7 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
             clipPath: rightClip,
             WebkitClipPath: rightClip,
             zIndex: 2,
+            y: panelY,
             x: rightX,
           }}
         />
