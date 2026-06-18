@@ -189,6 +189,24 @@ function rightPanelClip(teeth = 20) {
 function Curtain() {
   const [opened, setOpened] = useState(false);
 
+  // Lock body scroll while the curtain is closed — so wheel/touch input
+  // only fires the open trigger without ALSO scrolling the page underneath.
+  useEffect(() => {
+    if (opened) {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    } else {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      // Ensure we start at the top
+      window.scrollTo(0, 0);
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [opened]);
+
   useEffect(() => {
     const onScroll = () => { if (window.scrollY > 16) setOpened(true); };
     const onWheel  = () => setOpened(true);
@@ -313,13 +331,46 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     offset: ["start start", "end start"],
   });
 
-  // Overlay opacity — show while user is inside the gate's scroll range
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.02, 0.96, 1], [0, 1, 1, 0]);
-  // Avoid keeping a transparent fixed layer over the page when out of range
-  const overlayPointer = useTransform(scrollYProgress, [0, 0.01, 0.99, 1], ["none", "auto", "auto", "none"]);
+  // Lock body scroll briefly when the user first crosses into the gate.
+  // Stops momentum scrolls from blowing straight past.
+  useEffect(() => {
+    if (!ref.current) return;
+    let hasLocked = false;
+    let unlockTimer;
+    const onScroll = () => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      // User has just crossed the top of the gate
+      if (rect.top <= 0 && rect.top > -40 && !hasLocked) {
+        hasLocked = true;
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+        clearTimeout(unlockTimer);
+        unlockTimer = setTimeout(() => {
+          document.body.style.overflow = "";
+          document.documentElement.style.overflow = "";
+        }, 700);
+      }
+      // Reset the lock state when user scrolls back above the gate
+      if (rect.top > 50) hasLocked = false;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(unlockTimer);
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
 
-  // Phase A — rise (panels translateY 100vh → 0vh)
-  const panelY = useTransform(scrollYProgress, [0.02, 0.30], ["100vh", "0vh"]);
+  // Overlay opacity — visible from the very first pixel of the gate.
+  // We snap opacity to 1 at progress 0.001 so there's no fade-in delay.
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.001, 0.99, 1], [0, 1, 1, 0]);
+  const overlayPointer = useTransform(scrollYProgress, [0, 0.001, 0.99, 1], ["none", "auto", "auto", "none"]);
+
+  // Phase A — rise. Panels start partially visible (y: 88vh = 12vh visible)
+  // so velvet appears the INSTANT the user crosses into the gate.
+  const panelY = useTransform(scrollYProgress, [0, 0.30], ["88vh", "0vh"]);
 
   // Phase B — title visible while curtain is fully closed
   const titleOpacity = useTransform(scrollYProgress, [0.30, 0.36, 0.62, 0.70], [0, 1, 1, 0]);
