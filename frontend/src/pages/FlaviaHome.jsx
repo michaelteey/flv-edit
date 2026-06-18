@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Heading, Grid } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -294,6 +294,94 @@ function Curtain() {
           zIndex: 2,
         }}
       />
+    </Box>
+  );
+}
+
+// ─── Section Gate — pinned curtain panel that opens as you scroll through it ─
+function SectionGate({ num, title, caption = "Keep scrolling" }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  // Curtain stays closed for the first ~45% of the gate, then splits 45–92%.
+  const leftX  = useTransform(scrollYProgress, [0.45, 0.92], ["0%",  "-110%"]);
+  const rightX = useTransform(scrollYProgress, [0.45, 0.92], ["0%",   "110%"]);
+  // Title shows during the closed phase, then fades out as the curtain opens.
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.12, 0.45, 0.6], [0, 1, 1, 0]);
+  const titleY       = useTransform(scrollYProgress, [0, 0.6], [40, -60]);
+
+  const leftClip  = leftPanelClip(20);
+  const rightClip = rightPanelClip(20);
+
+  return (
+    <Box ref={ref} position="relative" height="200vh">
+      <Box position="sticky" top={0} height="100vh"
+        style={{ overflow: "hidden" }}
+      >
+        {/* Title overlay — centred on the closed curtain */}
+        <motion.div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 24px",
+            zIndex: 4,
+            pointerEvents: "none",
+            opacity: titleOpacity,
+            y: titleY,
+          }}
+        >
+          <Text fontFamily={MONO} fontSize="11px"
+            letterSpacing="0.36em" textTransform="uppercase"
+            color="rgba(239,234,224,0.55)" mb={{ base: 4, md: 6 }}
+          >{num}</Text>
+          <Heading
+            fontFamily={SERIF} fontStyle="italic" fontWeight="400"
+            fontSize={{ base: "7xl", md: "10xl", lg: "12xl" }}
+            color={PAPER} lineHeight="1" letterSpacing="-0.04em"
+            textAlign="center"
+            style={{ fontVariationSettings: FRA_DISPLAY_ITALIC, textWrap: "balance" }}
+          >{title}</Heading>
+          <Text fontFamily={MONO} fontSize="10px"
+            letterSpacing="0.36em" textTransform="uppercase"
+            color="rgba(239,234,224,0.4)" mt={{ base: 8, md: 12 }}
+          >{caption}</Text>
+        </motion.div>
+
+        {/* Left curtain panel — splits to the left as you scroll */}
+        <motion.div
+          style={{
+            position: "absolute",
+            top: 0, left: 0, bottom: 0,
+            width: "56vw",
+            background: VELVET,
+            clipPath: leftClip,
+            WebkitClipPath: leftClip,
+            zIndex: 2,
+            x: leftX,
+          }}
+        />
+
+        {/* Right curtain panel — splits to the right as you scroll */}
+        <motion.div
+          style={{
+            position: "absolute",
+            top: 0, right: 0, bottom: 0,
+            width: "56vw",
+            background: VELVET,
+            clipPath: rightClip,
+            WebkitClipPath: rightClip,
+            zIndex: 2,
+            x: rightX,
+          }}
+        />
+      </Box>
     </Box>
   );
 }
@@ -718,12 +806,15 @@ const caseStudies = [
 function IndexContents() {
   const [hover, setHover] = useState(null);
   return (
-    <Box id="index" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 16, md: 28 }}>
-      <SectionOpener
-        num="§ III"
-        title="The Receipts."
-        caption="Selected · Four Engagements"
-      />
+    <Box id="index" px={{ base: 6, md: 10, lg: 16 }} pt={{ base: 8, md: 12 }} pb={{ base: 16, md: 28 }}>
+      <Flex justify="space-between" wrap="wrap" gap={4} mb={{ base: 10, md: 14 }}>
+        <Text fontFamily={MONO} fontSize="11px"
+          letterSpacing="0.36em" textTransform="uppercase" color={SOFT}
+        >§ III</Text>
+        <Text fontFamily={MONO} fontSize="11px"
+          letterSpacing="0.36em" textTransform="uppercase" color={SOFT}
+        >Selected · Four Engagements</Text>
+      </Flex>
 
       <Box>
         {caseStudies.map((cs, i) => (
@@ -928,12 +1019,15 @@ const process = [
 
 function Offering() {
   return (
-    <Box id="offering" px={{ base: 6, md: 10, lg: 16 }} py={{ base: 16, md: 28 }}>
-      <SectionOpener
-        num="§ II"
-        title="The Offering."
-        caption="Two pillars · Three shapes · Four steps"
-      />
+    <Box id="offering" px={{ base: 6, md: 10, lg: 16 }} pt={{ base: 8, md: 12 }} pb={{ base: 16, md: 28 }}>
+      <Flex justify="space-between" wrap="wrap" gap={4} mb={{ base: 10, md: 14 }}>
+        <Text fontFamily={MONO} fontSize="11px"
+          letterSpacing="0.36em" textTransform="uppercase" color={SOFT}
+        >§ II</Text>
+        <Text fontFamily={MONO} fontSize="11px"
+          letterSpacing="0.36em" textTransform="uppercase" color={SOFT}
+        >Two pillars · Three shapes · Four steps</Text>
+      </Flex>
 
       <Grid templateColumns={{ base: "1fr", md: "1fr 3fr 1fr" }}
         gap={{ base: 8, md: 14 }}
@@ -1441,12 +1535,12 @@ export default function FlaviaHome() {
       <Plate />
       <Introduction />
 
-      {/* Offer comes BEFORE the engagements — the practice, then the receipts */}
+      {/* Scroll-gated curtain — reveals "The Offering." then opens with scroll */}
+      <SectionGate num="§ II" title="The Offering." caption="Keep scrolling" />
       <Offering />
 
-      {/* Light-themed barrier — chapter break from pitch to proof */}
-      <Barrier />
-
+      {/* Scroll-gated curtain — reveals "The Receipts." then opens with scroll */}
+      <SectionGate num="§ III" title="The Receipts." caption="Keep scrolling — now, the work" />
       <IndexContents />
 
       {/* Case studies — COLLINS pattern, each with intro slab + full-bleed image */}
