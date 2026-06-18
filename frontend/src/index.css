@@ -32,14 +32,19 @@ html, body, #root {
 }
 
 /* Snap so flick-scrolls don't bypass the section gates.
-   Proximity = only snaps when user is near the snap point. */
-html {
-  scroll-snap-type: y proximity;
+   Apply to both html and body — different browsers use different scroll roots. */
+html, body {
+  scroll-snap-type: y mandatory;
 }
 
 .flv-gate {
   scroll-snap-align: start;
   scroll-snap-stop: always;
+}
+
+/* Also snap to the hero section so the page opens at the wordmark */
+.flv-snap-start {
+  scroll-snap-align: start;
 }
 
 * {
