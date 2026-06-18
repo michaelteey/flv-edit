@@ -189,21 +189,56 @@ function rightPanelClip(teeth = 20) {
 function Curtain() {
   const [opened, setOpened] = useState(false);
 
-  // Lock body scroll while the curtain is closed — so wheel/touch input
-  // only fires the open trigger without ALSO scrolling the page underneath.
+  // HARD scroll lock while the curtain is closed.
+  // overflow: hidden alone doesn't stop wheel momentum on iOS Safari or
+  // Chrome. We use position: fixed on body + preventDefault on wheel and
+  // touchmove events to fully halt page scroll.
   useEffect(() => {
-    if (opened) {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    } else {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-      // Ensure we start at the top
-      window.scrollTo(0, 0);
+    if (opened) return;
+
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
     }
+
+    // Start at top, ignore any saved scroll
+    window.scrollTo(0, 0);
+
+    // Capture original styles so we can restore them
+    const body = document.body;
+    const html = document.documentElement;
+    const prev = {
+      bodyPosition: body.style.position,
+      bodyTop: body.style.top,
+      bodyLeft: body.style.left,
+      bodyRight: body.style.right,
+      bodyWidth: body.style.width,
+      bodyOverflow: body.style.overflow,
+      htmlOverflow: html.style.overflow,
+    };
+
+    body.style.position = "fixed";
+    body.style.top = "0";
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+
+    const block = (e) => e.preventDefault();
+    window.addEventListener("wheel", block, { passive: false });
+    window.addEventListener("touchmove", block, { passive: false });
+
     return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
+      body.style.position = prev.bodyPosition;
+      body.style.top = prev.bodyTop;
+      body.style.left = prev.bodyLeft;
+      body.style.right = prev.bodyRight;
+      body.style.width = prev.bodyWidth;
+      body.style.overflow = prev.bodyOverflow;
+      html.style.overflow = prev.htmlOverflow;
+      window.removeEventListener("wheel", block);
+      window.removeEventListener("touchmove", block);
+      window.scrollTo(0, 0);
     };
   }, [opened]);
 
