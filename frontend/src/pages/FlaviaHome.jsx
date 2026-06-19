@@ -335,105 +335,119 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     offset: ["start start", "end start"],
   });
 
-  // Overlay opacity — visible from the very first pixel of the gate.
-  // We snap opacity to 1 at progress 0.001 so there's no fade-in delay.
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.001, 0.99, 1], [0, 1, 1, 0]);
-  const overlayPointer = useTransform(scrollYProgress, [0, 0.001, 0.99, 1], ["none", "auto", "auto", "none"]);
+  // IntersectionObserver tells us when the gate's tracker is in the viewport.
+  // We only render the overlay during that window so it can be at full
+  // opacity the INSTANT you cross into the gate (no fade-in delay, no
+  // overlay-bleeding-into-other-sections).
+  const [active, setActive] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        const rect = entry.target.getBoundingClientRect();
+        setActive(rect.top <= 0 && rect.bottom > 0);
+      },
+      { threshold: Array.from({ length: 21 }, (_, i) => i / 20) },
+    );
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
 
-  // Phase A — rise. Panels start partially visible (y: 88vh = 12vh visible)
-  // so velvet appears the INSTANT the user crosses into the gate.
-  const panelY = useTransform(scrollYProgress, [0, 0.30], ["88vh", "0vh"]);
+  // Phase A — rise. Panels start at y: 50vh = HALF the viewport already
+  // velvet on entry. They fully cover by progress 0.15 (= 12vh of scroll).
+  const panelY = useTransform(scrollYProgress, [0, 0.15], ["50vh", "0vh"]);
 
   // Phase B — title visible while curtain is fully closed
-  const titleOpacity = useTransform(scrollYProgress, [0.30, 0.36, 0.62, 0.70], [0, 1, 1, 0]);
-  const titleY       = useTransform(scrollYProgress, [0.30, 0.70], [40, -50]);
+  const titleOpacity = useTransform(scrollYProgress, [0.18, 0.26, 0.58, 0.66], [0, 1, 1, 0]);
+  const titleY       = useTransform(scrollYProgress, [0.18, 0.66], [40, -50]);
 
   // Phase C — explode (panels translateX 0 → ±60vw)
-  const leftX  = useTransform(scrollYProgress, [0.66, 0.92], ["0vw", "-60vw"]);
-  const rightX = useTransform(scrollYProgress, [0.66, 0.92], ["0vw",  "60vw"]);
+  const leftX  = useTransform(scrollYProgress, [0.62, 0.92], ["0vw", "-60vw"]);
+  const rightX = useTransform(scrollYProgress, [0.62, 0.92], ["0vw",  "60vw"]);
 
   const leftClip  = leftPanelClip(20);
   const rightClip = rightPanelClip(20);
 
   return (
-    <Box ref={ref} position="relative" height="100vh" className="flv-gate">
-      <motion.div
-        style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0, bottom: 0,
-          opacity: overlayOpacity,
-          pointerEvents: overlayPointer,
-          zIndex: 40,
-          overflow: "hidden",
-        }}
-      >
-        {/* Title overlay — visible while curtain is fully closed */}
+    <Box ref={ref} position="relative" height="80vh" className="flv-gate">
+      {active && (
         <motion.div
           style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0 24px",
-            zIndex: 4,
+            position: "fixed",
+            top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: 40,
             pointerEvents: "none",
-            opacity: titleOpacity,
-            y: titleY,
+            overflow: "hidden",
           }}
         >
-          <Text fontFamily={MONO} fontSize="11px"
-            letterSpacing="0.36em" textTransform="uppercase"
-            color="rgba(239,234,224,0.55)" mb={{ base: 4, md: 6 }}
-          >{num}</Text>
-          <Heading
-            fontFamily={SERIF} fontStyle="italic" fontWeight="400"
-            fontSize={{ base: "7xl", md: "10xl", lg: "12xl" }}
-            color={PAPER} lineHeight="1" letterSpacing="-0.04em"
-            textAlign="center"
-            style={{ fontVariationSettings: FRA_DISPLAY_ITALIC, textWrap: "balance" }}
-          >{title}</Heading>
-          <Text fontFamily={MONO} fontSize="10px"
-            letterSpacing="0.36em" textTransform="uppercase"
-            color="rgba(239,234,224,0.4)" mt={{ base: 8, md: 12 }}
-          >{caption}</Text>
+          {/* Title overlay — visible while curtain is fully closed */}
+          <motion.div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0 24px",
+              zIndex: 4,
+              pointerEvents: "none",
+              opacity: titleOpacity,
+              y: titleY,
+            }}
+          >
+            <Text fontFamily={MONO} fontSize="11px"
+              letterSpacing="0.36em" textTransform="uppercase"
+              color="rgba(239,234,224,0.55)" mb={{ base: 4, md: 6 }}
+            >{num}</Text>
+            <Heading
+              fontFamily={SERIF} fontStyle="italic" fontWeight="400"
+              fontSize={{ base: "7xl", md: "10xl", lg: "12xl" }}
+              color={PAPER} lineHeight="1" letterSpacing="-0.04em"
+              textAlign="center"
+              style={{ fontVariationSettings: FRA_DISPLAY_ITALIC, textWrap: "balance" }}
+            >{title}</Heading>
+            <Text fontFamily={MONO} fontSize="10px"
+              letterSpacing="0.36em" textTransform="uppercase"
+              color="rgba(239,234,224,0.4)" mt={{ base: 8, md: 12 }}
+            >{caption}</Text>
+          </motion.div>
+
+          {/* Left curtain panel */}
+          <motion.div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              height: "100%",
+              width: "56vw",
+              background: VELVET,
+              clipPath: leftClip,
+              WebkitClipPath: leftClip,
+              zIndex: 2,
+              y: panelY,
+              x: leftX,
+            }}
+          />
+
+          {/* Right curtain panel */}
+          <motion.div
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              height: "100%",
+              width: "56vw",
+              background: VELVET,
+              clipPath: rightClip,
+              WebkitClipPath: rightClip,
+              zIndex: 2,
+              y: panelY,
+              x: rightX,
+            }}
+          />
         </motion.div>
-
-        {/* Left curtain panel */}
-        <motion.div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: "100%",
-            width: "56vw",
-            background: VELVET,
-            clipPath: leftClip,
-            WebkitClipPath: leftClip,
-            zIndex: 2,
-            y: panelY,
-            x: leftX,
-          }}
-        />
-
-        {/* Right curtain panel */}
-        <motion.div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            height: "100%",
-            width: "56vw",
-            background: VELVET,
-            clipPath: rightClip,
-            WebkitClipPath: rightClip,
-            zIndex: 2,
-            y: panelY,
-            x: rightX,
-          }}
-        />
-      </motion.div>
+      )}
     </Box>
   );
 }
