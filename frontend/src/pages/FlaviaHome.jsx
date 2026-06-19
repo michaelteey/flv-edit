@@ -330,46 +330,49 @@ function Curtain() {
 
 function SectionGate({ num, title, caption = "Keep scrolling" }) {
   const ref = useRef(null);
+  // offset: ["start end", "start start"] →
+  //   progress 0 when tracker.top is at viewport.BOTTOM (just appeared at the
+  //   bottom of the screen) — i.e. the user has just scrolled enough for
+  //   "Begin a Conversation" to come into view.
+  //   progress 1 when tracker.top is at viewport.TOP — i.e. the gate has
+  //   fully scrolled up into the viewport and Introduction is gone.
+  // Total scroll for progress 0 → 1 = exactly one viewport (100vh).
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end start"],
+    offset: ["start end", "start start"],
   });
 
-  // IntersectionObserver tells us when the gate's tracker is in the viewport.
-  // We only render the overlay during that window so it can be at full
-  // opacity the INSTANT you cross into the gate (no fade-in delay, no
-  // overlay-bleeding-into-other-sections).
+  // Render overlay only while the tracker is intersecting the viewport.
+  // Outside that, overlay is unmounted — no opacity ramp, no bleed.
   const [active, setActive] = useState(false);
   useEffect(() => {
     if (!ref.current) return;
     const obs = new IntersectionObserver(
-      ([entry]) => {
-        const rect = entry.target.getBoundingClientRect();
-        setActive(rect.top <= 0 && rect.bottom > 0);
-      },
-      { threshold: Array.from({ length: 21 }, (_, i) => i / 20) },
+      ([entry]) => setActive(entry.isIntersecting),
+      { threshold: 0 },
     );
     obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
 
-  // Phase A — rise. Panels start at y: 50vh = HALF the viewport already
-  // velvet on entry. They fully cover by progress 0.15 (= 12vh of scroll).
-  const panelY = useTransform(scrollYProgress, [0, 0.15], ["50vh", "0vh"]);
+  // Phase A — rise as "Begin a Conversation" moves from viewport bottom to top.
+  // Panels start at 100vh (off-screen below) and rise to 0vh (fully covering)
+  // over the first 60% of progress — synced with the Introduction scrolling up.
+  const panelY = useTransform(scrollYProgress, [0, 0.60], ["100vh", "0vh"]);
 
-  // Phase B — title visible while curtain is fully closed
-  const titleOpacity = useTransform(scrollYProgress, [0.18, 0.26, 0.58, 0.66], [0, 1, 1, 0]);
-  const titleY       = useTransform(scrollYProgress, [0.18, 0.66], [40, -50]);
+  // Phase B — title visible after the cover is full (0.60 → 0.88)
+  const titleOpacity = useTransform(scrollYProgress, [0.60, 0.66, 0.84, 0.90], [0, 1, 1, 0]);
+  const titleY       = useTransform(scrollYProgress, [0.60, 0.90], [40, -50]);
 
-  // Phase C — explode (panels translateX 0 → ±60vw)
-  const leftX  = useTransform(scrollYProgress, [0.62, 0.92], ["0vw", "-60vw"]);
-  const rightX = useTransform(scrollYProgress, [0.62, 0.92], ["0vw",  "60vw"]);
+  // Phase C — explode (panels translateX 0 → ±60vw) over the last 10% of progress
+  const leftX  = useTransform(scrollYProgress, [0.88, 0.98], ["0vw", "-60vw"]);
+  const rightX = useTransform(scrollYProgress, [0.88, 0.98], ["0vw",  "60vw"]);
 
   const leftClip  = leftPanelClip(20);
   const rightClip = rightPanelClip(20);
 
   return (
-    <Box ref={ref} position="relative" height="80vh" className="flv-gate">
+    <Box ref={ref} position="relative" height="10vh" className="flv-gate">
       {active && (
         <motion.div
           style={{
@@ -380,7 +383,7 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
             overflow: "hidden",
           }}
         >
-          {/* Title overlay — visible while curtain is fully closed */}
+          {/* Title overlay — visible after the curtain is fully closed */}
           <motion.div
             style={{
               position: "absolute",
