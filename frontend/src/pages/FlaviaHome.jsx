@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Heading, Grid } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
 // ─── Tokens — light bone + velvet green ──────────────────────────────────────
@@ -28,25 +28,30 @@ const EMAIL = "hello@flaviadanes.com";
 const INSTA = "https://www.instagram.com/wearevaya_/";
 
 // ─── Motion ───────────────────────────────────────────────────────────────────
+// All in-page reveals use the same deep expo-out curve and longer durations
+// so the page feels deliberate. Trigger earlier (amount: 0.05) so a reveal
+// has already started by the time the user's eye reaches it.
+const EXPO = [0.16, 1, 0.3, 1];
+
 const reveal = (delay = 0) => ({
-  initial: { opacity: 0, y: 16 },
+  initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.15 },
-  transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] },
+  viewport: { once: true, amount: 0.05 },
+  transition: { duration: 1.4, delay, ease: EXPO },
 });
 
 const slowFade = (delay = 0) => ({
   initial: { opacity: 0 },
   whileInView: { opacity: 1 },
-  viewport: { once: true, amount: 0.15 },
-  transition: { duration: 1.4, delay, ease: [0.22, 1, 0.36, 1] },
+  viewport: { once: true, amount: 0.05 },
+  transition: { duration: 2.0, delay, ease: EXPO },
 });
 
 const imgReveal = {
-  initial: { opacity: 0, scale: 1.06 },
+  initial: { opacity: 0, scale: 1.08 },
   whileInView: { opacity: 1, scale: 1 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] },
+  viewport: { once: true, amount: 0.05 },
+  transition: { duration: 2.4, ease: EXPO },
 };
 
 // ─── Primitives ───────────────────────────────────────────────────────────────
@@ -241,14 +246,14 @@ function Curtain() {
     >
       {/* Brand text + scroll cue, centred on the curtain */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 28 }}
         animate={{
           opacity: opened ? 0 : 1,
-          y: opened ? -24 : 0,
+          y: opened ? -32 : 0,
         }}
         transition={{
-          duration: opened ? 0.5 : 1.2,
-          delay: opened ? 0 : 0.4,
+          duration: opened ? 0.8 : 1.6,
+          delay: opened ? 0 : 0.5,
           ease: [0.16, 1, 0.3, 1],
         }}
         style={{
@@ -289,7 +294,7 @@ function Curtain() {
       <motion.div
         initial={{ x: 0 }}
         animate={{ x: opened ? "-110%" : "0%" }}
-        transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
+        transition={{ duration: 2.0, ease: [0.83, 0, 0.17, 1] }}
         style={{
           position: "absolute",
           top: 0, left: 0, bottom: 0,
@@ -305,7 +310,7 @@ function Curtain() {
       <motion.div
         initial={{ x: 0 }}
         animate={{ x: opened ? "110%" : "0%" }}
-        transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
+        transition={{ duration: 2.0, ease: [0.83, 0, 0.17, 1] }}
         style={{
           position: "absolute",
           top: 0, right: 0, bottom: 0,
@@ -355,18 +360,35 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     return () => obs.disconnect();
   }, []);
 
-  // Phase A — rise as "Begin a Conversation" moves from viewport bottom to top.
-  // Panels start at 100vh (off-screen below) and rise to 0vh (fully covering)
-  // over the first 60% of progress — synced with the Introduction scrolling up.
-  const panelY = useTransform(scrollYProgress, [0, 0.60], ["100vh", "0vh"]);
+  // Smooth the raw scroll progress through a spring so every scroll-bound
+  // animation in the gate has weight and inertia. The spring "follows" the
+  // user's scroll position instead of snapping with it, which is what makes
+  // the rise + title + explode feel deliberate rather than mechanical.
+  const smooth = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 30,
+    mass: 0.6,
+    restDelta: 0.0005,
+  });
 
-  // Phase B — title visible after the cover is full (0.60 → 0.88)
-  const titleOpacity = useTransform(scrollYProgress, [0.60, 0.66, 0.84, 0.90], [0, 1, 1, 0]);
-  const titleY       = useTransform(scrollYProgress, [0.60, 0.90], [40, -50]);
+  // Phase A — slow rise. Panels start at 100vh (off-screen below) and rise
+  // to 0vh over the first 58% of progress — synced with the Introduction
+  // scrolling up. Slightly longer than before so the rise reads as
+  // intentional, not abrupt.
+  const panelY = useTransform(smooth, [0, 0.58], ["100vh", "0vh"]);
 
-  // Phase C — explode (panels translateX 0 → ±60vw) over the last 10% of progress
-  const leftX  = useTransform(scrollYProgress, [0.88, 0.98], ["0vw", "-60vw"]);
-  const rightX = useTransform(scrollYProgress, [0.88, 0.98], ["0vw",  "60vw"]);
+  // Phase B — title fades in once cover is full, holds for 24% of progress
+  // (≈ 24vh of unhurried reading), then fades out as the panels begin to
+  // unlock. titleY uses a longer travel for a softer lift.
+  const titleOpacity = useTransform(smooth, [0.58, 0.66, 0.84, 0.90], [0, 1, 1, 0]);
+  const titleY       = useTransform(smooth, [0.58, 0.92], [56, -70]);
+  const titleScale   = useTransform(smooth, [0.58, 0.70, 0.92], [0.94, 1, 1.02]);
+
+  // Phase C — explode. Panels translateX 0 → ±70vw across 0.86 → 0.99 so the
+  // animation finishes with momentum (panels are well past viewport edge)
+  // and never "stops short" before the overlay unmounts.
+  const leftX  = useTransform(smooth, [0.86, 0.99], ["0vw", "-70vw"]);
+  const rightX = useTransform(smooth, [0.86, 0.99], ["0vw",  "70vw"]);
 
   const leftClip  = leftPanelClip(20);
   const rightClip = rightPanelClip(20);
@@ -397,6 +419,7 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
               pointerEvents: "none",
               opacity: titleOpacity,
               y: titleY,
+              scale: titleScale,
             }}
           >
             <Text fontFamily={MONO} fontSize="11px"
@@ -588,8 +611,17 @@ function Header() {
 // ─── Hero — negative space, type-only (Phoebe Philo / Margiela doctrine) ─────
 function Hero() {
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
-  const y = useTransform(scrollY, [0, 500], [0, 80]);
+  // Smooth the parallax through a spring so the Hero "drifts" out instead of
+  // tracking the scroll pixel-for-pixel. Slightly longer transition window
+  // (0 → 700) so the fade reads more deliberate.
+  const smoothScrollY = useSpring(scrollY, {
+    stiffness: 100,
+    damping: 35,
+    mass: 0.5,
+    restDelta: 0.5,
+  });
+  const opacity = useTransform(smoothScrollY, [0, 700], [1, 0]);
+  const y       = useTransform(smoothScrollY, [0, 700], [0, 110]);
 
   return (
     <Box id="top" position="relative"
