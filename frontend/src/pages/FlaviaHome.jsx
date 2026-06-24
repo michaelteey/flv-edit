@@ -331,20 +331,11 @@ function Curtain() {
 function SectionGate({ num, title, caption = "Tap to open" }) {
   const ref = useRef(null);
   const tappedRef = useRef(false);
-  // offset: ["start end", "start start"] →
-  //   progress 0 when tracker.top is at viewport.BOTTOM (just appeared at the
-  //   bottom of the screen) — i.e. the user has just scrolled enough for
-  //   "Begin a Conversation" to come into view.
-  //   progress 1 when tracker.top is at viewport.TOP — i.e. the gate has
-  //   fully scrolled up into the viewport and Introduction is gone.
-  // Total scroll for progress 0 → 1 = exactly one viewport (100vh).
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "start start"],
   });
 
-  // Render overlay only while the tracker is intersecting the viewport.
-  // Outside that, overlay is unmounted — no opacity ramp, no bleed.
   const [active, setActive] = useState(false);
   useEffect(() => {
     if (!ref.current) return;
@@ -356,31 +347,30 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
     return () => obs.disconnect();
   }, []);
 
-  // Tap-to-open gate. Once the panels have fully covered the viewport, lock
-  // scroll and wait for the user to tap. Tap triggers a smooth scroll past
-  // the track, which drives the explode animation via the existing spring.
+  // Three states: idle → locked (covered, waiting for tap) → exiting (panels
+  // animating out). Locked uses preventDefault listeners only (no overflow
+  // mutation, which broke scroll positioning in earlier attempts).
   const [locked, setLocked] = useState(false);
+  const [exiting, setExiting] = useState(false);
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    if (!tappedRef.current && v >= 0.6 && v < 1) {
+    if (!tappedRef.current && !exiting && v >= 0.66 && v < 1) {
       setLocked(true);
     }
-    // Re-arm the gate only when the user has scrolled fully back above it,
-    // so re-entry (scroll back up then down) requires another tap.
     if (v <= 0.05) {
       tappedRef.current = false;
+      setExiting(false);
     }
   });
 
   const handleTap = () => {
+    if (exiting) return;
     tappedRef.current = true;
-    // Release the scroll lock synchronously: setLocked(false) commits async,
-    // but scrollTo({behavior:"smooth"}) is silently clamped while the root
-    // has overflow:hidden. The lock effect cleanup re-clears these on the
-    // next commit — idempotent.
-    document.body.style.overflow = "";
-    document.documentElement.style.overflow = "";
     setLocked(false);
+    setExiting(true);
+  };
+
+  const handleExitDone = () => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     window.scrollTo({
@@ -389,30 +379,29 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
     });
   };
 
+  // Scroll-input lock via preventDefault. NO overflow mutation — that was
+  // both no-op'ing programmatic scrollTo and (on some browsers) jumping the
+  // page to the top when applied to documentElement.
   useEffect(() => {
     if (!locked) return;
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
     const block = (e) => e.preventDefault();
     const onKey = (e) => {
-      if (["Enter", " ", "Space"].includes(e.key)) handleTap();
+      if (["Enter", " ", "Space"].includes(e.key)) {
+        handleTap();
+      } else if (["PageDown", "ArrowDown", "End", "PageUp", "ArrowUp", "Home"].includes(e.key)) {
+        e.preventDefault();
+      }
     };
     window.addEventListener("wheel", block, { passive: false });
     window.addEventListener("touchmove", block, { passive: false });
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
       window.removeEventListener("wheel", block);
       window.removeEventListener("touchmove", block);
       window.removeEventListener("keydown", onKey);
     };
   }, [locked]);
 
-  // Smooth the raw scroll progress through a spring so every scroll-bound
-  // animation in the gate has weight and inertia. The spring "follows" the
-  // user's scroll position instead of snapping with it, which is what makes
-  // the rise + title + explode feel deliberate rather than mechanical.
   const smooth = useSpring(scrollYProgress, {
     stiffness: 80,
     damping: 30,
@@ -420,31 +409,19 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
     restDelta: 0.0005,
   });
 
-  // Phase A — slow rise. Panels start at 100vh (off-screen below) and rise
-  // to 0vh over the first 58% of progress — synced with the Introduction
-  // scrolling up. Slightly longer than before so the rise reads as
-  // intentional, not abrupt.
-  const panelY = useTransform(smooth, [0, 0.58], ["100vh", "0vh"]);
-
-  // Phase B — title fades in once cover is full, holds for 24% of progress
-  // (≈ 24vh of unhurried reading), then fades out as the panels begin to
-  // unlock. titleY uses a longer travel for a softer lift.
-  const titleOpacity = useTransform(smooth, [0.58, 0.66, 0.84, 0.90], [0, 1, 1, 0]);
-  const titleY       = useTransform(smooth, [0.58, 0.92], [56, -70]);
-  const titleScale   = useTransform(smooth, [0.58, 0.70, 0.92], [0.94, 1, 1.02]);
-
-  // Phase C — explode. Panels translateX 0 → ±70vw across 0.86 → 0.99 so the
-  // animation finishes with momentum (panels are well past viewport edge)
-  // and never "stops short" before the overlay unmounts.
-  const leftX  = useTransform(smooth, [0.86, 0.99], ["0vw", "-70vw"]);
-  const rightX = useTransform(smooth, [0.86, 0.99], ["0vw",  "70vw"]);
+  // Rise + title fade-in are scroll-driven (feels weighted to the scroll).
+  // Title hits full opacity by v=0.66 — same point the lock engages.
+  const panelY      = useTransform(smooth, [0, 0.58], ["100vh", "0vh"]);
+  const titleOpacity = useTransform(smooth, [0.58, 0.66], [0, 1]);
+  const titleY       = useTransform(smooth, [0.58, 0.66], [56, 0]);
+  const titleScale   = useTransform(smooth, [0.58, 0.70], [0.94, 1]);
 
   const leftClip  = leftPanelClip(20);
   const rightClip = rightPanelClip(20);
 
   return (
     <Box ref={ref} position="relative" height="10vh" className="flv-gate">
-      {(active || locked) && (
+      {(active || locked || exiting) && (
         <motion.div
           onClick={locked ? handleTap : undefined}
           role={locked ? "button" : undefined}
@@ -459,8 +436,10 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
             overflow: "hidden",
           }}
         >
-          {/* Title overlay — visible after the curtain is fully closed */}
+          {/* Title overlay — scroll-driven fade-in, state-driven fade-out on exit */}
           <motion.div
+            animate={exiting ? { opacity: 0, y: -100 } : false}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: "absolute",
               inset: 0,
@@ -471,8 +450,8 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
               padding: "0 24px",
               zIndex: 4,
               pointerEvents: "none",
-              opacity: titleOpacity,
-              y: titleY,
+              opacity: exiting ? undefined : titleOpacity,
+              y: exiting ? undefined : titleY,
               scale: titleScale,
             }}
           >
@@ -493,8 +472,11 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
             >{caption}</Text>
           </motion.div>
 
-          {/* Left curtain panel */}
+          {/* Left curtain panel — scroll-driven y (rise), state-driven x (exit) */}
           <motion.div
+            animate={{ x: exiting ? "-70vw" : "0vw" }}
+            transition={{ duration: 1.0, ease: [0.83, 0, 0.17, 1] }}
+            onAnimationComplete={() => { if (exiting) handleExitDone(); }}
             style={{
               position: "absolute",
               top: 0,
@@ -506,12 +488,13 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
               WebkitClipPath: leftClip,
               zIndex: 2,
               y: panelY,
-              x: leftX,
             }}
           />
 
           {/* Right curtain panel */}
           <motion.div
+            animate={{ x: exiting ? "70vw" : "0vw" }}
+            transition={{ duration: 1.0, ease: [0.83, 0, 0.17, 1] }}
             style={{
               position: "absolute",
               top: 0,
@@ -523,7 +506,6 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
               WebkitClipPath: rightClip,
               zIndex: 2,
               y: panelY,
-              x: rightX,
             }}
           />
         </motion.div>
