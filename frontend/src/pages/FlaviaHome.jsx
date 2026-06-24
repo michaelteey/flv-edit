@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Heading, Grid } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
 // ─── Tokens — light bone + velvet green ──────────────────────────────────────
@@ -328,8 +328,9 @@ function Curtain() {
 // the user is scrolling through that track. Once the track scrolls past,
 // the overlay fades out and the next section begins immediately — no blank.
 
-function SectionGate({ num, title, caption = "Keep scrolling" }) {
+function SectionGate({ num, title, caption = "Tap to open" }) {
   const ref = useRef(null);
+  const tappedRef = useRef(false);
   // offset: ["start end", "start start"] →
   //   progress 0 when tracker.top is at viewport.BOTTOM (just appeared at the
   //   bottom of the screen) — i.e. the user has just scrolled enough for
@@ -354,6 +355,56 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
+
+  // Tap-to-open gate. Once the panels have fully covered the viewport, lock
+  // scroll and wait for the user to tap. Tap triggers a smooth scroll past
+  // the track, which drives the explode animation via the existing spring.
+  const [locked, setLocked] = useState(false);
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    if (tappedRef.current) return;
+    setLocked(v >= 0.6 && v < 1);
+  });
+
+  // Reset gate state when the section leaves the viewport so re-entry
+  // (scrolling back up then down again) re-engages the tap requirement.
+  useEffect(() => {
+    if (!active) {
+      tappedRef.current = false;
+      setLocked(false);
+    }
+  }, [active]);
+
+  const handleTap = () => {
+    tappedRef.current = true;
+    setLocked(false);
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    window.scrollTo({
+      top: window.scrollY + rect.bottom + 20,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    if (!locked) return;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    const block = (e) => e.preventDefault();
+    const onKey = (e) => {
+      if (["Enter", " ", "Space"].includes(e.key)) handleTap();
+    };
+    window.addEventListener("wheel", block, { passive: false });
+    window.addEventListener("touchmove", block, { passive: false });
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      window.removeEventListener("wheel", block);
+      window.removeEventListener("touchmove", block);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [locked]);
 
   // Smooth the raw scroll progress through a spring so every scroll-bound
   // animation in the gate has weight and inertia. The spring "follows" the
@@ -392,11 +443,16 @@ function SectionGate({ num, title, caption = "Keep scrolling" }) {
     <Box ref={ref} position="relative" height="10vh" className="flv-gate">
       {active && (
         <motion.div
+          onClick={locked ? handleTap : undefined}
+          role={locked ? "button" : undefined}
+          tabIndex={locked ? 0 : -1}
+          aria-label={locked ? "Tap to open" : undefined}
           style={{
             position: "fixed",
             top: 0, left: 0, right: 0, bottom: 0,
             zIndex: 40,
-            pointerEvents: "none",
+            pointerEvents: locked ? "auto" : "none",
+            cursor: locked ? "pointer" : "default",
             overflow: "hidden",
           }}
         >
@@ -1631,12 +1687,12 @@ export default function FlaviaHome() {
       <Plate />
       <Introduction />
 
-      {/* Scroll-gated curtain — reveals "The Offering." then opens with scroll */}
-      <SectionGate num="§ II" title="The Offering." caption="Keep scrolling" />
+      {/* Tap-gated curtain — covers screen with "The Offering.", taps to open */}
+      <SectionGate num="§ II" title="The Offering." caption="Tap to open" />
       <Offering />
 
-      {/* Scroll-gated curtain — reveals "The Receipts." then opens with scroll */}
-      <SectionGate num="§ III" title="The Receipts." caption="Keep scrolling — now, the work" />
+      {/* Tap-gated curtain — covers screen with "The Receipts.", taps to open */}
+      <SectionGate num="§ III" title="The Receipts." caption="Tap to open — now, the work" />
       <IndexContents />
 
       {/* Case studies — COLLINS pattern, each with intro slab + full-bleed image */}
