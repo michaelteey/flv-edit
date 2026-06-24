@@ -217,23 +217,12 @@ function Curtain() {
   }, [opened]);
 
   useEffect(() => {
-    const onScroll = () => { if (window.scrollY > 16) setOpened(true); };
-    const onWheel  = () => setOpened(true);
-    const onTouch  = () => setOpened(true);
-    const onKey    = (e) => {
-      if (["ArrowDown", "PageDown", "Space", " ", "Enter"].includes(e.key)) setOpened(true);
+    const onKey = (e) => {
+      if (["Enter", " ", "Space"].includes(e.key)) setOpened(true);
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", onWheel, { passive: true, once: true });
-    window.addEventListener("touchstart", onTouch, { passive: true, once: true });
     window.addEventListener("keydown", onKey);
-    const t = setTimeout(() => setOpened(true), 5000);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouch);
       window.removeEventListener("keydown", onKey);
-      clearTimeout(t);
     };
   }, []);
 
@@ -243,8 +232,14 @@ function Curtain() {
   return (
     <Box position="fixed" inset={0} zIndex={50}
       pointerEvents={opened ? "none" : "auto"}
+      onClick={() => setOpened(true)}
+      onTouchStart={() => setOpened(true)}
+      cursor={opened ? "default" : "pointer"}
+      role="button"
+      tabIndex={opened ? -1 : 0}
+      aria-label="Tap to enter"
     >
-      {/* Brand text + scroll cue, centred on the curtain */}
+      {/* Brand text + tap cue, centred on the curtain */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         animate={{
@@ -286,7 +281,7 @@ function Curtain() {
           letterSpacing="0.36em" textTransform="uppercase"
           color="rgba(239,234,224,0.4)" mt={{ base: 8, md: 12 }}
         >
-          Scroll to enter
+          Tap to enter
         </Text>
       </motion.div>
 
