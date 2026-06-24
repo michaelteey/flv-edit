@@ -362,21 +362,24 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
   const [locked, setLocked] = useState(false);
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    if (tappedRef.current) return;
-    setLocked(v >= 0.6 && v < 1);
-  });
-
-  // Reset gate state when the section leaves the viewport so re-entry
-  // (scrolling back up then down again) re-engages the tap requirement.
-  useEffect(() => {
-    if (!active) {
-      tappedRef.current = false;
-      setLocked(false);
+    if (!tappedRef.current && v >= 0.6 && v < 1) {
+      setLocked(true);
     }
-  }, [active]);
+    // Re-arm the gate only when the user has scrolled fully back above it,
+    // so re-entry (scroll back up then down) requires another tap.
+    if (v <= 0.05) {
+      tappedRef.current = false;
+    }
+  });
 
   const handleTap = () => {
     tappedRef.current = true;
+    // Release the scroll lock synchronously: setLocked(false) commits async,
+    // but scrollTo({behavior:"smooth"}) is silently clamped while the root
+    // has overflow:hidden. The lock effect cleanup re-clears these on the
+    // next commit — idempotent.
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
     setLocked(false);
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
@@ -441,7 +444,7 @@ function SectionGate({ num, title, caption = "Tap to open" }) {
 
   return (
     <Box ref={ref} position="relative" height="10vh" className="flv-gate">
-      {active && (
+      {(active || locked) && (
         <motion.div
           onClick={locked ? handleTap : undefined}
           role={locked ? "button" : undefined}
